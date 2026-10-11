@@ -113,10 +113,6 @@ def poll_option(value: Any, description: str) -> list[str]:
     return [require_text(value, description), ""]
 
 
-def speaker_notes(slide: dict[str, Any]) -> list[str]:
-    return [str(note) for note in as_list(slide.get("speaker_notes")) if str(note).strip()]
-
-
 def key_message(content: dict[str, Any]) -> str | None:
     return optional_text(content.get("key_message"))
 
@@ -209,9 +205,6 @@ def base_slide(slide: dict[str, Any], kind: str) -> dict[str, Any]:
     message = key_message(content)
     if message:
         result["m"] = message
-    notes = speaker_notes(slide)
-    if notes:
-        result["notes"] = notes
     return result
 
 

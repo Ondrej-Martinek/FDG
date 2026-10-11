@@ -50,7 +50,7 @@ presentation:
     - id: welcome
       order: 10
       section: uvod
-      name: "Titulní slide"
+      name: "FDG"
       title: "Peníze nejsou matematika. Jsou to rozhodnutí."
       goal: "Nastavit neformální, zvídavý tón přednášky."
       duration_minutes: 2
@@ -60,9 +60,6 @@ presentation:
         key_message: "Dnes nepůjde o správné odpovědi nazpaměť, ale o způsob přemýšlení."
       assets: []
       interactions: []
-      speaker_notes:
-        - "Představit formát: za dobré odpovědi jsou drobné ceny."
-        - "Říct, že otázky mohou mít více rozumných odpovědí, pokud je student umí obhájit."
 
     - id: presenter
       order: 20
@@ -97,7 +94,7 @@ presentation:
         type: poll
         options:
           - label: "Praktické finanční problémy a samostatnost"
-            quote: "„Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz.“"
+            quote: "„Za chvíli budu dospělý a chci vědět, kde si založit účet nebo jak vybrat ETF.“"
           - label: "Investování a cesta k bohatství"
             quote: "„Chci vydělat peníze, ideálně je nechat vydělávat za sebe.“"
           - label: "Ekonomie a finance jako zájem, popř. budoucí kariéra"
@@ -110,8 +107,6 @@ presentation:
         - type: hands_up_poll
           id: motivation_poll
           question: "Které téma byste si vybrali jako první?"
-      speaker_notes:
-        - "Navázat na výsledek hlasování v relevantních částech přednášky."
 
     - id: opener-losses
       order: 50
@@ -131,8 +126,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: opener_loss_answer
-      speaker_notes:
-        - Podobná zrada - sleva 25% je to samé jako +33% zdarma? Ano - tyčinka o 4 dílcích za 100 Kč, sleva 25% = 75 Kč, +33% = 100 Kč. 
   
 
     - id: opener-compounding
@@ -153,7 +146,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: opener_compounding_answer
-      speaker_notes: []
 
     - id: compound-intro
       order: 70
@@ -174,8 +166,6 @@ presentation:
           alt: "Warren Buffett na konferenci"
           role: illustration
       interactions: []
-      speaker_notes:
-        - "Citát před zveřejněním ověřit nebo formulovat jako volně připisovaný."
 
     - id: compound-calculator
       order: 80
@@ -195,9 +185,6 @@ presentation:
             - "Nechat třídu zvolit délku investování."
             - "Porovnat 2 000 Kč měsíčně při 3 % a 7 %."
             - "Ukázat, co se změní při zkrácení horizontu o deset let."
-      speaker_notes:
-        - "Výslovně říct, že model neobsahuje daně, poplatky, inflaci ani kolísání výnosů."
-        - "Plynule navázat: velké nominální částky nejsou totéž co vysoká kupní síla."
 
     - id: inflation-question
       order: 90
@@ -220,8 +207,6 @@ presentation:
           question: "Kolik podle vás činí nyní meziroční inflace v ČR?"
       requires_fact_check:
         - "Aktuální meziroční inflace v ČR"
-      speaker_notes:
-        - "Přesné aktuální číslo říci pouze po ověření před přednáškou."
 
     - id: inflation-chart
       order: 100
@@ -243,8 +228,6 @@ presentation:
             - "Ukázat inflační cíl a toleranční pásmo."
       requires_fact_check:
         - "Datová řada inflace a poslední rok v interaktivním grafu"
-      speaker_notes:
-        - "Zmínit, že posilování koruny může zlevňovat zahraniční zboží, ale není univerzální kompenzací inflace."
 
     - id: decision-categories
       order: 110
@@ -275,8 +258,6 @@ presentation:
             prompt: "Proč bych to měl dělat?"
         key_message: "Nálepka není vše: důležité jsou riziko, náklady, horizont a očekávaný zdroj výnosu."
       interactions: []
-      speaker_notes:
-        - "Zjednodušení přiznat: skutečný svět má mezi kategoriemi šedé zóny."
 
     - id: classify-arbitrage
       order: 120
@@ -297,7 +278,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_arbitrage_answer
-      speaker_notes: []
 
     - id: classify-resale
       order: 130
@@ -318,7 +298,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_resale_answer
-      speaker_notes: []
 
     - id: classify-etf
       order: 140
@@ -339,7 +318,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_etf_answer
-      speaker_notes: []
 
     - id: classify-human-capital
       order: 150
@@ -360,7 +338,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_human_capital_answer
-      speaker_notes: []
 
     - id: classify-bitcoin
       order: 160
@@ -381,7 +358,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_bitcoin_answer
-      speaker_notes: []
 
     - id: classify-nvidia
       order: 170
@@ -402,7 +378,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_single_stock_answer
-      speaker_notes: []
 
     - id: classify-roulette
       order: 180
@@ -423,7 +398,6 @@ presentation:
       interactions:
         - type: manual_reveal
           id: classify_roulette_answer
-      speaker_notes: []
 
     - id: zuckerberg-intro
       order: 181
@@ -472,9 +446,6 @@ presentation:
       requires_fact_check:
         - "Parametry konkrétní Zuckerbergovy hypotéky"
         - "Daňové tvrzení; nelze přenášet americká pravidla na české studenty"
-      speaker_notes:
-        - "Případ prezentovat jako princip, ne návod k zadlužení."
-        - "Obrázek domu je ilustrační stock fotografie (Unsplash), nejde o skutečný Zuckerbergův dům."
 
     - id: leverage-quote
       order: 190
@@ -514,9 +485,6 @@ presentation:
             - "Spustit scénář růstu +10 %."
             - "Přepnout na pokles −10 % se stejným dluhem."
             - "Nastavit nulový dluh a porovnat výsledek."
-      speaker_notes:
-        - "Model pokrývá jeden rok a nezohledňuje daně, poplatky ani splácení jistiny."
-        - "Navázat na druhy dluhu: hypotéka, spotřební úvěr, kreditní karta, margin a lichva."
 
     - id: leverage-picture
       order: 205
@@ -564,8 +532,6 @@ presentation:
           question: "Kolik akcií by podle vás stačilo na portfolio, které reprezentuje celý trh?"
       requires_fact_check:
         - "Výpočet indexu bez sektorů / polovodičů a použitá metodika"
-      speaker_notes:
-        - "Nevytvářet dojem, že ETF odstraní tržní riziko."
 
     - id: performance-assets
       order: 230
@@ -588,15 +554,12 @@ presentation:
       requires_fact_check:
         - "Datová řada, metodika a poslední rok výkonnostního grafu"
         - "Licenční a citační podmínky použitých zdrojů"
-      speaker_notes:
-        - "Navázat Buffettovým srovnáním zlata s produktivními aktivy."
-        - "Zdůraznit, že historická výkonnost není zárukou budoucích výnosů."
 
     - id: etf-practical
       order: 240
       section: prakticky
       name: "Prakticky: ETF"
-      title: "Jak vybírat ETF bez magického seznamu tipů"
+      title: "Jak vybírat ETF"
       goal: "Dát studentům kontrolní seznam místo konkrétního investičního doporučení."
       duration_minutes: 5
       source_refs: [Content/Prakticky/ETF.md]
@@ -609,10 +572,8 @@ presentation:
           - "Je dostatečně velký a likvidní?"
           - "V jaké měně se obchoduje a jaké měnové riziko skutečně podstupuji?"
           - "Nabízí ho můj regulovaný broker za rozumných podmínek?"
-        key_message: "Nejprve strategie a horizont, potom konkrétní produkt."
+        key_message: "Past returns do not guarantee future results."
       interactions: []
-      speaker_notes:
-        - "Neuvádět konkrétní produkt jako osobní investiční doporučení."
 
     - id: everyday-finance
       order: 250
@@ -631,8 +592,6 @@ presentation:
           - "Před podpisem smlouvy si spočítat celkovou cenu, nejen měsíční splátku."
         key_message: "Nejlepší finanční rozhodnutí bývají často nudná, levná a opakovatelná."
       interactions: []
-      speaker_notes:
-        - "Konkrétní nabídky bank a směnné kurzy jsou časově proměnlivé; neuvádět je bez aktuálního srovnání."
 
     - id: glossary
       order: 260
@@ -658,38 +617,30 @@ presentation:
       interactions:
         - type: navigation_demo
           target: glossary
-      speaker_notes:
-        - "Renderer: každý pojem bude mít vlastní detailní stránku nebo postranní kartu."
 
     - id: closing
       order: 270
       section: zaver
       name: "Závěrečná doporučení"
-      title: "Pět věcí, které si odnést"
+      title: "Závěrečná doporučení"
       goal: "Uzavřít přednášku do konkrétních a zapamatovatelných principů."
       duration_minutes: 5
       source_refs: [Notes/Pojmy, grafy, otázky.md]
       content:
         type: numbered_takeaways
         items:
-          - "Čas, pravidelnost a náklady rozhodují více, než zní v titulcích."
-          - "Rozlišujte investici, spekulaci a hru se záporným očekáváním."
-          - "Dluh berte vážně: cena, účel, riziko a schopnost splácet."
-          - "Diverzifikace chrání i před tím, co neumíte předpovědět."
-          - "Ptejte se, odkud má vzniknout budoucí výnos."
-        key_message: "Nejde o to mít hned perfektní portfolio, ale dělat postupně méně drahých chyb."
-      interactions:
-        - type: return_poll
-          id: closing_poll
-          question: "Vrátili byste se k úvodním 100 000 Kč jinak než před 100 minutami?"
-      speaker_notes:
-        - "Nechat několik studentů popsat, co by změnili a proč."
+          - "Využívejte arbitrážních příležitostí v běžném životě: odměny za založení účtu, Erasmus, volné kredity/tokeny, ..."
+          - "Využívejte dluh (kreditní karta)"
+          - "Nespekulujte, investujte"
+          - "Nakupujte věci z druhé ruky (Vinted, Marketplace, Sbazar, Ebay)"
+          - "Nevěřte analytikům v médiích"
+          - "Chovejte se tak, abyste se nemuseli za své chování ve stáří stydět :-)"
 
     - id: sources
       order: 280
       section: zaver
-      name: "Zdroje a upozornění"
-      title: "Zdroje, omezení a co ověřovat"
+      name: "Zdroje a disclaimer"
+      title: "Zdroje a disclaimer"
       goal: "Oddělit vzdělávací obsah od investičního doporučení a ukázat zdroje dat."
       duration_minutes: 1
       content:
@@ -701,5 +652,3 @@ presentation:
           - "BLS / FRED: americká inflace"
         disclaimer: "Materiál je vzdělávací a nepředstavuje osobní investiční doporučení."
       interactions: []
-      speaker_notes:
-        - "Ve finální verzi uvést přesné URL, datum přístupu a licenci každého použitého obrázku i datového zdroje."

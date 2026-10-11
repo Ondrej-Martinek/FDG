@@ -88,10 +88,6 @@
     .poll-options b { display:block; color:var(--navy); font-weight:800; }
     .poll-quote { display:block; margin-top:2px; color:var(--muted); font-style:italic; }
     .case-caveat { margin-top:15px; color:#8a4b00; background:#fff5df; border:1px solid #f8d18c; padding:13px 16px; border-radius:12px; max-width:860px; }
-    .notes { position:absolute; inset:0; background:#072554ef; color:#fff; padding:clamp(32px,5vw,70px); overflow:auto; }
-    .notes h3 { color:#8edcff; font-size:13px; text-transform:uppercase; letter-spacing:.1em; margin:0 0 18px; }
-    .notes ul { max-width:820px; font-size:clamp(20px,2.5vw,30px); line-height:1.45; margin:0; padding-left:25px; }
-    .notes .close-notes { margin-top:30px; background:#fff; color:var(--navy); }
     .footer { height:70px; padding:12px 30px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; background:#fff; border-top:1px solid var(--line); }
     .progress { height:5px; background:#e2eaf4; border-radius:99px; overflow:hidden; max-width:230px; }
     .progress > i { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--blue),var(--sky)); transition:width .2s; }
@@ -105,9 +101,9 @@
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar" id="sidebar"><div class="brand"><b>FDG 2026</b><h1>Finanční gramotnost</h1><p>Interaktivní přednáška · 100 minut</p></div><nav id="navigation"></nav></aside>
+    <aside class="sidebar" id="sidebar"><div class="brand"><b>FDG 2026</b><h1>Finanční gramotnost</h1></div><nav id="navigation"></nav></aside>
     <main class="main">
-      <header class="topbar"><div><div class="eyebrow" id="section-label"></div><div class="slide-name" id="slide-name"></div></div><div class="top-actions"><button class="icon-button" id="sidebar-toggle" aria-controls="sidebar" aria-expanded="true">Skrýt navigaci</button><button class="icon-button mobile-menu" id="menu-button">☰ Menu</button><button class="icon-button" id="notes-button">Poznámky řečníka</button></div></header>
+      <header class="topbar"><div><div class="eyebrow" id="section-label"></div><div class="slide-name" id="slide-name"></div></div><div class="top-actions"><button class="icon-button" id="sidebar-toggle" aria-controls="sidebar" aria-expanded="true">Skrýt navigaci</button><button class="icon-button mobile-menu" id="menu-button">☰ Menu</button></div></header>
       <div class="stage-wrap"><section class="stage" id="stage"></section></div>
       <footer class="footer"><div class="progress"><i id="progress"></i></div><div class="controls"><button id="previous" aria-label="Předchozí slide">←</button><button id="next" aria-label="Další slide">→</button></div><div class="counter" id="counter"></div></footer>
     </main>
@@ -129,13 +125,9 @@
       {
             "s": "uvod",
             "k": "hero",
-            "n": "Titulní slide",
+            "n": "FDG",
             "t": "Peníze nejsou matematika. Jsou to rozhodnutí.",
             "m": "Dnes nepůjde o správné odpovědi nazpaměť, ale o způsob přemýšlení.",
-            "notes": [
-                  "Představit formát: za dobré odpovědi jsou drobné ceny.",
-                  "Říct, že otázky mohou mít více rozumných odpovědí, pokud je student umí obhájit."
-            ],
             "sub": "O financích bez nudných pouček"
       },
       {
@@ -156,13 +148,10 @@
             "k": "poll",
             "n": "Proč finanční gramotnost",
             "t": "Motivace studentů",
-            "notes": [
-                  "Navázat na výsledek hlasování v relevantních částech přednášky."
-            ],
             "items": [
                   [
                         "Praktické finanční problémy a samostatnost",
-                        "„Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz.“"
+                        "„Za chvíli budu dospělý a chci vědět, kde si založit účet nebo jak vybrat ETF.“"
                   ],
                   [
                         "Investování a cesta k bohatství",
@@ -188,9 +177,6 @@
             "n": "Rozcvička: 1",
             "t": "Rozcvička 1: Procenta - zisky a ztráty",
             "m": "Je sleva 25% to samé jako +33% zdarma?",
-            "notes": [
-                  "Podobná zrada - sleva 25% je to samé jako +33% zdarma? Ano - tyčinka o 4 dílcích za 100 Kč, sleva 25% = 75 Kč, +33% = 100 Kč."
-            ],
             "q": "Mám portfolio o hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?",
             "a": "750 Kč; celková ztráta je 25 %.",
             "e": "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
@@ -211,9 +197,6 @@
             "n": "Složené úročení",
             "t": "Složené úročení (compound interest)",
             "m": "Včasný začátek, pravidelnost a dlouhý horizont mohou být důležitější než snaha trefit nejlepší okamžik.",
-            "notes": [
-                  "Citát před zveřejněním ověřit nebo formulovat jako volně připisovaný."
-            ],
             "quote": "Složené úročení je osmým divem světa.",
             "by": "A. Einstein, často citováno citováno také Warrenem Buffettem.",
             "image": "Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg"
@@ -224,10 +207,6 @@
             "n": "Interaktivní složené úročení",
             "t": "Kolik může vyrůst pravidelná investice?",
             "m": "Model ukazuje princip, nikoli slib budoucího výnosu.",
-            "notes": [
-                  "Výslovně říct, že model neobsahuje daně, poplatky, inflaci ani kolísání výnosů.",
-                  "Plynule navázat: velké nominální částky nejsou totéž co vysoká kupní síla."
-            ],
             "src": "Assets/compound_interest.html"
       },
       {
@@ -236,9 +215,6 @@
             "n": "Otázka k inflaci",
             "t": "Inflace",
             "m": "Ekonomové: Nominální a reálné veličiny (HDP, úroková sazba, výnos, ...).",
-            "notes": [
-                  "Přesné aktuální číslo říci pouze po ověření před přednáškou."
-            ],
             "q": "Co je inflace a proč nízkou inflaci centrální banky tolerují?",
             "a": "Pokles kupní síly peněz.",
             "e": "Nízká a předvídatelná inflace usnadňuje rozhodování, zatímco vysoká nebo nečekaná inflace ho komplikuje."
@@ -249,9 +225,6 @@
             "n": "Inflace a kupní síla",
             "t": "Koruna nezmizí. Jen si za ni koupíte méně.",
             "m": "Dlouhý horizont mění i zdánlivě malé roční tempo inflace v podstatný rozdíl.",
-            "notes": [
-                  "Zmínit, že posilování koruny může zlevňovat zahraniční zboží, ale není univerzální kompenzací inflace."
-            ],
             "src": "Assets/inflace_cr_kupni_sila.html"
       },
       {
@@ -260,9 +233,6 @@
             "n": "Čtyři kategorie",
             "t": "Arbitráž, investice, spekulace, nebo černá díra?",
             "m": "Nálepka není vše: důležité jsou riziko, náklady, horizont a očekávaný zdroj výnosu.",
-            "notes": [
-                  "Zjednodušení přiznat: skutečný svět má mezi kategoriemi šedé zóny."
-            ],
             "items": [
                   [
                         "Arbitráž",
@@ -381,10 +351,6 @@
             "n": "Zuckerbergova hypotéka",
             "t": "Proč si velmi bohatý člověk bere hypotéku?",
             "m": "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence.",
-            "notes": [
-                  "Případ prezentovat jako princip, ne návod k zadlužení.",
-                  "Obrázek domu je ilustrační stock fotografie (Unsplash), nejde o skutečný Zuckerbergův dům."
-            ],
             "q": "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?",
             "cards": [
                   "Nízká nominální sazba může po inflaci znamenat levné financování.",
@@ -411,10 +377,6 @@
             "n": "Interaktivní finanční páka",
             "t": "Co udělá dluh s ročním výsledkem?",
             "m": "Páka nezvyšuje kvalitu investice; zvyšuje velikost jejího dopadu na vlastní kapitál.",
-            "notes": [
-                  "Model pokrývá jeden rok a nezohledňuje daně, poplatky ani splácení jistiny.",
-                  "Navázat na druhy dluhu: hypotéka, spotřební úvěr, kreditní karta, margin a lichva."
-            ],
             "src": "Assets/financni_paka_interaktivni.html"
       },
       {
@@ -433,9 +395,6 @@
             "n": "Diverzifikace",
             "t": "Největší vítěz trhu může být firma, kterou jste nekoupili",
             "m": "Diverzifikace není jen obrana proti ztrátě; je to i způsob, jak nezmeškat velké vítěze.",
-            "notes": [
-                  "Nevytvářet dojem, že ETF odstraní tržní riziko."
-            ],
             "items": [
                   "Pár mimořádně úspěšných firem může táhnout výnos celého indexu.",
                   "Při výběru několika akcií je snadné takové firmy minout.",
@@ -448,21 +407,14 @@
             "n": "Výkonnost tříd aktiv",
             "t": "Co udělá 10 000 dolarů za 30 let?",
             "m": "Historický výnos vysvětluje minulost, nikoli jistou budoucnost; rozhoduje také horizont a kolísání.",
-            "notes": [
-                  "Navázat Buffettovým srovnáním zlata s produktivními aktivy.",
-                  "Zdůraznit, že historická výkonnost není zárukou budoucích výnosů."
-            ],
             "src": "Assets/vykonnost_trid_aktiv_30_let.html"
       },
       {
             "s": "prakticky",
             "k": "checklist",
             "n": "Prakticky: ETF",
-            "t": "Jak vybírat ETF bez magického seznamu tipů",
-            "m": "Nejprve strategie a horizont, potom konkrétní produkt.",
-            "notes": [
-                  "Neuvádět konkrétní produkt jako osobní investiční doporučení."
-            ],
+            "t": "Jak vybírat ETF",
+            "m": "Past returns do not guarantee future results.",
             "items": [
                   "Jaký trh nebo index fond sleduje?",
                   "Je fond distribuční, nebo akumulační?",
@@ -478,9 +430,6 @@
             "n": "Prakticky: běžné finance",
             "t": "Malé poplatky a návyky mají velký dopad",
             "m": "Nejlepší finanční rozhodnutí bývají často nudná, levná a opakovatelná.",
-            "notes": [
-                  "Konkrétní nabídky bank a směnné kurzy jsou časově proměnlivé; neuvádět je bez aktuálního srovnání."
-            ],
             "items": [
                   "Porovnávat poplatky za účet, kartu a směnu měn.",
                   "Nenechat se tlačit do úvěru na běžnou spotřebu.",
@@ -494,9 +443,6 @@
             "n": "Slovníček",
             "t": "Pojmy, ke kterým se vracet",
             "m": "Pokud nerozumím pojmu, mám se ptát — ne hádat podle názvu produktu.",
-            "notes": [
-                  "Renderer: každý pojem bude mít vlastní detailní stránku nebo postranní kartu."
-            ],
             "items": [
                   "Inflace",
                   "Úroková sazba",
@@ -513,17 +459,15 @@
             "s": "zaver",
             "k": "takeaways",
             "n": "Závěrečná doporučení",
-            "t": "Pět věcí, které si odnést",
+            "t": "Šest věcí, které si odnést",
             "m": "Nejde o to mít hned perfektní portfolio, ale dělat postupně méně drahých chyb.",
-            "notes": [
-                  "Nechat několik studentů popsat, co by změnili a proč."
-            ],
             "items": [
-                  "Čas, pravidelnost a náklady rozhodují více, než zní v titulcích.",
-                  "Rozlišujte investici, spekulaci a hru se záporným očekáváním.",
-                  "Dluh berte vážně: cena, účel, riziko a schopnost splácet.",
-                  "Diverzifikace chrání i před tím, co neumíte předpovědět.",
-                  "Ptejte se, odkud má vzniknout budoucí výnos."
+                  "Využívejte free-lunch arbitrážních příležitostí, které svět nabízí: odměna za založení nového účtu, Erasmus, volné kredity/tokeny",
+                  "Využívejte kreditní kartu",
+                  "Nespekulujte, investujte",
+                  "Nakupujte z druhé ruky (Vinted, Marketplace, Sbazar, Ebay, ...)",
+                  "Nevěřte analytikům v médiích",
+                  "Chovejte se tak, abyste se nemuseli za své chování ve stáří stydět :-)"
             ]
       },
       {
@@ -531,9 +475,6 @@
             "k": "sources",
             "n": "Zdroje a upozornění",
             "t": "Zdroje, omezení a co ověřovat",
-            "notes": [
-                  "Ve finální verzi uvést přesné URL, datum přístupu a licenci každého použitého obrázku i datového zdroje."
-            ],
             "items": [
                   "Česká národní banka: inflace a měnová politika",
                   "Český statistický úřad: cenové statistiky",
@@ -595,8 +536,7 @@
     $('previous').addEventListener('click', () => move(-1)); $('next').addEventListener('click', () => move(1));
     $('sidebar-toggle').addEventListener('click', () => setSidebarCollapsed(!document.querySelector('.app').classList.contains('sidebar-collapsed')));
     $('menu-button').addEventListener('click', () => $('sidebar').classList.toggle('show'));
-    $('notes-button').addEventListener('click', () => { const s = slides[current]; const notes = s.notes?.length ? s.notes : ['Pro tento slide zatím nejsou samostatné poznámky.']; $('stage').insertAdjacentHTML('beforeend', `<aside class="notes"><h3>Poznámky řečníka · ${esc(s.n)}</h3><ul>${notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul><button class="primary close-notes">Zavřít poznámky</button></aside>`); $('stage').querySelector('.close-notes').addEventListener('click', () => $('stage .notes').remove()); });
-    document.addEventListener('keydown', event => { if (event.target.matches('input, textarea, select')) return; if (event.key === 'ArrowRight' || event.key === 'PageDown') move(1); if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1); if (event.key.toLowerCase() === 'n') $('notes-button').click(); if (event.key === 'Escape') $('stage .notes')?.remove(); });
+    document.addEventListener('keydown', event => { if (event.target.matches('input, textarea, select')) return; if (event.key === 'ArrowRight' || event.key === 'PageDown') move(1); if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1); });
     render();
   </script>
 </body>
