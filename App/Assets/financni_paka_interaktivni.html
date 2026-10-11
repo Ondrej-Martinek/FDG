@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finanční páka – interaktivní simulátor</title>
+<style>
+:root{--ink:#17243b;--muted:#65748b;--line:#dce4ee;--blue:#2878d4;--green:#18864b;--red:#c83c42;--panel:#f5f8fc}
+*{box-sizing:border-box}body{margin:0;background:#f2f5f9;color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1150px;margin:auto;padding:26px 18px 36px}h1{font-size:clamp(1.8rem,3vw,2.5rem);margin:0 0 5px}h2{font-size:1.12rem;margin:0 0 14px}.sub{color:var(--muted);margin:0 0 20px}
+.layout{display:grid;grid-template-columns:minmax(270px,.8fr) minmax(380px,1.2fr);gap:16px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 5px 18px #17243b08}
+.control{margin-bottom:20px}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:650;margin-bottom:6px}.value{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 8px;min-width:112px;text-align:right;font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:var(--blue)}.limits{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem}
+.presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}button{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:white;cursor:pointer}button:hover{background:var(--panel)}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}.metric{background:var(--panel);padding:10px;border-radius:10px}.label{color:var(--muted);font-size:.78rem}.num{font-size:1.08rem;font-weight:750;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.positive{color:var(--green)}.negative{color:var(--red)}
+.chartbox{border:1px solid var(--line);border-radius:11px;padding:9px}.charttitle{font-weight:700;font-size:.94rem;margin:0 0 4px}svg{width:100%;height:auto;display:block}
+.leverbox{margin-top:16px;background:#f7faff;border:1px solid var(--line);border-radius:12px;padding:12px}.leverhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:3px}.leverhead h2{margin:0}.lever-caption{font-size:.83rem;color:var(--muted);margin:0 0 4px}.lever-labels{display:flex;justify-content:space-between;gap:12px;font-size:.83rem;font-weight:650}.key{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:2px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.foot{font-size:.78rem;color:var(--muted);margin-top:12px}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body><main>
+<h1>Finanční páka</h1>
+<p class="sub">Větší investice díky dluhu. Vyšší potenciální výnos — i vyšší ztráta.</p>
+<div class="layout">
+<section class="panel">
+<h2>Nastavte scénář</h2>
+<div class="presets"><button id="base">Růst +10 %</button><button id="down">Pokles −10 %</button><button id="nodebt">Bez dluhu</button></div>
+<div class="control"><div class="head"><label for="equity">Vlastní kapitál</label><output id="equityOut" class="value"></output></div><input id="equity" type="range" min="0" max="1000000" step="10000" value="100000"><div class="limits"><span>0 Kč</span><span>1 mil. Kč</span></div></div>
+<div class="control"><div class="head"><label for="debt">Dluh</label><output id="debtOut" class="value"></output></div><input id="debt" type="range" min="0" max="1000000" step="10000" value="200000"><div class="limits"><span>0 Kč</span><span>1 mil. Kč</span></div></div>
+<div class="control"><div class="head"><label for="rate">Úroková sazba</label><output id="rateOut" class="value"></output></div><input id="rate" type="range" min="0" max="20" step=".25" value="5"><div class="limits"><span>0 %</span><span>20 %</span></div></div>
+<div class="control"><div class="head"><label for="ret">Roční zhodnocení aktiv</label><output id="retOut" class="value"></output></div><input id="ret" type="range" min="-50" max="50" step=".5" value="10"><div class="limits"><span>−50 %</span><span>+50 %</span></div></div>
+<p class="foot">Model na 1 rok. Bez daní, poplatků a splátek jistiny.</p>
+</section>
+<section class="panel">
+<h2>Výsledek po 1 roce</h2>
+<div class="metrics">
+<div class="metric"><div class="label">Počáteční aktiva</div><div id="assets" class="num"></div></div>
+<div class="metric"><div class="label">Úrok z dluhu</div><div id="interest" class="num negative"></div></div>
+<div class="metric"><div class="label">Čistý zisk / ztráta</div><div id="profit" class="num"></div></div>
+<div class="metric"><div class="label">Výnos vlastního kapitálu</div><div id="roe" class="num"></div></div>
+<div class="metric"><div class="label">Výsledek bez dluhu</div><div id="plain" class="num"></div></div>
+<div class="metric"><div class="label">Dluh / vlastní kapitál</div><div id="ratio" class="num"></div></div>
+</div>
+<div class="chartbox"><p class="charttitle">Zisk / ztráta: bez páky a s pákou</p><svg id="chart" viewBox="0 0 600 245" role="img" aria-label="Srovnávací sloupcový graf"></svg></div>
+<div class="leverbox">
+<div class="leverhead"><h2>Fyzická páka</h2><strong id="armOut">Dluh / kapitál = 2,0×</strong></div>
+<p class="lever-caption">Délky ramen se mění přímo podle poměru dluhu a vlastního kapitálu.</p>
+<svg id="lever" viewBox="0 0 600 190" role="img" aria-label="Fyzická páka, jejíž délky ramen odpovídají poměru dluhu a vlastního kapitálu"></svg>
+<div class="lever-labels"><span id="equityArmLabel">Vlastní kapitál</span><span id="debtArmLabel">Dluh</span></div>
+<div class="key"><span><i class="dot" style="background:#c83c42"></i>Vlastní kapitál</span><span><i class="dot" style="background:#2878d4"></i>Dluh</span><span><i class="dot" style="background:#65748b"></i>Opěrný bod</span></div>
+</div>
+<p class="foot">Fyzická páka je názorná analogie, ne mechanický model finančního výnosu: délky ramen zde odpovídají poměru vlastního kapitálu a dluhu. Ve financích dluh zvětšuje objem aktiv, jejichž výnosy a ztráty po zaplacení úroků dopadají na vlastní kapitál.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('cs-CZ',{style:'currency',currency:'CZK',maximumFractionDigits:0}).format(n);
+const signed=n=>(n>0?'+':n<0?'−':'')+money(Math.abs(n));
+const percent=n=>new Intl.NumberFormat('cs-CZ',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n)+' %';
+function drawChart(a,b){
+ const W=600,H=245,L=75,R=18,T=18,B=43,ph=H-T-B,max=Math.max(Math.abs(a),Math.abs(b),1000)*1.2;
+ const y=v=>T+(max-v)/(2*max)*ph,z=y(0);let s='';
+ for(let i=0;i<=4;i++){const v=-max+max*i/2,yy=y(v);s+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#e1e7ef"/><text x="${L-9}" y="${yy+4}" text-anchor="end" font-size="11" fill="#65748b">${Math.round(v).toLocaleString('cs-CZ')}</text>`}
+ s+=`<line x1="${L}" y1="${z}" x2="${W-R}" y2="${z}" stroke="#8290a3"/>`;
+ [{x:145,v:a,l:'Bez páky',c:'#4389df'},{x:365,v:b,l:'S pákou',c:b>=0?'#20a464':'#d84b50'}].forEach(o=>{let yy=y(o.v),ry=Math.min(yy,z),h=Math.max(1,Math.abs(z-yy)),ly=o.v>=0?ry-7:ry+h+14;ly=Math.max(12,Math.min(H-27,ly));s+=`<rect x="${o.x}" y="${ry}" width="90" height="${h}" rx="4" fill="${o.c}"/><text x="${o.x+45}" y="${ly}" text-anchor="middle" font-size="12" font-weight="700" fill="#17243b">${signed(o.v)}</text><text x="${o.x+45}" y="${H-17}" text-anchor="middle" font-size="13" fill="#26364f">${o.l}</text>`});
+ $('chart').innerHTML=s;
+}
+function drawLever(E,D){
+ const total=E+D, left=72, right=528, span=right-left;
+ // The two drawn arm lengths are proportional to E and D:
+ // right arm / left arm = D / E. Keep a visible minimum arm at edge cases.
+ let pivot = total === 0 ? (left+right)/2 : left + span*(E/total);
+ pivot = Math.max(left+1, Math.min(right-1, pivot));
+ const leftArm=pivot-left, rightArm=right-pivot;
+ const ratio=E===0?(D===0?'N/A':'∞'):(D/E).toLocaleString('cs-CZ',{maximumFractionDigits:2})+'×';
+ $('armOut').textContent='Dluh / kapitál = '+ratio;
+ $('equityArmLabel').textContent='Vlastní kapitál: '+money(E);
+ $('debtArmLabel').textContent='Dluh: '+money(D);
+ const leftMid=(left+pivot)/2, rightMid=(pivot+right)/2;
+ $('lever').innerHTML=`
+ <line x1="35" y1="140" x2="565" y2="140" stroke="#c8d2df" stroke-width="2"/>
+ <polygon points="${pivot-27},140 ${pivot+27},140 ${pivot},96" fill="#65748b"/>
+ <line x1="${left}" y1="96" x2="${right}" y2="96" stroke="#344761" stroke-width="12" stroke-linecap="round"/>
+ <line x1="${left}" y1="96" x2="${left}" y2="113" stroke="#c83c42" stroke-width="3"/>
+ <rect x="${left-25}" y="112" width="50" height="29" rx="5" fill="#c83c42"/>
+ <text x="${left}" y="131" text-anchor="middle" fill="white" font-size="11" font-weight="700">Kapitál</text>
+ <text x="${leftMid}" y="70" text-anchor="middle" fill="#c83c42" font-size="12" font-weight="700">Rameno E</text>
+ <line x1="${right}" y1="96" x2="${right}" y2="53" stroke="#2878d4" stroke-width="3"/>
+ <path d="M ${right-7} 63 L ${right} 51 L ${right+7} 63" fill="none" stroke="#2878d4" stroke-width="3" stroke-linecap="round"/>
+ <text x="${right}" y="37" text-anchor="middle" fill="#2878d4" font-size="12" font-weight="700">Dluh</text>
+ <text x="${pivot}" y="163" text-anchor="middle" fill="#65748b" font-size="12">Opěrný bod</text>
+ <line x1="${left}" y1="174" x2="${pivot}" y2="174" stroke="#c83c42" stroke-width="2"/>
+ <line x1="${left}" y1="169" x2="${left}" y2="179" stroke="#c83c42" stroke-width="2"/>
+ <line x1="${pivot}" y1="169" x2="${pivot}" y2="179" stroke="#c83c42" stroke-width="2"/>
+ <text x="${leftMid}" y="188" text-anchor="middle" fill="#c83c42" font-size="11">${E===0?'E = 0':'E = '+money(E)}</text>
+ <line x1="${pivot}" y1="174" x2="${right}" y2="174" stroke="#2878d4" stroke-width="2"/>
+ <line x1="${right}" y1="169" x2="${right}" y2="179" stroke="#2878d4" stroke-width="2"/>
+ <text x="${rightMid}" y="188" text-anchor="middle" fill="#2878d4" font-size="11">${D===0?'D = 0':'D = '+money(D)}</text>`;
+}
+function update(){
+ const E=+$('equity').value,D=+$('debt').value,r=+$('rate').value/100,g=+$('ret').value/100,A=E+D;
+ const gain=A*g,interest=D*r,p=gain-interest,plain=E*g,roe=E?p/E*100:null;
+ $('equityOut').textContent=money(E);$('debtOut').textContent=money(D);$('rateOut').textContent=percent(r*100);$('retOut').textContent=(g>0?'+':'')+percent(g*100);
+ $('assets').textContent=money(A);$('interest').textContent='− '+money(interest);
+ $('profit').textContent=signed(p);$('profit').className='num '+(p>=0?'positive':'negative');
+ $('roe').textContent=roe===null?'N/A':percent(roe);$('roe').className='num '+(roe===null?'':roe>=0?'positive':'negative');
+ $('plain').textContent=signed(plain);$('plain').className='num '+(plain>=0?'positive':'negative');
+ $('ratio').textContent=E?(D/E).toLocaleString('cs-CZ',{maximumFractionDigits:2})+'×':D?'N/A':'0×';
+ $('lesson').textContent=D===0?'Bez dluhu výsledek odpovídá změně hodnoty aktiv financovaných vlastním kapitálem.':g>r?'Výnos aktiv převyšuje úrok — páka zvyšuje výnos vlastního kapitálu.':'Výnos aktiv nepřevyšuje úrok — dluh výsledek zhoršuje.';
+ drawChart(plain,p);drawLever(E,D);
+}
+['equity','debt','rate','ret'].forEach(id=>$(id).addEventListener('input',update));
+$('base').onclick=()=>{[['equity',100000],['debt',200000],['rate',5],['ret',10]].forEach(([i,v])=>$(i).value=v);update()};
+$('down').onclick=()=>{[['equity',100000],['debt',200000],['rate',5],['ret',-10]].forEach(([i,v])=>$(i).value=v);update()};
+$('nodebt').onclick=()=>{[['equity',100000],['debt',0],['rate',5],['ret',10]].forEach(([i,v])=>$(i).value=v);update()};
+update();
+</script></body></html>

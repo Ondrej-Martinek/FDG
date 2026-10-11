@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulátor investování</title>
+<style>
+  :root { color-scheme: light; --ink:#172033; --muted:#647084; --line:#dfe5ee; --blue:#2764e7; --teal:#0f9f8f; --pale:#f5f7fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f2f5fa; color:var(--ink); font:16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .app { max-width:1100px; margin:24px auto; padding:0 18px; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 8px 30px #1a2c4a0a; padding:24px; }
+  h1 { margin:0 0 5px; font-size:clamp(25px,3vw,34px); letter-spacing:-.04em; }
+  .intro { color:var(--muted); margin:0 0 22px; }
+  .controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; margin-bottom:24px; }
+  .control { background:var(--pale); border-radius:14px; padding:16px; min-width:0; }
+  .label-line { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:12px; font-weight:650; }
+  output { color:var(--blue); font-size:20px; font-weight:750; white-space:nowrap; }
+  input[type=range] { width:100%; accent-color:var(--blue); cursor:pointer; }
+  .ends { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:3px; }
+  .metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+  .metric { padding:16px; border:1px solid var(--line); border-radius:14px; }
+  .metric .name { color:var(--muted); font-size:13px; margin-bottom:6px; }
+  .metric .value { font-size:clamp(20px,2.5vw,29px); font-weight:800; letter-spacing:-.035em; }
+  .metric.total { background:#edf3ff; border-color:#d5e2ff; }
+  .metric.total .value { color:var(--blue); }
+  .chart-wrap { border:1px solid var(--line); border-radius:14px; padding:12px 12px 4px; }
+  canvas { display:block; width:100%; height:340px; }
+  .legend { display:flex; gap:18px; flex-wrap:wrap; padding:10px 8px 12px; color:var(--muted); font-size:13px; }
+  .key { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:7px; }
+  .note { color:var(--muted); font-size:12px; margin:14px 2px 0; }
+  .bottom { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:16px; align-items:center; }
+  button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:9px 13px; border-radius:10px; cursor:pointer; font:inherit; font-weight:650; }
+  button:hover { background:var(--pale); }
+  @media (max-width:760px) { .controls { grid-template-columns:1fr; gap:10px; } .metrics { grid-template-columns:1fr; } .panel { padding:16px; } canvas { height:280px; } }
+</style>
+</head>
+<body>
+<main class="app">
+  <section class="panel">
+    <h1>Kolik může vyrůst tvoje investice?</h1>
+    <p class="intro">Změň parametry a sleduj, jak se v čase skládají vklady a výnosy.</p>
+    <div class="controls">
+      <div class="control">
+        <div class="label-line"><label for="years">Doba investování</label><output id="yearsOut">30 let</output></div>
+        <input id="years" type="range" min="0" max="50" step="1" value="30">
+        <div class="ends"><span>0 let</span><span>50 let</span></div>
+      </div>
+      <div class="control">
+        <div class="label-line"><label for="rate">Roční zhodnocení</label><output id="rateOut">7 %</output></div>
+        <input id="rate" type="range" min="-10" max="20" step="0.5" value="7">
+        <div class="ends"><span>−10 %</span><span>20 %</span></div>
+      </div>
+      <div class="control">
+        <div class="label-line"><label for="monthly">Měsíční investice</label><output id="monthlyOut">2 000 Kč</output></div>
+        <input id="monthly" type="range" min="0" max="20000" step="500" value="2000">
+        <div class="ends"><span>0 Kč</span><span>20 000 Kč</span></div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric total"><div class="name">Konečná hodnota</div><div class="value" id="finalValue">—</div></div>
+      <div class="metric"><div class="name">Celkem vloženo</div><div class="value" id="contributions">—</div></div>
+      <div class="metric"><div class="name">Výnos / ztráta</div><div class="value" id="profit">—</div></div>
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="chart" aria-label="Graf růstu investice v čase" role="img"></canvas>
+      <div class="legend">
+        <span><i class="key" style="background:#2764e7"></i>Celková hodnota</span>
+        <span><i class="key" style="background:#0f9f8f"></i>Vložené peníze</span>
+      </div>
+    </div>
+    <div class="bottom">
+      <span id="multiple" style="font-weight:700"></span>
+      <button id="reset" type="button">Obnovit výchozí hodnoty</button>
+    </div>
+    <p class="note">Modelový výpočet: výnos je konstantní a připisuje se měsíčně; vklad probíhá na konci každého měsíce. Nezahrnuje poplatky, daně ani inflaci. Skutečné výnosy kolísají a mohou být záporné. Záporná sazba je zjednodušeně modelována jako měsíční úročení sazby (1 + roční sazba)^(1/12) − 1.</p>
+  </section>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const fmt = n => Math.round(n).toLocaleString('cs-CZ') + ' Kč';
+  const pct = n => (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('cs-CZ', {maximumFractionDigits:1}) + ' %';
+  const els = {years:$('years'), rate:$('rate'), monthly:$('monthly')};
+  let points = [];
+
+  function calculate() {
+    const years = Number(els.years.value);
+    const annual = Number(els.rate.value) / 100;
+    const monthly = Number(els.monthly.value);
+    const monthlyRate = annual <= -1 ? -1 : Math.pow(1 + annual, 1/12) - 1;
+    let balance = 0, invested = 0;
+    points = [{month:0, balance:0, invested:0}];
+    for (let m = 1; m <= years * 12; m++) {
+      balance *= (1 + monthlyRate);
+      balance += monthly;
+      invested += monthly;
+      if (m % 12 === 0 || m === years * 12) points.push({month:m, balance, invested});
+    }
+    const end = points[points.length - 1];
+    $('yearsOut').textContent = years + (years === 1 ? ' rok' : years >= 2 && years <= 4 ? ' roky' : ' let');
+    $('rateOut').textContent = pct(Number(els.rate.value));
+    $('monthlyOut').textContent = fmt(monthly);
+    $('finalValue').textContent = fmt(end.balance);
+    $('contributions').textContent = fmt(end.invested);
+    const gain = end.balance - end.invested;
+    $('profit').textContent = (gain < 0 ? '−' : '') + fmt(Math.abs(gain));
+    $('profit').style.color = gain < 0 ? '#c0392b' : '#0f766e';
+    $('multiple').textContent = end.invested > 0
+      ? `Výsledek: ${end.balance / end.invested < 0 ? '—' : (end.balance / end.invested).toLocaleString('cs-CZ',{maximumFractionDigits:2}) + '× vložené částky'}`
+      : (end.balance === 0 ? 'Bez vkladů není co zhodnocovat.' : 'Hodnota investice bez dalších vkladů.');
+    draw();
+  }
+
+  function draw() {
+    const canvas = $('chart');
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.max(1, Math.round(rect.width*dpr));
+    canvas.height = Math.max(1, Math.round(rect.height*dpr));
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr,dpr);
+    const w=rect.width, h=rect.height;
+    const left=68, right=18, top=18, bottom=38;
+    const cw=w-left-right, ch=h-top-bottom;
+    ctx.clearRect(0,0,w,h);
+    const maxVal = Math.max(1, ...points.map(p=>Math.max(p.balance,p.invested)));
+    const niceStep = v => { const raw=v/4, pow=Math.pow(10,Math.floor(Math.log10(raw||1))), norm=raw/pow; return (norm<=1?1:norm<=2?2:norm<=5?5:10)*pow; };
+    const step=niceStep(maxVal), yMax=Math.ceil(maxVal/step)*step;
+    const x = i => left + (points.length<=1 ? 0 : i/(points.length-1))*cw;
+    const y = v => top+ch-(v/yMax)*ch;
+    ctx.font='12px system-ui, sans-serif';
+    ctx.textAlign='right'; ctx.textBaseline='middle';
+    for(let v=0;v<=yMax+step*0.001;v+=step){
+      const yy=y(v);
+      ctx.strokeStyle='#e7ebf2'; ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(w-right,yy);ctx.stroke();
+      ctx.fillStyle='#647084';
+      const label = v >= 1000000 ? (v/1000000).toLocaleString('cs-CZ',{maximumFractionDigits:1})+' mil.' : v>=1000 ? (v/1000).toLocaleString('cs-CZ',{maximumFractionDigits:0})+' tis.' : Math.round(v).toString();
+      ctx.fillText(label, left-10, yy);
+    }
+    ctx.textAlign='center';ctx.textBaseline='top';
+    const years=Number(els.years.value);
+    const tickEvery=years<=10?1:years<=25?5:10;
+    for(let yr=0;yr<=years;yr+=tickEvery){
+      const idx=years===0?0:Math.min(points.length-1,Math.round(yr/years*(points.length-1)));
+      ctx.fillStyle='#647084';ctx.fillText(String(yr),x(idx),top+ch+10);
+    }
+    function line(key,color,width){
+      ctx.beginPath();
+      points.forEach((p,i)=>{const xx=x(i), yy=y(p[key]); if(i===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);});
+      ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
+    }
+    line('invested','#0f9f8f',2.5);
+    line('balance','#2764e7',3.2);
+    if(points.length>1){
+      const p=points[points.length-1];
+      ctx.fillStyle='#2764e7';ctx.beginPath();ctx.arc(x(points.length-1),y(p.balance),4.5,0,Math.PI*2);ctx.fill();
+    }
+  }
+  Object.values(els).forEach(el=>el.addEventListener('input',calculate));
+  $('reset').addEventListener('click',()=>{els.years.value=30;els.rate.value=7;els.monthly.value=2000;calculate();});
+  window.addEventListener('resize',draw);
+  calculate();
+})();
+</script>
+</body>
+</html>

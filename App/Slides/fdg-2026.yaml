@@ -1,0 +1,685 @@
+schema_version: "0.1-draft"
+
+# Pracovní specifikace vytvořená ze storyboardu.
+# Zdroj pravdy pro obsah zůstává v Content/ a Notes/; před publikací je nutné
+# ověřit položky označené requires_fact_check.
+presentation:
+  id: fdg-2026
+  title: "Finanční a digitální gramotnost"
+  subtitle: "Jak přemýšlet o penězích, dluhu a investicích"
+  language: cs
+  audience:
+    age: 17
+    description: "Studenti sexty a septimy gymnázií a středních škol"
+  duration_minutes: 100
+  source_material:
+    - medailonek.md
+    - Content/motivace studentů.md
+    - Content/Questions/questions.md
+    - Content/Topics/
+    - Content/Prakticky/
+    - Content/Pojmy/
+    - Notes/Pojmy, grafy, otázky.md
+
+  theme:
+    name: fdg-light
+    background: "#FFFFFF"
+    primary: "#005EB8"
+    secondary: "#00A1DE"
+    font: Inter
+    navigation: left-sidebar
+    interaction_pattern: "Nejdříve otázka; odpověď a vysvětlení až po aktivaci moderátorem."
+
+  sections:
+    - id: uvod
+      label: Úvod
+    - id: penize-a-inflace
+      label: Peníze v čase
+    - id: rozhodovani
+      label: Jak přemýšlet o finančních rozhodnutích
+    - id: dluh-a-paka
+      label: Dluh a finanční páka
+    - id: investovani
+      label: Investování
+    - id: prakticky
+      label: Prakticky a závěr
+
+  slides:
+    - id: welcome
+      order: 10
+      section: uvod
+      name: "Titulní slide"
+      title: "Peníze nejsou matematika. Jsou to rozhodnutí."
+      goal: "Nastavit neformální, zvídavý tón přednášky."
+      duration_minutes: 2
+      content:
+        type: hero
+        subtitle: "O financích bez nudných pouček"
+        key_message: "Dnes nepůjde o správné odpovědi nazpaměť, ale o způsob přemýšlení."
+      assets: []
+      interactions: []
+      speaker_notes:
+        - "Představit formát: za dobré odpovědi jsou drobné ceny."
+        - "Říct, že otázky mohou mít více rozumných odpovědí, pokud je student umí obhájit."
+
+    - id: presenter
+      order: 20
+      section: uvod
+      name: "Něco o mě"
+      title: "Kdo jsem já."
+      goal: "Dát přednášejícímu důvěryhodnost bez dojmu náborové prezentace."
+      duration_minutes: 2
+      source_refs: [medailonek.md]
+      content:
+        type: profile
+        bullets:
+          - "Datový analytik finančních trhů ČSOB"
+          - "Zkušenost z investování a analýzy akcií"
+          - "VŠE: finanční inženýrství; EDHEC Business School"
+        key_message: "Neprodávám produkt; sdílím nástroje pro samostatné přemýšlení."
+      assets: []
+      interactions: []
+      speaker_notes:
+        - "Zkrátit podle situace; nejde o životopis."
+
+    - id: why-money-matters
+      order: 30
+      section: uvod
+      name: "Proč finanční gramotnost"
+      title: "Která finanční otázka je pro vás právě teď nejdůležitější?"
+      goal: "Napojit přednášku na bezprostřední zájmy studentů."
+      duration_minutes: 3
+      source_refs: [Content/motivace studentů.md]
+      content:
+        type: poll
+        options:
+          - "Účet, karta a každodenní finance"
+          - "Jak začít investovat"
+          - "Jak funguje ekonomika a trhy"
+          - "AI, krypto a technologie"
+        key_message: "Finance ovlivňují samostatnost, možnosti i budoucí kariéru."
+      interactions:
+        - type: hands_up_poll
+          id: motivation_poll
+          question: "Které téma byste si vybrali jako první?"
+      speaker_notes:
+        - "Navázat na výsledek hlasování v relevantních částech přednášky."
+
+    - id: opening-100k
+      order: 40
+      section: uvod
+      name: "Úvodní rozhodnutí"
+      title: "Co kdyby vám zítra přišlo 100 000 Kč?"
+      goal: "Ukázat, že finanční rozhodnutí nejsou jen o jedné správné volbě."
+      duration_minutes: 3
+      content:
+        type: question
+        subtitle: "Co uděláte jako první?"
+        key_message: "Než vybereme produkt, potřebujeme vědět, k čemu peníze slouží a kdy je budeme potřebovat."
+      interactions:
+        - type: poll
+          id: opening_poll
+          question: "Jak byste peníze využili?"
+          options:
+            - "Utratím je"
+            - "Nechám je na účtu"
+            - "Začnu investovat"
+            - "Rozdělím je mezi více možností"
+      speaker_notes:
+        - "Neoznačovat žádnou odpověď automaticky za chybnou."
+        - "Ke stejné otázce se vrátit v závěru."
+
+    - id: opener-losses
+      order: 50
+      section: penize-a-inflace
+      name: "Rozcvička: procenta"
+      title: "Nejdřív +50 %, potom −50 %. Jsem zpět na nule?"
+      goal: "Vyvolat intuitivní chybu a otevřít téma násobení výnosů."
+      duration_minutes: 3
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: reveal_question
+        question: "Portfolio má hodnotu 1 000 Kč. Jeden rok vydělá 50 %, další rok ztratí 50 %. Kolik zbývá?"
+        reveal:
+          answer: "750 Kč; celková ztráta je 25 %."
+          explanation: "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
+        key_message: "Stejné procento nahoru a dolů se navzájem nevyruší."
+      interactions:
+        - type: manual_reveal
+          id: opener_loss_answer
+      speaker_notes:
+        - "Nechat nejprve rychle hlasovat."
+
+    - id: opener-compounding
+      order: 60
+      section: penize-a-inflace
+      name: "Rozcvička: výnos z výnosu"
+      title: "Dvakrát +10 %. Kolik je výsledek?"
+      goal: "Připravit intuitivní základ pro složené úročení."
+      duration_minutes: 3
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: reveal_question
+        question: "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má hodnotu?"
+        reveal:
+          answer: "1 210 Kč; celkové zhodnocení je 21 %."
+          explanation: "Druhý výnos se připisuje i k výnosu z prvního roku."
+        key_message: "Výnos může vydělávat další výnos."
+      interactions:
+        - type: manual_reveal
+          id: opener_compounding_answer
+      speaker_notes: []
+
+    - id: compound-intro
+      order: 70
+      section: penize-a-inflace
+      name: "Složené úročení"
+      title: "Čas je při investování silnější než dokonalé načasování"
+      goal: "Vysvětlit princip průběžného připisování výnosů."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Compound-interest.md]
+      content:
+        type: quote_with_explanation
+        quote: "Složené úročení je osmým divem světa."
+        attribution: "Často připisováno Albertu Einsteinovi; v podkladech citováno přes Warrena Buffetta."
+        key_message: "Včasný začátek, pravidelnost a dlouhý horizont mohou být důležitější než snaha trefit nejlepší okamžik."
+      assets:
+        - type: image
+          src: App/Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg
+          alt: "Warren Buffett na konferenci"
+          role: illustration
+      interactions: []
+      speaker_notes:
+        - "Citát před zveřejněním ověřit nebo formulovat jako volně připisovaný."
+
+    - id: compound-calculator
+      order: 80
+      section: penize-a-inflace
+      name: "Interaktivní složené úročení"
+      title: "Kolik může vyrůst pravidelná investice?"
+      goal: "Nechat studenty prožít rozdíl mezi délkou, výnosem a pravidelným vkladem."
+      duration_minutes: 6
+      source_refs: [Content/Topics/Compound-interest.md]
+      content:
+        type: embedded_interactive
+        embed: App/Assets/compound_interest.html
+        key_message: "Model ukazuje princip, nikoli slib budoucího výnosu."
+      interactions:
+        - type: guided_experiment
+          steps:
+            - "Nechat třídu zvolit délku investování."
+            - "Porovnat 2 000 Kč měsíčně při 3 % a 7 %."
+            - "Ukázat, co se změní při zkrácení horizontu o deset let."
+      speaker_notes:
+        - "Výslovně říct, že model neobsahuje daně, poplatky, inflaci ani kolísání výnosů."
+        - "Plynule navázat: velké nominální částky nejsou totéž co vysoká kupní síla."
+
+    - id: inflation-question
+      order: 90
+      section: penize-a-inflace
+      name: "Otázka k inflaci"
+      title: "Co je inflace a proč ji centrální banky chtějí mít nenulovou?"
+      goal: "Oddělit změnu cenové hladiny od individuálního zdražení."
+      duration_minutes: 3
+      source_refs: [Content/Topics/Inflation.md, Notes/Pojmy, grafy, otázky.md]
+      content:
+        type: reveal_question
+        question: "Co se změní, když za stejné peníze koupíme méně věcí?"
+        reveal:
+          answer: "Klesá kupní síla peněz; tomu v průměru říkáme inflace."
+          explanation: "Nízká a předvídatelná inflace usnadňuje rozhodování, zatímco vysoká nebo nečekaná inflace ho komplikuje."
+        key_message: "Nominální zůstatek a reálná hodnota nejsou totéž."
+      interactions:
+        - type: hands_up_poll
+          id: inflation_definition
+          question: "Kolik podle vás činí nyní meziroční inflace v ČR?"
+      requires_fact_check:
+        - "Aktuální meziroční inflace v ČR"
+      speaker_notes:
+        - "Přesné aktuální číslo říci pouze po ověření před přednáškou."
+
+    - id: inflation-chart
+      order: 100
+      section: penize-a-inflace
+      name: "Inflace a kupní síla"
+      title: "Koruna nezmizí. Jen si za ni koupíte méně."
+      goal: "Spojit historickou inflaci s dopadem na úspory."
+      duration_minutes: 6
+      source_refs: [Content/Topics/Inflation.md]
+      content:
+        type: embedded_interactive
+        embed: App/Assets/inflace_cr_kupni_sila.html
+        key_message: "Dlouhý horizont mění i zdánlivě malé roční tempo inflace v podstatný rozdíl."
+      interactions:
+        - type: guided_experiment
+          steps:
+            - "Nechat studenty vybrat rok, kdy se narodili."
+            - "Porovnat kupní sílu 100 Kč tehdy a dnes."
+            - "Ukázat inflační cíl a toleranční pásmo."
+      requires_fact_check:
+        - "Datová řada inflace a poslední rok v interaktivním grafu"
+      speaker_notes:
+        - "Zmínit, že posilování koruny může zlevňovat zahraniční zboží, ale není univerzální kompenzací inflace."
+
+    - id: decision-categories
+      order: 110
+      section: rozhodovani
+      name: "Čtyři kategorie"
+      title: "Arbitráž, investice, spekulace, nebo černá díra?"
+      goal: "Dát studentům jednoduchý rámec pro hodnocení finančních rozhodnutí."
+      duration_minutes: 5
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: four_quadrants
+        items:
+          - label: "Arbitráž"
+            color: "#1976D2"
+            definition: "Prakticky jistý zisk z cenového rozdílu při správném provedení."
+            prompt: "Kde je bezpečně využitelný cenový rozdíl?"
+          - label: "Investice"
+            color: "#2E7D32"
+            definition: "Aktivum vytváří hodnotu a pravděpodobně přinese budoucí výnos."
+            prompt: "Co bude vytvářet můj budoucí výnos?"
+          - label: "Spekulace"
+            color: "#EF6C00"
+            definition: "Sázka na budoucí vývoj s významnou nejistotou."
+            prompt: "Na co přesně sázím?"
+          - label: "Černá díra na peníze"
+            color: "#C62828"
+            definition: "Rozhodnutí s pravděpodobně zápornou očekávanou hodnotou."
+            prompt: "Proč bych to měl dělat?"
+        key_message: "Nálepka není vše: důležité jsou riziko, náklady, horizont a očekávaný zdroj výnosu."
+      interactions: []
+      speaker_notes:
+        - "Zjednodušení přiznat: skutečný svět má mezi kategoriemi šedé zóny."
+
+    - id: classify-arbitrage
+      order: 120
+      section: rozhodovani
+      name: "Rychlá otázka: arbitráž"
+      title: "Stejné akcie, dvě ceny"
+      goal: "Ukázat podstatu arbitráže a její praktická omezení."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Stejná akcie stojí na jedné burze 10 EUR a na jiné 100 Kč. Co udělám?"
+        reveal:
+          category: arbitráž
+          color: "#1976D2"
+          explanation: "Jen tehdy, pokud lze obě transakce provést současně a rozdíl nepohltí kurz, poplatky, daně, likvidita nebo riziko vypořádání."
+        key_message: "Zdánlivě jistý zisk často zmizí po započtení nákladů a omezení."
+      interactions:
+        - type: manual_reveal
+          id: classify_arbitrage_answer
+      speaker_notes: []
+
+    - id: classify-resale
+      order: 130
+      section: rozhodovani
+      name: "Rychlá otázka: přeprodej"
+      title: "Sleva v e-shopu, vyšší cena na Vinted"
+      goal: "Přenést princip cenového rozdílu do běžného života."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Koupím nový batoh za 1 000 Kč ve slevě; na Vinted se prodává za 2 000 Kč. Co to je?"
+        reveal:
+          category: "podmíněná arbitráž"
+          color: "#1976D2"
+          explanation: "Je třeba ověřit, že jde o stejné zboží, existuje kupující a náklady, čas i riziko vrácení nepohltí marži."
+        key_message: "Příležitost vzniká z rozdílu cen, ale není automaticky bez rizika."
+      interactions:
+        - type: manual_reveal
+          id: classify_resale_answer
+      speaker_notes: []
+
+    - id: classify-etf
+      order: 140
+      section: rozhodovani
+      name: "Rychlá otázka: ETF"
+      title: "Kupuji ETF na světové akcie"
+      goal: "Popsat, proč může diverzifikované akciové ETF dávat ekonomický smysl."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md, Content/Prakticky/ETF.md]
+      content:
+        type: classify_reveal
+        scenario: "Pravidelně kupuji levné ETF na široký akciový index s dlouhým horizontem."
+        reveal:
+          category: investice
+          color: "#2E7D32"
+          explanation: "Investor vlastní podíly ve firmách, které produkují výrobky a služby; výnos ovšem není jistý ani rovnoměrný."
+        key_message: "Investice není garance zisku; stojí na rozumně vysvětleném zdroji budoucí hodnoty."
+      interactions:
+        - type: manual_reveal
+          id: classify_etf_answer
+      speaker_notes: []
+
+    - id: classify-human-capital
+      order: 150
+      section: rozhodovani
+      name: "Rychlá otázka: vzdělání"
+      title: "Kurz Pythonu za 1 000 Kč"
+      goal: "Rozšířit pojem investice i mimo finanční trhy."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Zaplatím kurz Pythonu, protože mi může otevřít lépe placenou práci."
+        reveal:
+          category: "investice do lidského kapitálu"
+          color: "#2E7D32"
+          explanation: "Budoucí výnos není jistý, ale vzniká konkrétní dovednost, která může zvýšit možnosti a příjmy."
+        key_message: "Jedna z nejvýnosnějších investic může být do vlastních schopností."
+      interactions:
+        - type: manual_reveal
+          id: classify_human_capital_answer
+      speaker_notes: []
+
+    - id: classify-bitcoin
+      order: 160
+      section: rozhodovani
+      name: "Rychlá otázka: spekulace"
+      title: "Bitcoin už přece nemůže spadnout níž"
+      goal: "Rozlišit přesvědčení o budoucí ceně od zdroje hodnoty."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Vsadím 1 000 Kč na růst bitcoinu během týdne, protože už nemůže spadnout níž."
+        reveal:
+          category: spekulace
+          color: "#EF6C00"
+          explanation: "Výsledek závisí hlavně na krátkodobém pohybu ceny, který nelze spolehlivě odvodit z věty 'už nemůže klesat'."
+        key_message: "Spekulace nemusí být zakázaná, ale musí být pojmenovaná a omezená."
+      interactions:
+        - type: manual_reveal
+          id: classify_bitcoin_answer
+      speaker_notes: []
+
+    - id: classify-nvidia
+      order: 170
+      section: rozhodovani
+      name: "Rychlá otázka: horká akcie"
+      title: "Koupím jednu akcii, protože AI mění svět"
+      goal: "Ukázat koncentraci a příběhové riziko jednotlivé akcie."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Koupím jedinou akcii, protože kamarád říká, že AI všechno změní."
+        reveal:
+          category: spekulace
+          color: "#EF6C00"
+          explanation: "Může jít o skvělou firmu, ale jedna informace ani popularita tématu neřeší cenu akcie, diverzifikaci ani riziko omylu."
+        key_message: "Dobrá technologie a dobrá investice nejsou automaticky totéž."
+      interactions:
+        - type: manual_reveal
+          id: classify_single_stock_answer
+      speaker_notes: []
+
+    - id: classify-roulette
+      order: 180
+      section: rozhodovani
+      name: "Rychlá otázka: ruleta"
+      title: "Kasino a ruleta"
+      goal: "Pojmenovat zápornou očekávanou hodnotu."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Zaplatím vstup do kasina a hraji ruletu, abych vydělal peníze."
+        reveal:
+          category: "černá díra na peníze"
+          color: "#C62828"
+          explanation: "Kasino má matematickou výhodu. Krátkodobě lze vyhrát, ale dlouhodobé očekávání hráče je záporné."
+        key_message: "Zábava může stát peníze; není to investiční strategie."
+      interactions:
+        - type: manual_reveal
+          id: classify_roulette_answer
+      speaker_notes: []
+
+    - id: leverage-quote
+      order: 190
+      section: dluh-a-paka
+      name: "Úvod k páce"
+      title: "Dluh: dobrý sluha, zlý pán"
+      goal: "Otevřít téma páky bez moralizování."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Financial-leverage.md, Content/Pojmy/Dluh.md]
+      content:
+        type: quote_with_explanation
+        quote: "Jsou jen tři způsoby, jak chytrý člověk může zchudnout: ladies, liquor, leverage."
+        attribution: Warren Buffett
+        key_message: "Dluh zvětšuje rozsah výsledku: pomáhá při růstu, škodí při poklesu nebo vysokém úroku."
+      assets:
+        - type: image
+          src: App/Assets/FinančníPáka-jednoduchá.png
+          alt: "Názorné vysvětlení finanční páky"
+          role: illustration
+      interactions: []
+      speaker_notes:
+        - "Citát ověřit před publikací."
+
+    - id: leverage-calculator
+      order: 200
+      section: dluh-a-paka
+      name: "Interaktivní finanční páka"
+      title: "Co udělá dluh s ročním výsledkem?"
+      goal: "Ukázat, že úrok a výnos aktiv společně určují dopad páky."
+      duration_minutes: 7
+      source_refs: [Content/Topics/Financial-leverage.md]
+      content:
+        type: embedded_interactive
+        embed: App/Assets/financni_paka_interaktivni.html
+        key_message: "Páka nezvyšuje kvalitu investice; zvyšuje velikost jejího dopadu na vlastní kapitál."
+      interactions:
+        - type: guided_experiment
+          steps:
+            - "Spustit scénář růstu +10 %."
+            - "Přepnout na pokles −10 % se stejným dluhem."
+            - "Nastavit nulový dluh a porovnat výsledek."
+      speaker_notes:
+        - "Model pokrývá jeden rok a nezohledňuje daně, poplatky ani splácení jistiny."
+        - "Navázat na druhy dluhu: hypotéka, spotřební úvěr, kreditní karta, margin a lichva."
+
+    - id: zuckerberg-mortgage
+      order: 210
+      section: dluh-a-paka
+      name: "Zuckerbergova hypotéka"
+      title: "Proč si velmi bohatý člověk bere hypotéku?"
+      goal: "Prověřit porozumění záporné reálné sazbě, likviditě a nákladům příležitosti."
+      duration_minutes: 7
+      source_refs: [Content/Topics/Zuckerberg.md, Content/Pojmy/Dluh.md]
+      content:
+        type: case_study_reveal
+        prompt: "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?"
+        reveal:
+          reasons:
+            - "Nízká nominální sazba může po inflaci znamenat levné financování."
+            - "Likvidita může zůstat k dispozici pro jiné použití."
+            - "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
+          caveat: "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci."
+        key_message: "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence."
+      assets:
+        - type: image
+          src: App/Assets/MarkZuckerberg.png
+          alt: "Mark Zuckerberg"
+          role: illustration
+      interactions:
+        - type: think_pair_share
+          id: zuckerberg_reasoning
+          prompt: "Vymyslete ve dvojici dva rozumné důvody a jedno riziko."
+      requires_fact_check:
+        - "Parametry konkrétní Zuckerbergovy hypotéky"
+        - "Daňové tvrzení; nelze přenášet americká pravidla na české studenty"
+      speaker_notes:
+        - "Případ prezentovat jako princip, ne návod k zadlužení."
+
+    - id: diversification
+      order: 220
+      section: investovani
+      name: "Diverzifikace"
+      title: "Největší vítěz trhu může být firma, kterou jste nekoupili"
+      goal: "Vysvětlit diverzifikaci jako ochranu před vynecháním mimořádných vítězů i před ztrátou."
+      duration_minutes: 7
+      source_refs: [Content/Topics/Diversification.md]
+      content:
+        type: narrative
+        beats:
+          - "Pár mimořádně úspěšných firem může táhnout výnos celého indexu."
+          - "Při výběru několika akcií je snadné takové firmy minout."
+          - "Široký index nevyloučí poklesy, ale snižuje riziko jednoho špatného výběru."
+        key_message: "Diverzifikace není jen obrana proti ztrátě; je to i způsob, jak nezmeškat velké vítěze."
+      assets: []
+      visualization:
+        type: comparison_chart
+        status: planned
+        title: "S&P 500 se semiconductory a bez nich"
+        data_requirement: "Reprodukovatelně určit index, období, metodiku vyřazení a zdroj dat."
+      interactions:
+        - type: hands_up_poll
+          id: diversification_poll
+          question: "Kolik akcií by podle vás stačilo na portfolio, které reprezentuje celý trh?"
+      requires_fact_check:
+        - "Výpočet indexu bez sektorů / polovodičů a použitá metodika"
+      speaker_notes:
+        - "Nevytvářet dojem, že ETF odstraní tržní riziko."
+
+    - id: performance-assets
+      order: 230
+      section: investovani
+      name: "Výkonnost tříd aktiv"
+      title: "Co udělá 10 000 dolarů za 30 let?"
+      goal: "Porovnat dlouhodobý dopad různých tříd aktiv nominálně i po inflaci."
+      duration_minutes: 8
+      source_refs: [Content/Topics/Performance.md]
+      content:
+        type: embedded_interactive
+        embed: App/Assets/vykonnost_trid_aktiv_30_let.html
+        key_message: "Historický výnos vysvětluje minulost, nikoli jistou budoucnost; rozhoduje také horizont a kolísání."
+      interactions:
+        - type: guided_experiment
+          steps:
+            - "Zobrazit všechny třídy aktiv v nominálním režimu."
+            - "Přepnout na reálné hodnoty."
+            - "Porovnat rozdíl mezi jednorázovou hotovostí a akciemi na dlouhém horizontu."
+      requires_fact_check:
+        - "Datová řada, metodika a poslední rok výkonnostního grafu"
+        - "Licenční a citační podmínky použitých zdrojů"
+      speaker_notes:
+        - "Navázat Buffettovým srovnáním zlata s produktivními aktivy."
+        - "Zdůraznit, že historická výkonnost není zárukou budoucích výnosů."
+
+    - id: etf-practical
+      order: 240
+      section: prakticky
+      name: "Prakticky: ETF"
+      title: "Jak vybírat ETF bez magického seznamu tipů"
+      goal: "Dát studentům kontrolní seznam místo konkrétního investičního doporučení."
+      duration_minutes: 5
+      source_refs: [Content/Prakticky/ETF.md]
+      content:
+        type: checklist
+        items:
+          - "Jaký trh nebo index fond sleduje?"
+          - "Je fond distribuční, nebo akumulační?"
+          - "Jaké má celkové náklady (TER)?"
+          - "Je dostatečně velký a likvidní?"
+          - "V jaké měně se obchoduje a jaké měnové riziko skutečně podstupuji?"
+          - "Nabízí ho můj regulovaný broker za rozumných podmínek?"
+        key_message: "Nejprve strategie a horizont, potom konkrétní produkt."
+      interactions: []
+      speaker_notes:
+        - "Neuvádět konkrétní produkt jako osobní investiční doporučení."
+
+    - id: everyday-finance
+      order: 250
+      section: prakticky
+      name: "Prakticky: běžné finance"
+      title: "Malé poplatky a návyky mají velký dopad"
+      goal: "Spojit koncepty s bezprostředně použitelnými rozhodnutími."
+      duration_minutes: 3
+      source_refs: [Content/Prakticky/ETF.md, Content/Prakticky/Dětský účet.md]
+      content:
+        type: practical_tips
+        items:
+          - "Porovnávat poplatky za účet, kartu a směnu měn."
+          - "Nenechat se tlačit do úvěru na běžnou spotřebu."
+          - "U plateb kartou rozumět rozdílu mezi debetní a kreditní kartou."
+          - "Před podpisem smlouvy si spočítat celkovou cenu, nejen měsíční splátku."
+        key_message: "Nejlepší finanční rozhodnutí bývají často nudná, levná a opakovatelná."
+      interactions: []
+      speaker_notes:
+        - "Konkrétní nabídky bank a směnné kurzy jsou časově proměnlivé; neuvádět je bez aktuálního srovnání."
+
+    - id: glossary
+      order: 260
+      section: prakticky
+      name: "Slovníček"
+      title: "Pojmy, ke kterým se vracet"
+      goal: "Ukázat budoucí levý navigační panel a propojení témat s pojmy."
+      duration_minutes: 3
+      source_refs: [Notes/Pojmy, grafy, otázky.md, Content/Pojmy/Dluh.md]
+      content:
+        type: glossary_index
+        terms:
+          - "Inflace"
+          - "Úroková sazba"
+          - "Dluhopis"
+          - "Akcie"
+          - "Dividenda"
+          - "Finanční páka"
+          - "ETF"
+          - "Kryptoměna"
+          - "Centrální banka"
+        key_message: "Pokud nerozumím pojmu, mám se ptát — ne hádat podle názvu produktu."
+      interactions:
+        - type: navigation_demo
+          target: glossary
+      speaker_notes:
+        - "Renderer: každý pojem bude mít vlastní detailní stránku nebo postranní kartu."
+
+    - id: closing
+      order: 270
+      section: prakticky
+      name: "Závěrečná doporučení"
+      title: "Pět věcí, které si odnést"
+      goal: "Uzavřít přednášku do konkrétních a zapamatovatelných principů."
+      duration_minutes: 5
+      source_refs: [Notes/Pojmy, grafy, otázky.md]
+      content:
+        type: numbered_takeaways
+        items:
+          - "Čas, pravidelnost a náklady rozhodují více, než zní v titulcích."
+          - "Rozlišujte investici, spekulaci a hru se záporným očekáváním."
+          - "Dluh berte vážně: cena, účel, riziko a schopnost splácet."
+          - "Diverzifikace chrání i před tím, co neumíte předpovědět."
+          - "Ptejte se, odkud má vzniknout budoucí výnos."
+        key_message: "Nejde o to mít hned perfektní portfolio, ale dělat postupně méně drahých chyb."
+      interactions:
+        - type: return_poll
+          id: closing_poll
+          question: "Vrátili byste se k úvodním 100 000 Kč jinak než před 100 minutami?"
+      speaker_notes:
+        - "Nechat několik studentů popsat, co by změnili a proč."
+
+    - id: sources
+      order: 280
+      section: prakticky
+      name: "Zdroje a upozornění"
+      title: "Zdroje, omezení a co ověřovat"
+      goal: "Oddělit vzdělávací obsah od investičního doporučení a ukázat zdroje dat."
+      duration_minutes: 1
+      content:
+        type: sources
+        items:
+          - "Česká národní banka: inflace a měnová politika"
+          - "Český statistický úřad: cenové statistiky"
+          - "NYU Stern / Aswath Damodaran: historické výnosy aktiv"
+          - "BLS / FRED: americká inflace"
+        disclaimer: "Materiál je vzdělávací a nepředstavuje osobní investiční doporučení."
+      interactions: []
+      speaker_notes:
+        - "Ve finální verzi uvést přesné URL, datum přístupu a licenci každého použitého obrázku i datového zdroje."

@@ -1,0 +1,6 @@
+name: fdg-renderer
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pyyaml=6.0.3
