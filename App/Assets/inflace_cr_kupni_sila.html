@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inflace v ČR a kupní síla koruny</title>
+<script>if (new URLSearchParams(location.search).has('embedded')) document.documentElement.classList.add('embedded');</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#172033;background:#f4f6fa}
@@ -12,6 +13,7 @@ h1{margin:0 0 8px;font-size:clamp(25px,4vw,38px)}.sub{color:#d7e3f3;line-height:
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 0}.controls label{font-size:14px;color:#34445a}.controls input{accent-color:#2563eb}
 .takeaway{background:#eaf2ff;border-left:4px solid #2563eb;padding:14px 16px;border-radius:8px;margin-top:16px;line-height:1.5}
 footer{font-size:12px;color:#64748b;line-height:1.6;margin:18px 2px}a{color:#1d4ed8}
+html.embedded body{padding:8px}html.embedded .hero,html.embedded .cards,html.embedded .takeaway,html.embedded footer{display:none}html.embedded .grid{gap:8px}html.embedded .panel{padding:10px}html.embedded .chartbox{height:300px;margin-top:8px}html.embedded .controls{margin-top:8px}
 @media(max-width:760px){body{padding:12px}.cards,.grid{grid-template-columns:1fr}.hero{padding:22px}.chartbox{height:300px}}
 </style></head><body><div class="wrap">
 <header class="hero"><h1>Inflace v ČR: ceny rostou, kupní síla klesá</h1>

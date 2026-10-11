@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Finanční páka – interaktivní simulátor</title>
+<script>if (new URLSearchParams(location.search).has('embedded')) document.documentElement.classList.add('embedded');</script>
 <style>
 :root{--ink:#17243b;--muted:#65748b;--line:#dce4ee;--blue:#2878d4;--green:#18864b;--red:#c83c42;--panel:#f5f8fc}
 *{box-sizing:border-box}body{margin:0;background:#f2f5f9;color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -15,6 +16,7 @@ main{max-width:1150px;margin:auto;padding:26px 18px 36px}h1{font-size:clamp(1.8r
 .chartbox{border:1px solid var(--line);border-radius:11px;padding:9px}.charttitle{font-weight:700;font-size:.94rem;margin:0 0 4px}svg{width:100%;height:auto;display:block}
 .leverbox{margin-top:16px;background:#f7faff;border:1px solid var(--line);border-radius:12px;padding:12px}.leverhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:3px}.leverhead h2{margin:0}.lever-caption{font-size:.83rem;color:var(--muted);margin:0 0 4px}.lever-labels{display:flex;justify-content:space-between;gap:12px;font-size:.83rem;font-weight:650}.key{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:2px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
 .foot{font-size:.78rem;color:var(--muted);margin-top:12px}
+html.embedded main{padding:4px 8px}html.embedded body>main>h1,html.embedded body>main>.sub,html.embedded .foot,html.embedded .lever-caption,html.embedded .key,html.embedded .lever-labels{display:none}html.embedded .layout{gap:8px}html.embedded .panel{padding:10px}html.embedded .presets{margin-bottom:8px}html.embedded .control{margin-bottom:8px}html.embedded .head{margin-bottom:3px}html.embedded .metrics{margin-bottom:8px}html.embedded .metric{padding:8px}html.embedded .chartbox{padding:7px}html.embedded .charttitle{margin-bottom:0}html.embedded .leverbox{margin-top:8px;padding:6px}
 @media(max-width:780px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>

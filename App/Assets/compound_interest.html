@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simulátor investování</title>
+<script>if (new URLSearchParams(location.search).has('embedded')) document.documentElement.classList.add('embedded');</script>
 <style>
   :root { color-scheme: light; --ink:#172033; --muted:#647084; --line:#dfe5ee; --blue:#2764e7; --teal:#0f9f8f; --pale:#f5f7fb; }
   * { box-sizing:border-box; }
@@ -32,6 +33,17 @@
   .bottom { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:16px; align-items:center; }
   button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:9px 13px; border-radius:10px; cursor:pointer; font:inherit; font-weight:650; }
   button:hover { background:var(--pale); }
+  html.embedded .app { margin:0 auto; padding:0 8px; }
+  html.embedded .panel { border:0; border-radius:0; box-shadow:none; padding:10px; }
+  html.embedded h1, html.embedded .intro, html.embedded .note { display:none; }
+  html.embedded .controls { gap:8px; margin-bottom:8px; }
+  html.embedded .control, html.embedded .metric { padding:10px; }
+  html.embedded .label-line { margin-bottom:6px; }
+  html.embedded .metrics { margin-bottom:8px; }
+  html.embedded .chart-wrap { padding:8px 8px 2px; }
+  html.embedded canvas { height:250px; }
+  html.embedded .legend { padding:6px 4px 8px; }
+  html.embedded .bottom { margin-top:8px; }
   @media (max-width:760px) { .controls { grid-template-columns:1fr; gap:10px; } .metrics { grid-template-columns:1fr; } .panel { padding:16px; } canvas { height:280px; } }
 </style>
 </head>
