@@ -66,8 +66,8 @@ presentation:
       order: 20
       section: uvod
       name: "Něco o mě"
-      title: "Kdo jsem já."
-      goal: "Dát přednášejícímu důvěryhodnost bez dojmu náborové prezentace."
+      title: "Ondřej Martínek"
+      goal: "Říci něco o sobě bez dojmu náborové prezentace."
       duration_minutes: 2
       source_refs: [medailonek.md]
       content:
@@ -76,28 +76,25 @@ presentation:
           - "Datový analytik finančních trhů ČSOB"
           - "Zkušenost z investování a analýzy akcií"
           - "VŠE: finanční inženýrství; EDHEC Business School"
-        key_message: "Neprodávám produkt; sdílím nástroje pro samostatné přemýšlení."
-      assets: []
+      assets: [OM_face.jpg]
       interactions: []
-      speaker_notes:
-        - "Zkrátit podle situace; nejde o životopis."
 
     - id: why-money-matters
       order: 30
       section: uvod
       name: "Proč finanční gramotnost"
-      title: "Která finanční otázka je pro vás právě teď nejdůležitější?"
-      goal: "Napojit přednášku na bezprostřední zájmy studentů."
+      title: "Motivavace studentů"
+      goal: "Na začátku přednášky vydefinovat její cíle a povahu vzhledem k zájmům studentů."
       duration_minutes: 3
       source_refs: [Content/motivace studentů.md]
       content:
         type: poll
         options:
-          - "Účet, karta a každodenní finance"
-          - "Jak začít investovat"
-          - "Jak funguje ekonomika a trhy"
-          - "AI, krypto a technologie"
-        key_message: "Finance ovlivňují samostatnost, možnosti i budoucí kariéru."
+          - "Praktické finanční problémy a samostatnost: Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz."
+          - "Investování a cesta k bohatství: „Chci vydělat peníze, ideálně je nechat vydělávat za sebe.“
+          - "Ekonomie a finance jako zájem, popř. budoucí kariéra. Baví mě ekonomie, chci hlubší pochopení a uvažuji o VŠ ekonomického směru.“
+          - "Aktuální dění, technologie, AI. Snažím se zorientovat v tom, co se děje ve světě a proč.“
+          - "Zábava. Chtěl jsem se ulít z normálního vyučování."
       interactions:
         - type: hands_up_poll
           id: motivation_poll
@@ -105,65 +102,42 @@ presentation:
       speaker_notes:
         - "Navázat na výsledek hlasování v relevantních částech přednášky."
 
-    - id: opening-100k
-      order: 40
-      section: uvod
-      name: "Úvodní rozhodnutí"
-      title: "Co kdyby vám zítra přišlo 100 000 Kč?"
-      goal: "Ukázat, že finanční rozhodnutí nejsou jen o jedné správné volbě."
-      duration_minutes: 3
-      content:
-        type: question
-        subtitle: "Co uděláte jako první?"
-        key_message: "Než vybereme produkt, potřebujeme vědět, k čemu peníze slouží a kdy je budeme potřebovat."
-      interactions:
-        - type: poll
-          id: opening_poll
-          question: "Jak byste peníze využili?"
-          options:
-            - "Utratím je"
-            - "Nechám je na účtu"
-            - "Začnu investovat"
-            - "Rozdělím je mezi více možností"
-      speaker_notes:
-        - "Neoznačovat žádnou odpověď automaticky za chybnou."
-        - "Ke stejné otázce se vrátit v závěru."
-
     - id: opener-losses
       order: 50
       section: penize-a-inflace
-      name: "Rozcvička: procenta"
-      title: "Nejdřív +50 %, potom −50 %. Jsem zpět na nule?"
+      name: "Rozcvička: 1"
+      title: "Rozcvička 1: Procenta - zisky a ztráty"
       goal: "Vyvolat intuitivní chybu a otevřít téma násobení výnosů."
       duration_minutes: 3
       source_refs: [Content/Questions/questions.md]
       content:
         type: reveal_question
-        question: "Portfolio má hodnotu 1 000 Kč. Jeden rok vydělá 50 %, další rok ztratí 50 %. Kolik zbývá?"
+        question: "Mám portfolio o hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?"
         reveal:
           answer: "750 Kč; celková ztráta je 25 %."
           explanation: "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
-        key_message: "Stejné procento nahoru a dolů se navzájem nevyruší."
+        key_message: "Je sleva 25% to samé jako +33% zdarma?"
       interactions:
         - type: manual_reveal
           id: opener_loss_answer
       speaker_notes:
-        - "Nechat nejprve rychle hlasovat."
+        - Podobná zrada - sleva 25% je to samé jako +33% zdarma? Ano - tyčinka o 4 dílcích za 100 Kč, sleva 25% = 75 Kč, +33% = 100 Kč. 
+  
 
     - id: opener-compounding
       order: 60
       section: penize-a-inflace
-      name: "Rozcvička: výnos z výnosu"
-      title: "Dvakrát +10 %. Kolik je výsledek?"
+      name: "Rozcvička 2"
+      title: "Rozcvička 2: Výnos (zase procenta...)"
       goal: "Připravit intuitivní základ pro složené úročení."
       duration_minutes: 3
       source_refs: [Content/Questions/questions.md]
       content:
         type: reveal_question
-        question: "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má hodnotu?"
+        question: "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má na konci hodnotu?"
         reveal:
           answer: "1 210 Kč; celkové zhodnocení je 21 %."
-          explanation: "Druhý výnos se připisuje i k výnosu z prvního roku."
+          explanation: "Druhý výnos už je na širší bázi portfolia z prvního roku."
         key_message: "Výnos může vydělávat další výnos."
       interactions:
         - type: manual_reveal
@@ -174,14 +148,14 @@ presentation:
       order: 70
       section: penize-a-inflace
       name: "Složené úročení"
-      title: "Čas je při investování silnější než dokonalé načasování"
+      title: "Složené úročení (compound interest)"
       goal: "Vysvětlit princip průběžného připisování výnosů."
       duration_minutes: 2
       source_refs: [Content/Topics/Compound-interest.md]
       content:
         type: quote_with_explanation
         quote: "Složené úročení je osmým divem světa."
-        attribution: "Často připisováno Albertu Einsteinovi; v podkladech citováno přes Warrena Buffetta."
+        attribution: "A. Einstein, často citováno citováno také Warrenem Buffettem."
         key_message: "Včasný začátek, pravidelnost a dlouhý horizont mohou být důležitější než snaha trefit nejlepší okamžik."
       assets:
         - type: image
@@ -218,17 +192,17 @@ presentation:
       order: 90
       section: penize-a-inflace
       name: "Otázka k inflaci"
-      title: "Co je inflace a proč ji centrální banky chtějí mít nenulovou?"
+      title: "Inflace"
       goal: "Oddělit změnu cenové hladiny od individuálního zdražení."
       duration_minutes: 3
       source_refs: [Content/Topics/Inflation.md, Notes/Pojmy, grafy, otázky.md]
       content:
         type: reveal_question
-        question: "Co se změní, když za stejné peníze koupíme méně věcí?"
+        question: "Co je inflace a proč nízkou inflaci centrální banky tolerují?"
         reveal:
-          answer: "Klesá kupní síla peněz; tomu v průměru říkáme inflace."
+          answer: "Pokles kupní síly peněz."
           explanation: "Nízká a předvídatelná inflace usnadňuje rozhodování, zatímco vysoká nebo nečekaná inflace ho komplikuje."
-        key_message: "Nominální zůstatek a reálná hodnota nejsou totéž."
+        key_message: "Ekonomové: Nominální a reálné veličiny (HDP, úroková sazba, výnos, ...)."
       interactions:
         - type: hands_up_poll
           id: inflation_definition
@@ -455,12 +429,10 @@ presentation:
         key_message: "Dluh zvětšuje rozsah výsledku: pomáhá při růstu, škodí při poklesu nebo vysokém úroku."
       assets:
         - type: image
-          src: App/Assets/FinančníPáka-jednoduchá.png
+          src: App/Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg
           alt: "Názorné vysvětlení finanční páky"
           role: illustration
       interactions: []
-      speaker_notes:
-        - "Citát ověřit před publikací."
 
     - id: leverage-calculator
       order: 200
@@ -483,6 +455,24 @@ presentation:
       speaker_notes:
         - "Model pokrývá jeden rok a nezohledňuje daně, poplatky ani splácení jistiny."
         - "Navázat na druhy dluhu: hypotéka, spotřební úvěr, kreditní karta, margin a lichva."
+
+    - id: leverage-picture
+      order: 205
+      section: dluh-a-paka
+      name: "Finanční páka názorně"
+      title: "Dluh: dobrý sluha, zlý pán"
+      goal: "Vysvětlit princip páky názorně na obrázku."
+      duration_minutes: 1
+      source_refs: [Content/Topics/Financial-leverage.md, Content/Pojmy/Dluh.md]
+      content:
+        type: image_with_explanation
+        key_message: "vysvětluje páku na obrázku"
+      assets:
+        - type: image
+          src: App/Assets/FinančníPáka-jednoduše.png
+          alt: "Názorné vysvětlení finanční páky"
+          role: illustration
+      interactions: []
 
     - id: zuckerberg-mortgage
       order: 210
