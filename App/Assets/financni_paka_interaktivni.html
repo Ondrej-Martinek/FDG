@@ -107,7 +107,6 @@ function update(){
  $('roe').textContent=roe===null?'N/A':percent(roe);$('roe').className='num '+(roe===null?'':roe>=0?'positive':'negative');
  $('plain').textContent=signed(plain);$('plain').className='num '+(plain>=0?'positive':'negative');
  $('ratio').textContent=E?(D/E).toLocaleString('cs-CZ',{maximumFractionDigits:2})+'×':D?'N/A':'0×';
- $('lesson').textContent=D===0?'Bez dluhu výsledek odpovídá změně hodnoty aktiv financovaných vlastním kapitálem.':g>r?'Výnos aktiv převyšuje úrok — páka zvyšuje výnos vlastního kapitálu.':'Výnos aktiv nepřevyšuje úrok — dluh výsledek zhoršuje.';
  drawChart(plain,p);drawLever(E,D);
 }
 ['equity','debt','rate','ret'].forEach(id=>$(id).addEventListener('input',update));

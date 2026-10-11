@@ -60,6 +60,7 @@
     .figure-frame { margin:0; display:flex; justify-content:center; }
     .figure-frame img { width:auto; max-width:100%; max-height:min(56vh, 540px); border-radius:18px; box-shadow:0 14px 34px #062b5c1f; }
     .figure-caption { margin:18px 0 0; color:var(--muted); font-weight:600; }
+    .image-only .figure-frame img { max-height:min(82vh, 760px); }
     .quadrants { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; max-width:1000px; }
     .quadrant { padding:18px; border-radius:15px; color:#fff; min-height:138px; }
     .quadrant h3 { margin:0 0 6px; font-size:21px; }
@@ -367,6 +368,34 @@
       },
       {
             "s": "dluh-a-paka",
+            "k": "image_only",
+            "n": "M. Zuckerberg",
+            "t": "M. Zuckerberg",
+            "image": "Assets/MarkZuckerberg.png",
+            "alt": "Mark Zuckerberg"
+      },
+      {
+            "s": "dluh-a-paka",
+            "k": "case",
+            "n": "Zuckerbergova hypotéka",
+            "t": "Proč si velmi bohatý člověk bere hypotéku?",
+            "m": "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence.",
+            "notes": [
+                  "Případ prezentovat jako princip, ne návod k zadlužení.",
+                  "Obrázek domu je ilustrační stock fotografie (Unsplash), nejde o skutečný Zuckerbergův dům."
+            ],
+            "q": "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?",
+            "cards": [
+                  "Nízká nominální sazba může po inflaci znamenat levné financování.",
+                  "Likvidita může zůstat k dispozici pro jiné použití.",
+                  "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
+            ],
+            "caveat": "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci.",
+            "image": "Assets/Zuckerberguv_dum_6M.jpg",
+            "alt": "Moderní luxusní dům (ilustrační fotografie)"
+      },
+      {
+            "s": "dluh-a-paka",
             "k": "quote",
             "n": "Úvod k páce",
             "t": "Dluh: dobrý sluha, zlý pán",
@@ -396,24 +425,6 @@
             "image": "Assets/FinančníPáka-jednoduchá.png",
             "alt": "Názorné vysvětlení finanční páky",
             "caption": "Páka zvětšuje jak zisk, tak ztrátu — záleží na výnosu aktiv versus nákladu dluhu."
-      },
-      {
-            "s": "dluh-a-paka",
-            "k": "case",
-            "n": "Zuckerbergova hypotéka",
-            "t": "Proč si velmi bohatý člověk bere hypotéku?",
-            "m": "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence.",
-            "notes": [
-                  "Případ prezentovat jako princip, ne návod k zadlužení."
-            ],
-            "q": "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?",
-            "cards": [
-                  "Nízká nominální sazba může po inflaci znamenat levné financování.",
-                  "Likvidita může zůstat k dispozici pro jiné použití.",
-                  "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
-            ],
-            "caveat": "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci.",
-            "image": "Assets/MarkZuckerberg.png"
       },
       {
             "s": "investovani",
@@ -542,6 +553,7 @@
       const standard = `<p class="kicker">${esc(sections[s.s])}</p><h2>${esc(s.t)}</h2>`;
       if (s.k === 'hero') return `<div class="slide hero"><p class="kicker" style="color:#8edcff">Finanční gramotnost · 2026</p><h2>${esc(s.t)}</h2><p>${esc(s.sub)}</p>${message(s)}</div>`;
       if (s.k === 'image') return `<div class="slide">${standard}<figure class="figure-frame"><img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}"></figure>${s.caption ? `<p class="figure-caption">${esc(s.caption)}</p>` : ''}${message(s)}</div>`;
+      if (s.k === 'image_only') return `<div class="slide image-only"><figure class="figure-frame"><img src="${esc(s.image)}" alt="${esc(s.alt || '')}"></figure></div>`;
       if (s.k === 'profile') return `<div class="slide"><div class="image-row"><div>${standard}${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ''}<ul class="bullets">${s.cards.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${message(s)}</div>${s.image ? `<img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}">` : ''}</div></div>`;
       if (s.k === 'poll') return `<div class="slide">${standard}<ol class="poll-options">${s.items.map(i => `<li><div><b>${esc(i[0])}</b>${i[1] ? `<span class="poll-quote">${esc(i[1])}</span>` : ''}</div></li>`).join('')}</ol>${message(s)}</div>`;
       if (s.k === 'question') return `<div class="slide">${standard}<p class="subtitle">${esc(s.sub)}</p>${cards(s.cards)}${message(s)}</div>`;
@@ -549,7 +561,7 @@
       if (s.k === 'quote') return `<div class="slide"><div class="image-row"><div>${standard}<blockquote class="quote">${esc(s.quote)}</blockquote><p class="attribution">— ${esc(s.by)}</p>${message(s)}</div><img src="${esc(s.image)}" alt="Ilustrační fotografie"></div></div>`;
       if (s.k === 'embed') return `<div class="slide embed"><iframe src="${esc(s.src)}?embedded=1" title="${esc(s.t)}"></iframe></div>`;
       if (s.k === 'quadrants') return `<div class="slide">${standard}<div class="quadrants">${s.items.map(i => `<div class="quadrant" style="background:${i[3]}"><h3>${esc(i[0])}</h3><p>${esc(i[1])}</p><em>${esc(i[2])}</em></div>`).join('')}</div>${message(s)}</div>`;
-      if (s.k === 'case') return `<div class="slide"><div class="image-row"><div>${standard}<p class="question">${esc(s.q)}</p></div><img src="${esc(s.image)}" alt="Mark Zuckerberg"></div><div class="reveal"><button class="reveal-button">Zobrazit možné důvody</button><div class="answer hidden">${cards(s.cards)}<p class="case-caveat">${esc(s.caveat)}</p></div></div>${message(s)}</div>`;
+      if (s.k === 'case') return `<div class="slide"><div class="image-row"><div>${standard}<p class="question">${esc(s.q)}</p></div><img src="${esc(s.image)}" alt="${esc(s.alt || '')}"></div><div class="reveal"><button class="reveal-button">Zobrazit možné důvody</button><div class="answer hidden">${cards(s.cards)}<p class="case-caveat">${esc(s.caveat)}</p></div></div>${message(s)}</div>`;
       if (s.k === 'story') return `<div class="slide">${standard}<div class="story">${s.items.map(i => `<div>${esc(i)}</div>`).join('')}</div>${message(s)}</div>`;
       if (s.k === 'checklist') return `<div class="slide">${standard}<ul class="checklist">${s.items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${message(s)}</div>`;
       if (s.k === 'glossary') return `<div class="slide">${standard}<div class="index">${s.items.map(i => `<span class="pill">${esc(i)}</span>`).join('')}</div>${message(s)}</div>`;

@@ -423,6 +423,57 @@ presentation:
           id: classify_roulette_answer
       speaker_notes: []
 
+    - id: zuckerberg-intro
+      order: 181
+      section: dluh-a-paka
+      name: "M. Zuckerberg"
+      title: "M. Zuckerberg"
+      goal: "Připravit půdu pro otázku: nechat studenty hádat, o čem bude řeč."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Zuckerberg.md]
+      content:
+        type: image_only
+      assets:
+        - type: image
+          src: App/Assets/MarkZuckerberg.png
+          alt: "Mark Zuckerberg"
+          role: illustration
+      interactions: []
+
+    - id: zuckerberg-mortgage
+      order: 182
+      section: dluh-a-paka
+      name: "Zuckerbergova hypotéka"
+      title: "Proč si velmi bohatý člověk bere hypotéku?"
+      goal: "Prověřit porozumění záporné reálné sazbě, likviditě a nákladům příležitosti."
+      duration_minutes: 7
+      source_refs: [Content/Topics/Zuckerberg.md, Content/Pojmy/Dluh.md]
+      content:
+        type: case_study_reveal
+        prompt: "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?"
+        reveal:
+          reasons:
+            - "Nízká nominální sazba může po inflaci znamenat levné financování."
+            - "Likvidita může zůstat k dispozici pro jiné použití."
+            - "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
+          caveat: "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci."
+        key_message: "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence."
+      assets:
+        - type: image
+          src: App/Assets/Zuckerberguv_dum_6M.jpg
+          alt: "Moderní luxusní dům (ilustrační fotografie)"
+          role: illustration
+      interactions:
+        - type: think_pair_share
+          id: zuckerberg_reasoning
+          prompt: "Vymyslete ve dvojici dva rozumné důvody a jedno riziko."
+      requires_fact_check:
+        - "Parametry konkrétní Zuckerbergovy hypotéky"
+        - "Daňové tvrzení; nelze přenášet americká pravidla na české studenty"
+      speaker_notes:
+        - "Případ prezentovat jako princip, ne návod k zadlužení."
+        - "Obrázek domu je ilustrační stock fotografie (Unsplash), nejde o skutečný Zuckerbergův dům."
+
     - id: leverage-quote
       order: 190
       section: dluh-a-paka
@@ -483,39 +534,6 @@ presentation:
           alt: "Názorné vysvětlení finanční páky"
           role: illustration
       interactions: []
-
-    - id: zuckerberg-mortgage
-      order: 210
-      section: dluh-a-paka
-      name: "Zuckerbergova hypotéka"
-      title: "Proč si velmi bohatý člověk bere hypotéku?"
-      goal: "Prověřit porozumění záporné reálné sazbě, likviditě a nákladům příležitosti."
-      duration_minutes: 7
-      source_refs: [Content/Topics/Zuckerberg.md, Content/Pojmy/Dluh.md]
-      content:
-        type: case_study_reveal
-        prompt: "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?"
-        reveal:
-          reasons:
-            - "Nízká nominální sazba může po inflaci znamenat levné financování."
-            - "Likvidita může zůstat k dispozici pro jiné použití."
-            - "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
-          caveat: "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci."
-        key_message: "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence."
-      assets:
-        - type: image
-          src: App/Assets/MarkZuckerberg.png
-          alt: "Mark Zuckerberg"
-          role: illustration
-      interactions:
-        - type: think_pair_share
-          id: zuckerberg_reasoning
-          prompt: "Vymyslete ve dvojici dva rozumné důvody a jedno riziko."
-      requires_fact_check:
-        - "Parametry konkrétní Zuckerbergovy hypotéky"
-        - "Daňové tvrzení; nelze přenášet americká pravidla na české studenty"
-      speaker_notes:
-        - "Případ prezentovat jako princip, ne návod k zadlužení."
 
     - id: diversification
       order: 220

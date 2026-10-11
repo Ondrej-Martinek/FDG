@@ -9,11 +9,11 @@ body{margin:0;padding:28px}.wrap{max-width:1180px;margin:auto}.hero{background:#
 h1{margin:0 0 8px;font-size:clamp(25px,4vw,38px)}.sub{color:#d7e3f3;line-height:1.5;max-width:850px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.card,.panel{background:white;border:1px solid #e1e6ef;border-radius:14px;padding:18px}
 .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#68768b;font-weight:700}.value{font-size:26px;font-weight:750;margin-top:6px}.note{font-size:13px;color:#64748b;line-height:1.45}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel h2{font-size:18px;margin:0 0 6px}.chartbox{height:340px;position:relative;margin-top:12px}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}.panel h2{font-size:18px;margin:0 0 6px}.chartbox{height:340px;position:relative;margin-top:12px}
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 0}.controls label{font-size:14px;color:#34445a}.controls input{accent-color:#2563eb}
 .takeaway{background:#eaf2ff;border-left:4px solid #2563eb;padding:14px 16px;border-radius:8px;margin-top:16px;line-height:1.5}
 footer{font-size:12px;color:#64748b;line-height:1.6;margin:18px 2px}a{color:#1d4ed8}
-html.embedded body{padding:8px}html.embedded .hero,html.embedded .cards,html.embedded .takeaway,html.embedded footer{display:none}html.embedded .grid{gap:8px}html.embedded .panel{padding:10px}html.embedded .chartbox{height:300px;margin-top:8px}html.embedded .controls{margin-top:8px}
+html.embedded,html.embedded body{height:100%}html.embedded body{padding:8px}html.embedded .hero,html.embedded .cards,html.embedded .takeaway,html.embedded footer{display:none}html.embedded .wrap{max-width:none;height:100%;display:flex;flex-direction:column;gap:8px}html.embedded .grid{flex:1;min-height:0;grid-template-rows:1fr 1fr;gap:8px}html.embedded .panel{display:flex;flex-direction:column;min-height:0;padding:10px}html.embedded .chartbox{flex:1;height:auto;min-height:120px;margin-top:8px}html.embedded .controls{margin-top:8px}
 @media(max-width:760px){body{padding:12px}.cards,.grid{grid-template-columns:1fr}.hero{padding:22px}.chartbox{height:300px}}
 </style></head><body><div class="wrap">
 <header class="hero"><h1>Inflace v ČR: ceny rostou, kupní síla klesá</h1>
@@ -23,13 +23,13 @@ html.embedded body{padding:8px}html.embedded .hero,html.embedded .cards,html.emb
 <div class="card"><div class="kicker">Toleranční pásmo</div><div class="value">1–3 %</div><div class="note">Pásmo kolem cíle, nikoli záruka, že se inflace vždy udrží uvnitř.</div></div>
 <div class="card"><div class="kicker">Kupní síla 100 Kč</div><div class="value" id="finalValue">—</div><div class="note" id="finalNote">Kolik by odpovídalo kupní síle 100 Kč na začátku zvoleného období.</div></div>
 </section>
+<div class="controls"><label for="startYear">Začátek období:</label><input id="startYear" type="range" min="1995" max="2024" value="1995"><strong id="startLabel">1995</strong></div>
 <div class="grid">
 <section class="panel"><h2>1. Meziroční inflace</h2><div class="note">Roční průměrná změna spotřebitelských cen v %.</div>
 <div class="chartbox"><canvas id="inflationChart"></canvas></div>
 <div class="controls"><label><input id="target" type="checkbox" checked> Inflační cíl a pásmo (od 2010)</label></div></section>
 <section class="panel"><h2>2. Kupní síla 100 Kč</h2><div class="note">Modelový přepočet: kolik zůstává z kupní síly původních 100 Kč po kumulaci inflace.</div>
-<div class="chartbox"><canvas id="purchasingChart"></canvas></div>
-<div class="controls"><label for="startYear">Začátek období:</label><input id="startYear" type="range" min="1995" max="2024" value="1995"><strong id="startLabel">1995</strong></div></section>
+<div class="chartbox"><canvas id="purchasingChart"></canvas></div></section>
 </div>
 <div class="takeaway"><strong>Hlavní myšlenka pro studenty:</strong> inflace je tempo růstu cen, ne samotná cenová hladina. Když inflace klesne například z 15 % na 3 %, ceny obvykle neklesají — jen rostou pomaleji. A i mírná inflace postupně snižuje kupní sílu hotovosti.</div>
 <footer><strong>Metodika a zdroje:</strong> Roční průměrná inflace (změna průměrného CPI za rok), zaokrouhlené hodnoty. Kupní síla je vypočtena kumulací uvedených ročních měr: 100 / součin(1 + inflace). Jde o ilustraci obecného cenového indexu, nikoli osobní inflaci konkrétní domácnosti. Pro roky před 2010 je současný 2% cíl s tolerančním pásmem pouze referenčním vodítkem a není historicky platným cílem po celé období.<br>
@@ -37,18 +37,29 @@ Zdroje: <a href="https://www.cnb.cz/cs/menova-politika/inflacni-cil/index.html" 
 </div>
 <script>
 const data = [{"year": 1995, "inflation": 9.1}, {"year": 1996, "inflation": 8.8}, {"year": 1997, "inflation": 8.5}, {"year": 1998, "inflation": 10.7}, {"year": 1999, "inflation": 2.1}, {"year": 2000, "inflation": 3.9}, {"year": 2001, "inflation": 4.7}, {"year": 2002, "inflation": 1.8}, {"year": 2003, "inflation": 0.1}, {"year": 2004, "inflation": 2.8}, {"year": 2005, "inflation": 1.9}, {"year": 2006, "inflation": 2.5}, {"year": 2007, "inflation": 2.8}, {"year": 2008, "inflation": 6.3}, {"year": 2009, "inflation": 1.0}, {"year": 2010, "inflation": 1.5}, {"year": 2011, "inflation": 1.9}, {"year": 2012, "inflation": 3.3}, {"year": 2013, "inflation": 1.4}, {"year": 2014, "inflation": 0.4}, {"year": 2015, "inflation": 0.3}, {"year": 2016, "inflation": 0.7}, {"year": 2017, "inflation": 2.5}, {"year": 2018, "inflation": 2.1}, {"year": 2019, "inflation": 2.8}, {"year": 2020, "inflation": 3.2}, {"year": 2021, "inflation": 3.8}, {"year": 2022, "inflation": 15.1}, {"year": 2023, "inflation": 10.7}, {"year": 2024, "inflation": 2.4}, {"year": 2025, "inflation": 2.5}];
-const labels=data.map(d=>d.year), rates=data.map(d=>d.inflation);
 const fmt=(x)=>x.toLocaleString('cs-CZ',{maximumFractionDigits:1,minimumFractionDigits:1})+' Kč';
 const ctx=document.getElementById('inflationChart');
-const inflationChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
-{label:'Meziroční inflace',data:rates,borderColor:'#2563eb',backgroundColor:'#2563eb',borderWidth:2.5,pointRadius:2.5,tension:.15},
-{label:'Inflační cíl 2 %',data:labels.map(y=>y>=2010?2:null),borderColor:'#dc2626',borderDash:[6,5],pointRadius:0,borderWidth:2},
-{label:'Horní hranice 3 %',data:labels.map(y=>y>=2010?3:null),borderColor:'#f59e0b',borderDash:[3,5],pointRadius:0,borderWidth:1.5},
-{label:'Dolní hranice 1 %',data:labels.map(y=>y>=2010?1:null),borderColor:'#f59e0b',borderDash:[3,5],pointRadius:0,borderWidth:1.5}
+const inflationChart=new Chart(ctx,{type:'line',data:{labels:[],datasets:[
+{label:'Meziroční inflace',data:[],borderColor:'#2563eb',backgroundColor:'#2563eb',borderWidth:2.5,pointRadius:2.5,tension:.15},
+{label:'Inflační cíl 2 %',data:[],borderColor:'#dc2626',borderDash:[6,5],pointRadius:0,borderWidth:2},
+{label:'Horní hranice 3 %',data:[],borderColor:'#f59e0b',borderDash:[3,5],pointRadius:0,borderWidth:1.5},
+{label:'Dolní hranice 1 %',data:[],borderColor:'#f59e0b',borderDash:[3,5],pointRadius:0,borderWidth:1.5}
 ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y===null?'':c.parsed.y.toLocaleString('cs-CZ')+' %'}`}}},scales:{y:{title:{display:true,text:'Inflace (%)'},suggestedMin:0,grid:{color:'#edf0f5'}},x:{ticks:{maxTicksLimit:8}}}}});
 document.getElementById('target').addEventListener('change',e=>{inflationChart.data.datasets.slice(1).forEach(ds=>ds.hidden=!e.target.checked);inflationChart.update()});
 const pctx=document.getElementById('purchasingChart');
 const purchasingChart=new Chart(pctx,{type:'line',data:{labels:[],datasets:[{label:'Zbývající kupní síla',data:[],borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.12)',fill:true,borderWidth:2.5,pointRadius:1.5,tension:.12}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>fmt(c.parsed.y)}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Kupní síla v Kč'},grid:{color:'#edf0f5'}},x:{ticks:{maxTicksLimit:8}}}}});
-function updatePurchasing(){const start=+document.getElementById('startYear').value;document.getElementById('startLabel').textContent=start;let purchasing=100;const xs=[start],ys=[100];for(let i=0;i<data.length;i++){if(data[i].year>=start){purchasing/=1+data[i].inflation/100;xs.push(data[i].year+1);ys.push(purchasing)}}purchasingChart.data.labels=xs;purchasingChart.data.datasets[0].data=ys;purchasingChart.update();document.getElementById('finalValue').textContent=fmt(purchasing);document.getElementById('finalNote').textContent=`100 Kč na začátku roku ${start} má po započtení inflace do roku ${data[data.length-1].year} kupní sílu přibližně ${fmt(purchasing)}.`}
-document.getElementById('startYear').addEventListener('input',updatePurchasing);updatePurchasing();
+function updateCharts(){const start=+document.getElementById('startYear').value;document.getElementById('startLabel').textContent=start;
+const slice=data.filter(d=>d.year>=start),years=slice.map(d=>d.year);
+inflationChart.data.labels=years;
+inflationChart.data.datasets[0].data=slice.map(d=>d.inflation);
+inflationChart.data.datasets[1].data=years.map(y=>y>=2010?2:null);
+inflationChart.data.datasets[2].data=years.map(y=>y>=2010?3:null);
+inflationChart.data.datasets[3].data=years.map(y=>y>=2010?1:null);
+inflationChart.update();
+let purchasing=100;const xs=[start],ys=[100];
+slice.forEach(d=>{purchasing/=1+d.inflation/100;xs.push(d.year+1);ys.push(purchasing)});
+purchasingChart.data.labels=xs;purchasingChart.data.datasets[0].data=ys;purchasingChart.update();
+document.getElementById('finalValue').textContent=fmt(purchasing);
+document.getElementById('finalNote').textContent=`100 Kč na začátku roku ${start} má po započtení inflace do roku ${data[data.length-1].year} kupní sílu přibližně ${fmt(purchasing)}.`}
+document.getElementById('startYear').addEventListener('input',updateCharts);updateCharts();
 </script></body></html>

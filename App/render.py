@@ -31,6 +31,7 @@ DEFAULT_OUTPUT = APP_DIR / "index.html"
 SUPPORTED_TYPES = {
     "hero",
     "image",
+    "image_only",
     "profile",
     "poll",
     "question",
@@ -241,6 +242,21 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
             result["caption"] = caption
         return result
 
+    if content_type == "image_only":
+        asset = first_image_asset(slide)
+        if not asset:
+            raise RenderError(
+                f"Slide {slide['id']}: content.type 'image_only' vyžaduje v assets obrázek typu image."
+            )
+        result = base_slide(slide, "image_only")
+        result["image"] = public_path(
+            require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
+        )
+        alt = optional_text(asset.get("alt"))
+        if alt:
+            result["alt"] = alt
+        return result
+
     if content_type == "profile":
         result = base_slide(slide, "profile")
         role = optional_text(content.get("role") or content.get("subtitle"))
@@ -333,9 +349,14 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
             "cards": [str(reason) for reason in as_list(reveal.get("reasons"))],
             "caveat": optional_text(reveal.get("caveat")) or "",
         })
-        image = first_image(slide)
-        if image:
-            result["image"] = image
+        asset = first_image_asset(slide)
+        if asset:
+            result["image"] = public_path(
+                require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
+            )
+            alt = optional_text(asset.get("alt"))
+            if alt:
+                result["alt"] = alt
         return result
 
     if content_type == "narrative":
