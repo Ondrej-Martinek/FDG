@@ -42,7 +42,9 @@ presentation:
     - id: investovani
       label: Investování
     - id: prakticky
-      label: Prakticky a závěr
+      label: Prakticky
+    - id: zaver
+      label: Závěr
 
   slides:
     - id: welcome
@@ -661,7 +663,7 @@ presentation:
 
     - id: closing
       order: 270
-      section: prakticky
+      section: zaver
       name: "Závěrečná doporučení"
       title: "Pět věcí, které si odnést"
       goal: "Uzavřít přednášku do konkrétních a zapamatovatelných principů."
@@ -685,7 +687,7 @@ presentation:
 
     - id: sources
       order: 280
-      section: prakticky
+      section: zaver
       name: "Zdroje a upozornění"
       title: "Zdroje, omezení a co ověřovat"
       goal: "Oddělit vzdělávací obsah od investičního doporučení a ukázat zdroje dat."
