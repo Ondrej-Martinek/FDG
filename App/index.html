@@ -57,6 +57,9 @@
     .attribution { margin-top:20px; color:var(--muted); font-weight:750; }
     .image-row { display:grid; grid-template-columns:1fr minmax(240px, .55fr); gap:32px; align-items:center; }
     .image-row img { width:100%; max-height:370px; object-fit:cover; border-radius:18px; }
+    .figure-frame { margin:0; display:flex; justify-content:center; }
+    .figure-frame img { width:auto; max-width:100%; max-height:min(56vh, 540px); border-radius:18px; box-shadow:0 14px 34px #062b5c1f; }
+    .figure-caption { margin:18px 0 0; color:var(--muted); font-weight:600; }
     .quadrants { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; max-width:1000px; }
     .quadrant { padding:18px; border-radius:15px; color:#fff; min-height:138px; }
     .quadrant h3 { margin:0 0 6px; font-size:21px; }
@@ -70,11 +73,19 @@
     .checklist { max-width:940px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 25px; padding:0; list-style:none; }
     .checklist li { display:flex; gap:11px; align-items:flex-start; color:#29425e; font-size:18px; }
     .checklist li::before { content:"✓"; display:grid; place-items:center; flex:0 0 23px; height:23px; border-radius:50%; color:#fff; background:var(--green); font-weight:800; font-size:14px; margin-top:3px; }
+    .bullets { list-style:none; padding:0; margin:22px 0 0; max-width:640px; }
+    .bullets li { display:flex; gap:12px; align-items:flex-start; margin:11px 0; color:#29425e; font-size:clamp(17px,1.9vw,22px); }
+    .bullets li::before { content:""; flex:0 0 9px; height:9px; border-radius:50%; background:var(--sky); margin-top:9px; }
     .index { display:flex; flex-wrap:wrap; gap:10px; max-width:900px; }
     .pill { border:1px solid #bcd7ee; background:#f0f8ff; color:#07569e; border-radius:99px; padding:8px 13px; font-weight:700; }
     .takeaways { counter-reset:item; padding:0; margin:4px 0 0; list-style:none; max-width:950px; }
     .takeaways li { counter-increment:item; display:grid; grid-template-columns:43px 1fr; gap:15px; align-items:center; margin:12px 0; font-size:clamp(18px,2vw,24px); font-weight:650; color:#29415d; }
     .takeaways li::before { content:counter(item); display:grid; place-items:center; width:38px; height:38px; color:#fff; background:var(--blue); border-radius:50%; font-size:15px; }
+    .poll-options { counter-reset:item; list-style:none; padding:0; margin:6px 0 0; max-width:1050px; }
+    .poll-options li { counter-increment:item; display:grid; grid-template-columns:43px 1fr; gap:15px; align-items:start; margin:16px 0; font-size:clamp(17px,1.9vw,23px); color:#29415d; }
+    .poll-options li::before { content:counter(item); display:grid; place-items:center; width:38px; height:38px; color:#fff; background:var(--blue); border-radius:50%; font-size:15px; font-weight:800; }
+    .poll-options b { display:block; color:var(--navy); font-weight:800; }
+    .poll-quote { display:block; margin-top:2px; color:var(--muted); font-style:italic; }
     .case-caveat { margin-top:15px; color:#8a4b00; background:#fff5df; border:1px solid #f8d18c; padding:13px 16px; border-radius:12px; max-width:860px; }
     .notes { position:absolute; inset:0; background:#072554ef; color:#fff; padding:clamp(32px,5vw,70px); overflow:auto; }
     .notes h3 { color:#8edcff; font-size:13px; text-transform:uppercase; letter-spacing:.1em; margin:0 0 18px; }
@@ -88,7 +99,7 @@
     .controls button:hover { background:var(--pale); }
     .counter { text-align:right; color:var(--muted); font-size:13px; font-weight:700; }
     .mobile-menu { display:none; }
-    @media (max-width:800px) { .app { display:block; height:auto; } .app.sidebar-collapsed { --sidebar-width:274px; } .sidebar { display:none; position:fixed; z-index:10; width:min(85vw,310px); } .app.sidebar-collapsed .sidebar { opacity:1; pointer-events:auto; transform:none; } .sidebar.show { display:block; } #sidebar-toggle { display:none; } .mobile-menu { display:inline-block; } .topbar { padding:13px 16px; } .stage { min-height:calc(100vh - 164px); height:auto; } .slide { padding:30px 26px; } .image-row, .story { grid-template-columns:1fr; } .image-row img { max-height:200px; } .quadrants, .checklist { grid-template-columns:1fr; } iframe { min-height:470px; } .footer { padding:10px 16px; } .progress { max-width:80px; } }
+    @media (max-width:800px) { .app { display:block; height:auto; } .app.sidebar-collapsed { --sidebar-width:274px; } .sidebar { display:none; position:fixed; z-index:10; width:min(85vw,310px); } .app.sidebar-collapsed .sidebar { opacity:1; pointer-events:auto; transform:none; } .sidebar.show { display:block; } #sidebar-toggle { display:none; } .mobile-menu { display:inline-block; } .topbar { padding:13px 16px; } .stage { min-height:calc(100vh - 164px); height:auto; } .slide { padding:30px 26px; } .image-row, .story { grid-template-columns:1fr; } .image-row img { max-height:200px; } .figure-frame img { max-height:340px; } .quadrants, .checklist { grid-template-columns:1fr; } iframe { min-height:470px; } .footer { padding:10px 16px; } .progress { max-width:80px; } }
   </style>
 </head>
 <body>
@@ -129,85 +140,80 @@
             "s": "uvod",
             "k": "profile",
             "n": "Něco o mě",
-            "t": "Kdo jsem já.",
-            "m": "Neprodávám produkt; sdílím nástroje pro samostatné přemýšlení.",
-            "notes": [
-                  "Zkrátit podle situace; nejde o životopis."
-            ],
+            "t": "Ondřej Martínek",
+            "sub": "Datový analytik finančních trhů ČSOB",
             "cards": [
-                  "Datový analytik finančních trhů ČSOB",
                   "Zkušenost z investování a analýzy akcií",
                   "VŠE: finanční inženýrství; EDHEC Business School"
-            ]
+            ],
+            "image": "Assets/OM face.jpg",
+            "alt": "Ondřej Martínek"
       },
       {
             "s": "uvod",
             "k": "poll",
             "n": "Proč finanční gramotnost",
-            "t": "Která finanční otázka je pro vás právě teď nejdůležitější?",
-            "m": "Finance ovlivňují samostatnost, možnosti i budoucí kariéru.",
+            "t": "Motivace studentů",
             "notes": [
                   "Navázat na výsledek hlasování v relevantních částech přednášky."
             ],
-            "cards": [
-                  "Účet, karta a každodenní finance",
-                  "Jak začít investovat",
-                  "Jak funguje ekonomika a trhy",
-                  "AI, krypto a technologie"
-            ]
-      },
-      {
-            "s": "uvod",
-            "k": "question",
-            "n": "Úvodní rozhodnutí",
-            "t": "Co kdyby vám zítra přišlo 100 000 Kč?",
-            "m": "Než vybereme produkt, potřebujeme vědět, k čemu peníze slouží a kdy je budeme potřebovat.",
-            "notes": [
-                  "Neoznačovat žádnou odpověď automaticky za chybnou.",
-                  "Ke stejné otázce se vrátit v závěru."
-            ],
-            "sub": "Co uděláte jako první?",
-            "cards": [
-                  "Utratím je",
-                  "Nechám je na účtu",
-                  "Začnu investovat",
-                  "Rozdělím je mezi více možností"
+            "items": [
+                  [
+                        "Praktické finanční problémy a samostatnost",
+                        "„Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz.“"
+                  ],
+                  [
+                        "Investování a cesta k bohatství",
+                        "„Chci vydělat peníze, ideálně je nechat vydělávat za sebe.“"
+                  ],
+                  [
+                        "Ekonomie a finance jako zájem, popř. budoucí kariéra",
+                        "„Baví mě ekonomie, chci hlubší pochopení a uvažuji o VŠ ekonomického směru.“"
+                  ],
+                  [
+                        "Aktuální dění, technologie, AI",
+                        "„Snažím se zorientovat v tom, co se děje ve světě a proč.“"
+                  ],
+                  [
+                        "Zábava",
+                        "„Chtěl jsem se ulít z normálního vyučování.“"
+                  ]
             ]
       },
       {
             "s": "penize-a-inflace",
             "k": "reveal",
-            "n": "Rozcvička: procenta",
-            "t": "Nejdřív +50 %, potom −50 %. Jsem zpět na nule?",
-            "m": "Stejné procento nahoru a dolů se navzájem nevyruší.",
+            "n": "Rozcvička: 1",
+            "t": "Rozcvička 1: Procenta - zisky a ztráty",
+            "m": "Je sleva 25% to samé jako +33% zdarma?",
             "notes": [
-                  "Nechat nejprve rychle hlasovat."
+                  "Podobná zrada - sleva 25% je to samé jako +33% zdarma? Ano - tyčinka o 4 dílcích za 100 Kč, sleva 25% = 75 Kč, +33% = 100 Kč."
             ],
-            "q": "Portfolio má hodnotu 1 000 Kč. Jeden rok vydělá 50 %, další rok ztratí 50 %. Kolik zbývá?",
+            "q": "Mám portfolio o hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?",
             "a": "750 Kč; celková ztráta je 25 %.",
             "e": "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
       },
       {
             "s": "penize-a-inflace",
             "k": "reveal",
-            "n": "Rozcvička: výnos z výnosu",
-            "t": "Dvakrát +10 %. Kolik je výsledek?",
+            "n": "Rozcvička: 2",
+            "t": "Rozcvička 2: Výnos (zase procenta...)",
             "m": "Výnos může vydělávat další výnos.",
-            "q": "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má hodnotu?",
+            "q": "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má na konci hodnotu?",
             "a": "1 210 Kč; celkové zhodnocení je 21 %.",
-            "e": "Druhý výnos se připisuje i k výnosu z prvního roku."
+            "e": "Druhý výnos už je na širší bázi portfolia z prvního roku."
       },
       {
             "s": "penize-a-inflace",
             "k": "quote",
             "n": "Složené úročení",
-            "t": "Čas je při investování silnější než dokonalé načasování",
+            "t": "Složené úročení (compound interest)",
             "m": "Včasný začátek, pravidelnost a dlouhý horizont mohou být důležitější než snaha trefit nejlepší okamžik.",
             "notes": [
                   "Citát před zveřejněním ověřit nebo formulovat jako volně připisovaný."
             ],
             "quote": "Složené úročení je osmým divem světa.",
-            "by": "Často připisováno Albertu Einsteinovi; v podkladech citováno přes Warrena Buffetta.",
+            "by": "A. Einstein, často citováno citováno také Warrenem Buffettem.",
             "image": "Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg"
       },
       {
@@ -226,13 +232,13 @@
             "s": "penize-a-inflace",
             "k": "reveal",
             "n": "Otázka k inflaci",
-            "t": "Co je inflace a proč ji centrální banky chtějí mít nenulovou?",
-            "m": "Nominální zůstatek a reálná hodnota nejsou totéž.",
+            "t": "Inflace",
+            "m": "Ekonomové: Nominální a reálné veličiny (HDP, úroková sazba, výnos, ...).",
             "notes": [
                   "Přesné aktuální číslo říci pouze po ověření před přednáškou."
             ],
-            "q": "Co se změní, když za stejné peníze koupíme méně věcí?",
-            "a": "Klesá kupní síla peněz; tomu v průměru říkáme inflace.",
+            "q": "Co je inflace a proč nízkou inflaci centrální banky tolerují?",
+            "a": "Pokles kupní síly peněz.",
             "e": "Nízká a předvídatelná inflace usnadňuje rozhodování, zatímco vysoká nebo nečekaná inflace ho komplikuje."
       },
       {
@@ -365,12 +371,9 @@
             "n": "Úvod k páce",
             "t": "Dluh: dobrý sluha, zlý pán",
             "m": "Dluh zvětšuje rozsah výsledku: pomáhá při růstu, škodí při poklesu nebo vysokém úroku.",
-            "notes": [
-                  "Citát ověřit před publikací."
-            ],
             "quote": "Jsou jen tři způsoby, jak chytrý člověk může zchudnout: ladies, liquor, leverage.",
             "by": "Warren Buffett",
-            "image": "Assets/FinančníPáka-jednoduchá.png"
+            "image": "Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg"
       },
       {
             "s": "dluh-a-paka",
@@ -383,6 +386,16 @@
                   "Navázat na druhy dluhu: hypotéka, spotřební úvěr, kreditní karta, margin a lichva."
             ],
             "src": "Assets/financni_paka_interaktivni.html"
+      },
+      {
+            "s": "dluh-a-paka",
+            "k": "image",
+            "n": "Finanční páka názorně",
+            "t": "Dluh: dobrý sluha, zlý pán",
+            "m": "Dluh sám o sobě není dobrý ani špatný; rozhoduje cena, účel a riziko.",
+            "image": "Assets/FinančníPáka-jednoduchá.png",
+            "alt": "Názorné vysvětlení finanční páky",
+            "caption": "Páka zvětšuje jak zisk, tak ztrátu — záleží na výnosu aktiv versus nákladu dluhu."
       },
       {
             "s": "dluh-a-paka",
@@ -528,7 +541,9 @@
     function content(s) {
       const standard = `<p class="kicker">${esc(sections[s.s])}</p><h2>${esc(s.t)}</h2>`;
       if (s.k === 'hero') return `<div class="slide hero"><p class="kicker" style="color:#8edcff">Finanční gramotnost · 2026</p><h2>${esc(s.t)}</h2><p>${esc(s.sub)}</p>${message(s)}</div>`;
-      if (s.k === 'profile' || s.k === 'poll') return `<div class="slide">${standard}${cards(s.cards)}${message(s)}</div>`;
+      if (s.k === 'image') return `<div class="slide">${standard}<figure class="figure-frame"><img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}"></figure>${s.caption ? `<p class="figure-caption">${esc(s.caption)}</p>` : ''}${message(s)}</div>`;
+      if (s.k === 'profile') return `<div class="slide"><div class="image-row"><div>${standard}${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ''}<ul class="bullets">${s.cards.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${message(s)}</div>${s.image ? `<img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}">` : ''}</div></div>`;
+      if (s.k === 'poll') return `<div class="slide">${standard}<ol class="poll-options">${s.items.map(i => `<li><div><b>${esc(i[0])}</b>${i[1] ? `<span class="poll-quote">${esc(i[1])}</span>` : ''}</div></li>`).join('')}</ol>${message(s)}</div>`;
       if (s.k === 'question') return `<div class="slide">${standard}<p class="subtitle">${esc(s.sub)}</p>${cards(s.cards)}${message(s)}</div>`;
       if (s.k === 'reveal' || s.k === 'classify') return `<div class="slide">${standard}${reveal(s, s.k === 'classify')}</div>`;
       if (s.k === 'quote') return `<div class="slide"><div class="image-row"><div>${standard}<blockquote class="quote">${esc(s.quote)}</blockquote><p class="attribution">— ${esc(s.by)}</p>${message(s)}</div><img src="${esc(s.image)}" alt="Ilustrační fotografie"></div></div>`;

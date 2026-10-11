@@ -72,29 +72,38 @@ presentation:
       source_refs: [medailonek.md]
       content:
         type: profile
+        role: "Datový analytik finančních trhů ČSOB"
         bullets:
-          - "Datový analytik finančních trhů ČSOB"
           - "Zkušenost z investování a analýzy akcií"
           - "VŠE: finanční inženýrství; EDHEC Business School"
-      assets: [OM_face.jpg]
+      assets:
+        - type: image
+          src: App/Assets/OM face.jpg
+          alt: "Ondřej Martínek"
+          role: portrait
       interactions: []
 
     - id: why-money-matters
       order: 30
       section: uvod
       name: "Proč finanční gramotnost"
-      title: "Motivavace studentů"
+      title: "Motivace studentů"
       goal: "Na začátku přednášky vydefinovat její cíle a povahu vzhledem k zájmům studentů."
       duration_minutes: 3
       source_refs: [Content/motivace studentů.md]
       content:
         type: poll
         options:
-          - "Praktické finanční problémy a samostatnost: Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz."
-          - "Investování a cesta k bohatství: „Chci vydělat peníze, ideálně je nechat vydělávat za sebe.“
-          - "Ekonomie a finance jako zájem, popř. budoucí kariéra. Baví mě ekonomie, chci hlubší pochopení a uvažuji o VŠ ekonomického směru.“
-          - "Aktuální dění, technologie, AI. Snažím se zorientovat v tom, co se děje ve světě a proč.“
-          - "Zábava. Chtěl jsem se ulít z normálního vyučování."
+          - label: "Praktické finanční problémy a samostatnost"
+            quote: "„Za chvíli budu dospělý a chci vědět, jak fungovat ve světě peněz.“"
+          - label: "Investování a cesta k bohatství"
+            quote: "„Chci vydělat peníze, ideálně je nechat vydělávat za sebe.“"
+          - label: "Ekonomie a finance jako zájem, popř. budoucí kariéra"
+            quote: "„Baví mě ekonomie, chci hlubší pochopení a uvažuji o VŠ ekonomického směru.“"
+          - label: "Aktuální dění, technologie, AI"
+            quote: "„Snažím se zorientovat v tom, co se děje ve světě a proč.“"
+          - label: "Zábava"
+            quote: "„Chtěl jsem se ulít z normálního vyučování.“"
       interactions:
         - type: hands_up_poll
           id: motivation_poll
@@ -127,7 +136,7 @@ presentation:
     - id: opener-compounding
       order: 60
       section: penize-a-inflace
-      name: "Rozcvička 2"
+      name: "Rozcvička: 2"
       title: "Rozcvička 2: Výnos (zase procenta...)"
       goal: "Připravit intuitivní základ pro složené úročení."
       duration_minutes: 3
@@ -465,11 +474,12 @@ presentation:
       duration_minutes: 1
       source_refs: [Content/Topics/Financial-leverage.md, Content/Pojmy/Dluh.md]
       content:
-        type: image_with_explanation
-        key_message: "vysvětluje páku na obrázku"
+        type: image
+        caption: "Páka zvětšuje jak zisk, tak ztrátu — záleží na výnosu aktiv versus nákladu dluhu."
+        key_message: "Dluh sám o sobě není dobrý ani špatný; rozhoduje cena, účel a riziko."
       assets:
         - type: image
-          src: App/Assets/FinančníPáka-jednoduše.png
+          src: App/Assets/FinančníPáka-jednoduchá.png
           alt: "Názorné vysvětlení finanční páky"
           role: illustration
       interactions: []

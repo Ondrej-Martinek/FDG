@@ -33,15 +33,16 @@
   .bottom { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:16px; align-items:center; }
   button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:9px 13px; border-radius:10px; cursor:pointer; font:inherit; font-weight:650; }
   button:hover { background:var(--pale); }
-  html.embedded .app { margin:0 auto; padding:0 8px; }
-  html.embedded .panel { border:0; border-radius:0; box-shadow:none; padding:10px; }
+  html.embedded, html.embedded body { height:100%; }
+  html.embedded .app { margin:0; padding:0 8px; height:100%; max-width:none; display:flex; flex-direction:column; }
+  html.embedded .panel { flex:1; min-height:0; display:flex; flex-direction:column; border:0; border-radius:0; box-shadow:none; padding:10px; }
   html.embedded h1, html.embedded .intro, html.embedded .note { display:none; }
   html.embedded .controls { gap:8px; margin-bottom:8px; }
   html.embedded .control, html.embedded .metric { padding:10px; }
   html.embedded .label-line { margin-bottom:6px; }
   html.embedded .metrics { margin-bottom:8px; }
-  html.embedded .chart-wrap { padding:8px 8px 2px; }
-  html.embedded canvas { height:250px; }
+  html.embedded .chart-wrap { flex:1 1 auto; min-height:0; display:flex; flex-direction:column; padding:8px 8px 2px; }
+  html.embedded canvas { flex:1 1 0; height:auto; min-height:170px; }
   html.embedded .legend { padding:6px 4px 8px; }
   html.embedded .bottom { margin-top:8px; }
   @media (max-width:760px) { .controls { grid-template-columns:1fr; gap:10px; } .metrics { grid-template-columns:1fr; } .panel { padding:16px; } canvas { height:280px; } }
@@ -71,16 +72,16 @@
     </div>
 
     <div class="metrics">
-      <div class="metric total"><div class="name">Konečná hodnota</div><div class="value" id="finalValue">—</div></div>
       <div class="metric"><div class="name">Celkem vloženo</div><div class="value" id="contributions">—</div></div>
       <div class="metric"><div class="name">Výnos / ztráta</div><div class="value" id="profit">—</div></div>
+      <div class="metric total"><div class="name">Konečná hodnota</div><div class="value" id="finalValue">—</div></div>
     </div>
 
     <div class="chart-wrap">
       <canvas id="chart" aria-label="Graf růstu investice v čase" role="img"></canvas>
       <div class="legend">
         <span><i class="key" style="background:#2764e7"></i>Celková hodnota</span>
-        <span><i class="key" style="background:#0f9f8f"></i>Vložené peníze</span>
+        <span><i class="key" style="background:#172033"></i>Vložené peníze</span>
       </div>
     </div>
     <div class="bottom">
@@ -165,7 +166,7 @@
       points.forEach((p,i)=>{const xx=x(i), yy=y(p[key]); if(i===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);});
       ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
     }
-    line('invested','#0f9f8f',2.5);
+    line('invested','#172033',2.5);
     line('balance','#2764e7',3.2);
     if(points.length>1){
       const p=points[points.length-1];

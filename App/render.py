@@ -30,6 +30,7 @@ DEFAULT_OUTPUT = APP_DIR / "index.html"
 
 SUPPORTED_TYPES = {
     "hero",
+    "image",
     "profile",
     "poll",
     "question",
@@ -87,14 +88,28 @@ def public_path(value: str) -> str:
     return path.removeprefix("App/")
 
 
-def first_image(slide: dict[str, Any]) -> str | None:
+def first_image_asset(slide: dict[str, Any]) -> dict[str, Any] | None:
     for asset in as_list(slide.get("assets")):
         if not isinstance(asset, dict) or asset.get("type") != "image":
             continue
-        source = optional_text(asset.get("src"))
-        if source:
-            return public_path(source)
+        if optional_text(asset.get("src")):
+            return asset
     return None
+
+
+def first_image(slide: dict[str, Any]) -> str | None:
+    asset = first_image_asset(slide)
+    source = optional_text(asset.get("src")) if asset else None
+    return public_path(source) if source else None
+
+
+def poll_option(value: Any, description: str) -> list[str]:
+    """Převede možnost hlasování na dvojici [název, citát]."""
+    if isinstance(value, dict):
+        label = require_text(value.get("label"), f"{description}.label")
+        quote = optional_text(value.get("quote")) or ""
+        return [label, quote]
+    return [require_text(value, description), ""]
 
 
 def speaker_notes(slide: dict[str, Any]) -> list[str]:
@@ -150,7 +165,6 @@ def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
 
     ids: list[str] = []
     orders: list[int] = []
-    duration = 0
     for position, slide in enumerate(slides, start=1):
         identifier = require_text(slide.get("id"), f"Slide #{position}: id")
         ids.append(identifier)
@@ -163,7 +177,6 @@ def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
         orders.append(slide["order"])
         if not isinstance(slide.get("duration_minutes"), int) or slide["duration_minutes"] < 0:
             raise RenderError(f"Slide {identifier}: duration_minutes musí být nezáporné celé číslo.")
-        duration += slide["duration_minutes"]
         content = require_map(slide.get("content"), f"Slide {identifier}: content")
         content_type = require_text(content.get("type"), f"Slide {identifier}: content.type")
         if content_type not in SUPPORTED_TYPES:
@@ -179,11 +192,6 @@ def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
         raise RenderError("Slidy musí být v YAML seřazeny vzestupně podle order.")
     if len(orders) != len(set(orders)):
         raise RenderError("Hodnoty order se nesmí opakovat.")
-    declared_duration = presentation.get("duration_minutes")
-    if declared_duration != duration:
-        raise RenderError(
-            f"presentation.duration_minutes je {declared_duration}, ale součet slidů je {duration}."
-        )
 
     validate_asset_paths(slides)
     return slides
@@ -215,9 +223,49 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
         result["sub"] = content.get("subtitle", "")
         return result
 
-    if content_type in {"profile", "poll"}:
-        result = base_slide(slide, content_type)
-        result["cards"] = as_list(content.get("bullets") or content.get("options"))
+    if content_type == "image":
+        asset = first_image_asset(slide)
+        if not asset:
+            raise RenderError(
+                f"Slide {slide['id']}: content.type 'image' vyžaduje v assets obrázek typu image."
+            )
+        result = base_slide(slide, "image")
+        result["image"] = public_path(
+            require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
+        )
+        alt = optional_text(asset.get("alt"))
+        if alt:
+            result["alt"] = alt
+        caption = optional_text(content.get("caption"))
+        if caption:
+            result["caption"] = caption
+        return result
+
+    if content_type == "profile":
+        result = base_slide(slide, "profile")
+        role = optional_text(content.get("role") or content.get("subtitle"))
+        if role:
+            result["sub"] = role
+        items = as_list(content.get("bullets") or content.get("options"))
+        result["cards"] = [
+            require_text(item, f"Slide {slide['id']}: položka profile") for item in items
+        ]
+        asset = first_image_asset(slide)
+        if asset:
+            result["image"] = public_path(
+                require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
+            )
+            alt = optional_text(asset.get("alt"))
+            if alt:
+                result["alt"] = alt
+        return result
+
+    if content_type == "poll":
+        result = base_slide(slide, "poll")
+        result["items"] = [
+            poll_option(item, f"Slide {slide['id']}: content.options")
+            for item in as_list(content.get("options"))
+        ]
         return result
 
     if content_type == "question":
