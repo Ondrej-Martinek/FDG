@@ -27,8 +27,8 @@ html.embedded main{padding:4px 8px}html.embedded body>main>h1,html.embedded body
 <section class="panel">
 <h2>Nastavte scénář</h2>
 <div class="presets"><button id="base">Růst +10 %</button><button id="down">Pokles −10 %</button><button id="nodebt">Bez dluhu</button></div>
-<div class="control"><div class="head"><label for="equity">Vlastní kapitál</label><output id="equityOut" class="value"></output></div><input id="equity" type="range" min="0" max="1000000" step="10000" value="100000"><div class="limits"><span>0 Kč</span><span>1 mil. Kč</span></div></div>
-<div class="control"><div class="head"><label for="debt">Dluh</label><output id="debtOut" class="value"></output></div><input id="debt" type="range" min="0" max="1000000" step="10000" value="200000"><div class="limits"><span>0 Kč</span><span>1 mil. Kč</span></div></div>
+<div class="control"><div class="head"><label for="equity">Vlastní kapitál</label><output id="equityOut" class="value"></output></div><input id="equity" type="range" min="0" max="10000000" step="100000" value="100000"><div class="limits"><span>0 Kč</span><span>10 mil. Kč</span></div></div>
+<div class="control"><div class="head"><label for="debt">Dluh</label><output id="debtOut" class="value"></output></div><input id="debt" type="range" min="0" max="10000000" step="100000" value="200000"><div class="limits"><span>0 Kč</span><span>10 mil. Kč</span></div></div>
 <div class="control"><div class="head"><label for="rate">Úroková sazba</label><output id="rateOut" class="value"></output></div><input id="rate" type="range" min="0" max="20" step=".25" value="5"><div class="limits"><span>0 %</span><span>20 %</span></div></div>
 <div class="control"><div class="head"><label for="ret">Roční zhodnocení aktiv</label><output id="retOut" class="value"></output></div><input id="ret" type="range" min="-50" max="50" step=".5" value="10"><div class="limits"><span>−50 %</span><span>+50 %</span></div></div>
 <p class="foot">Model na 1 rok. Bez daní, poplatků a splátek jistiny.</p>

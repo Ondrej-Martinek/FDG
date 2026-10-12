@@ -35,8 +35,8 @@ presentation:
       label: Úvod
     - id: penize-a-inflace
       label: Peníze v čase
-    - id: rozhodovani
-      label: Jak přemýšlet o finančních rozhodnutích
+    - id: otazky
+      label: Rychlé otázky
     - id: dluh-a-paka
       label: Dluh a finanční páka
     - id: investovani
@@ -51,13 +51,13 @@ presentation:
       order: 10
       section: uvod
       name: "FDG"
-      title: "Peníze nejsou matematika. Jsou to rozhodnutí."
+      title: "O financích bez nudných pouček"
       goal: "Nastavit neformální, zvídavý tón přednášky."
       duration_minutes: 2
       content:
         type: hero
-        subtitle: "O financích bez nudných pouček"
-        key_message: "Dnes nepůjde o správné odpovědi nazpaměť, ale o způsob přemýšlení."
+        subtitle: ""
+        key_message: "Ondřej Martínek"
       assets: []
       interactions: []
 
@@ -231,7 +231,7 @@ presentation:
 
     - id: decision-categories
       order: 110
-      section: rozhodovani
+      section: otazky
       name: "Čtyři kategorie"
       title: "Arbitráž, investice, spekulace, nebo černá díra?"
       goal: "Dát studentům jednoduchý rámec pro hodnocení finančních rozhodnutí."
@@ -261,7 +261,7 @@ presentation:
 
     - id: classify-arbitrage
       order: 120
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: arbitráž"
       title: "Stejné akcie, dvě ceny"
       goal: "Ukázat podstatu arbitráže a její praktická omezení."
@@ -281,7 +281,7 @@ presentation:
 
     - id: classify-resale
       order: 130
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: přeprodej"
       title: "Sleva v e-shopu, vyšší cena na Vinted"
       goal: "Přenést princip cenového rozdílu do běžného života."
@@ -301,7 +301,7 @@ presentation:
 
     - id: classify-etf
       order: 140
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: ETF"
       title: "Kupuji ETF na světové akcie"
       goal: "Popsat, proč může diverzifikované akciové ETF dávat ekonomický smysl."
@@ -321,7 +321,7 @@ presentation:
 
     - id: classify-human-capital
       order: 150
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: vzdělání"
       title: "Kurz Pythonu za 1 000 Kč"
       goal: "Rozšířit pojem investice i mimo finanční trhy."
@@ -341,7 +341,7 @@ presentation:
 
     - id: classify-bitcoin
       order: 160
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: spekulace"
       title: "Bitcoin už přece nemůže spadnout níž"
       goal: "Rozlišit přesvědčení o budoucí ceně od zdroje hodnoty."
@@ -361,7 +361,7 @@ presentation:
 
     - id: classify-nvidia
       order: 170
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: horká akcie"
       title: "Koupím jednu akcii, protože AI mění svět"
       goal: "Ukázat koncentraci a příběhové riziko jednotlivé akcie."
@@ -381,7 +381,7 @@ presentation:
 
     - id: classify-roulette
       order: 180
-      section: rozhodovani
+      section: otazky
       name: "Rychlá otázka: ruleta"
       title: "Kasino a ruleta"
       goal: "Pojmenovat zápornou očekávanou hodnotu."
@@ -420,20 +420,20 @@ presentation:
       order: 182
       section: dluh-a-paka
       name: "Zuckerbergova hypotéka"
-      title: "Proč si velmi bohatý člověk bere hypotéku?"
+      title: "Proč si Mark Zuckerberg vzal hypotéku?"
       goal: "Prověřit porozumění záporné reálné sazbě, likviditě a nákladům příležitosti."
       duration_minutes: 7
       source_refs: [Content/Topics/Zuckerberg.md, Content/Pojmy/Dluh.md]
       content:
         type: case_study_reveal
-        prompt: "Proč by člověk s velkým majetkem neplatil dům jednoduše v hotovosti?"
+        prompt: "V roce 2012 si Zuckerberg refinancoval hypotéku na dům v Palo Altu ve výši 5,95 mil. USD. Šlo o 30letý variabilní úvěr se startovní sazbou jen 1,05 %."
         reveal:
           reasons:
-            - "Nízká nominální sazba může po inflaci znamenat levné financování."
-            - "Likvidita může zůstat k dispozici pro jiné použití."
-            - "Peníze mohou mít jinde vyšší očekávaný výnos, ovšem s rizikem."
+            - "Finanční páka a nízká nominální úroková sazba."
+            - "Alternativní investiční příležitost: peníze mohou mít jinde vyšší očekávaný výnos."
+            - "Podnikatelé mohou mít problém s likviditou."
           caveat: "Výnos jinde není jistý a daňové důsledky závisí na zemi i konkrétní situaci."
-        key_message: "Dluh se hodnotí podle ceny, účelu, rizika a schopnosti splácet — ne podle samotné existence."
+        key_message: "Není dluh jako dluh - srovnej úvěr na bydlení a např. spotřebitelský úvěr."
       assets:
         - type: image
           src: App/Assets/Zuckerberguv_dum_6M.jpg
@@ -459,7 +459,7 @@ presentation:
         type: quote_with_explanation
         quote: "Jsou jen tři způsoby, jak chytrý člověk může zchudnout: ladies, liquor, leverage."
         attribution: Warren Buffett
-        key_message: "Dluh zvětšuje rozsah výsledku: pomáhá při růstu, škodí při poklesu nebo vysokém úroku."
+        # key_message: "Dluh zvětšuje rozsah výsledku: pomáhá při růstu, škodí při poklesu nebo vysokém úroku."
       assets:
         - type: image
           src: App/Assets/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit.jpg
@@ -632,7 +632,7 @@ presentation:
           - "Využívejte arbitrážních příležitostí v běžném životě: odměny za založení účtu, Erasmus, volné kredity/tokeny, ..."
           - "Využívejte dluh (kreditní karta)"
           - "Nespekulujte, investujte"
-          - "Nakupujte věci z druhé ruky (Vinted, Marketplace, Sbazar, Ebay)"
+          - "Kupujte věci z druhé ruky (Vinted, Marketplace, Sbazar, Ebay)"
           - "Nevěřte analytikům v médiích"
           - "Chovejte se tak, abyste se nemuseli za své chování ve stáří stydět :-)"
 

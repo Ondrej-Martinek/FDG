@@ -112,4 +112,6 @@ Otázky pro studenty (výherní odpověď získá předmět):
 ### Knihy
 * Siegel, J. Stocks for the long run
 
- 
+
+### Co přidat
+Jogi Berra : Budoucnost nelze předvídat.
