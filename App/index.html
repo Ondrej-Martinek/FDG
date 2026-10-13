@@ -60,6 +60,30 @@
     .figure-frame { margin:0; display:flex; justify-content:center; }
     .figure-frame img { width:auto; max-width:100%; max-height:min(56vh, 540px); border-radius:18px; box-shadow:0 14px 34px #062b5c1f; }
     .figure-caption { margin:18px 0 0; color:var(--muted); font-weight:600; }
+    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:13px; max-width:1140px; }
+    .stat { padding:19px; border:1px solid var(--line); border-radius:18px; background:linear-gradient(160deg,#f8fbff,#ecf4ff); }
+    .stat-value { font-size:clamp(30px,3.4vw,44px); font-weight:820; letter-spacing:-.045em; color:var(--blue); line-height:1; font-variant-numeric:tabular-nums; }
+    .stat-label { margin-top:11px; color:#31465f; font-size:clamp(13px,1.05vw,15px); line-height:1.4; }
+    .stats-points { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 26px; list-style:none; padding:0; margin:24px 0 0; max-width:1140px; }
+    .stats-points li { display:flex; gap:11px; align-items:flex-start; color:#2b425c; font-size:16px; line-height:1.45; }
+    .stats-points li::before { content:""; flex:0 0 8px; height:8px; border-radius:50%; background:var(--sky); margin-top:8px; }
+    .source-note { margin:18px 0 0; color:var(--muted); font-size:13px; max-width:1010px; }
+    .brands { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:12px; max-width:1160px; }
+    .brand-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:20px 12px; border:1px solid var(--line); border-radius:16px; background:#fff; text-align:center; box-shadow:0 5px 18px #17243b08; }
+    .brand-card img { max-height:46px; max-width:84%; object-fit:contain; }
+    .brand-name { font-weight:750; font-size:15px; color:#20334c; line-height:1.2; }
+    .brand-ticker { font-size:11px; color:var(--muted); font-weight:800; letter-spacing:.08em; }
+    .brand-card.brand-hidden { position:relative; cursor:pointer; }
+    .brand-q { display:none; position:absolute; inset:0; border-radius:16px; background:radial-gradient(circle at 78% 14%, #00a1de 0, transparent 32%), linear-gradient(150deg,#062b5c,#005eb8); color:#fff; font-size:44px; font-weight:800; align-items:center; justify-content:center; }
+    .brand-hidden .brand-q { display:flex; }
+    .reveal-brands { margin-top:22px; align-self:flex-start; }
+    .resources { display:flex; flex-direction:column; max-width:960px; margin-top:24px; }
+    .resource { display:grid; grid-template-columns:minmax(0,1fr) auto; column-gap:18px; align-items:baseline; padding:13px 2px; border-top:1px solid var(--line); }
+    .resource:first-child { border-top:0; }
+    .resource-name { grid-column:1; font-weight:750; font-size:clamp(17px,1.6vw,20px); color:#1c3350; text-decoration:none; line-height:1.25; }
+    .resource-tag { grid-column:2; justify-self:end; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--blue); white-space:nowrap; }
+    a.resource-name:hover { color:var(--blue); text-decoration:underline; }
+    .resource-note { grid-column:1 / -1; margin:5px 0 0; color:var(--muted); font-size:14px; line-height:1.45; }
     .image-only .figure-frame img { max-height:min(82vh, 760px); }
     .quadrants { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; max-width:1000px; }
     .quadrant { padding:18px; border-radius:15px; color:#fff; min-height:138px; }
@@ -75,8 +99,11 @@
     .checklist li { display:flex; gap:11px; align-items:flex-start; color:#29425e; font-size:18px; }
     .checklist li::before { content:"✓"; display:grid; place-items:center; flex:0 0 23px; height:23px; border-radius:50%; color:#fff; background:var(--green); font-weight:800; font-size:14px; margin-top:3px; }
     .bullets { list-style:none; padding:0; margin:22px 0 0; max-width:640px; }
-    .bullets li { display:flex; gap:12px; align-items:flex-start; margin:11px 0; color:#29425e; font-size:clamp(17px,1.9vw,22px); }
-    .bullets li::before { content:""; flex:0 0 9px; height:9px; border-radius:50%; background:var(--sky); margin-top:9px; }
+    .bullets li { position:relative; padding-left:21px; margin:11px 0; color:#29425e; font-size:clamp(17px,1.9vw,22px); }
+    .bullets li::before { content:""; position:absolute; left:0; top:.55em; width:9px; height:9px; border-radius:50%; background:var(--sky); }
+    .bullets .sub-bullets { list-style:none; padding:0; margin:8px 0 0; }
+    .bullets .sub-bullets li { padding-left:18px; margin:5px 0; font-size:.8em; color:#4a6280; }
+    .bullets .sub-bullets li::before { width:6px; height:6px; top:.55em; background:#9db6d4; }
     .index { display:flex; flex-wrap:wrap; gap:10px; max-width:900px; }
     .pill { border:1px solid #bcd7ee; background:#f0f8ff; color:#07569e; border-radius:99px; padding:8px 13px; font-weight:700; }
     .takeaways { counter-reset:item; padding:0; margin:4px 0 0; list-style:none; max-width:950px; }
@@ -96,7 +123,8 @@
     .controls button:hover { background:var(--pale); }
     .counter { text-align:right; color:var(--muted); font-size:13px; font-weight:700; }
     .mobile-menu { display:none; }
-    @media (max-width:800px) { .app { display:block; height:auto; } .app.sidebar-collapsed { --sidebar-width:274px; } .sidebar { display:none; position:fixed; z-index:10; width:min(85vw,310px); } .app.sidebar-collapsed .sidebar { opacity:1; pointer-events:auto; transform:none; } .sidebar.show { display:block; } #sidebar-toggle { display:none; } .mobile-menu { display:inline-block; } .topbar { padding:13px 16px; } .stage { min-height:calc(100vh - 164px); height:auto; } .slide { padding:30px 26px; } .image-row, .story { grid-template-columns:1fr; } .image-row img { max-height:200px; } .figure-frame img { max-height:340px; } .quadrants, .checklist { grid-template-columns:1fr; } iframe { min-height:470px; } .footer { padding:10px 16px; } .progress { max-width:80px; } }
+    @media (max-width:1250px) { .brands { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    @media (max-width:800px) { .app { display:block; height:auto; } .app.sidebar-collapsed { --sidebar-width:274px; } .sidebar { display:none; position:fixed; z-index:10; width:min(85vw,310px); } .app.sidebar-collapsed .sidebar { opacity:1; pointer-events:auto; transform:none; } .sidebar.show { display:block; } #sidebar-toggle { display:none; } .mobile-menu { display:inline-block; } .topbar { padding:13px 16px; } .stage { min-height:calc(100vh - 164px); height:auto; } .slide { padding:30px 26px; } .image-row, .story { grid-template-columns:1fr; } .image-row img { max-height:200px; } .figure-frame img { max-height:340px; } .quadrants, .checklist { grid-template-columns:1fr; } .stats { grid-template-columns:1fr 1fr; } .stats-points { grid-template-columns:1fr; } .brands { grid-template-columns:repeat(2,minmax(0,1fr)); } iframe { min-height:470px; } .footer { padding:10px 16px; } .progress { max-width:80px; } }
   </style>
 </head>
 <body>
@@ -135,10 +163,23 @@
             "k": "profile",
             "n": "Něco o mě",
             "t": "Ondřej Martínek",
-            "sub": "Datový analytik finančních trhů ČSOB",
+            "sub": "Datový analytik finančních trhů ČSOB · 39 let",
             "cards": [
-                  "Zkušenost z investování a analýzy akcií",
-                  "VŠE: finanční inženýrství; EDHEC Business School"
+                  [
+                        "dříve akciový a investiční analytik (Sanning Capital, Patria Finance)",
+                        []
+                  ],
+                  [
+                        "Vzdělání:",
+                        [
+                              "VŠE – Finanční inženýrství",
+                              "EDHEC Business School"
+                        ]
+                  ],
+                  [
+                        "kontakt: martinek.ondrej@gmail.com",
+                        []
+                  ]
             ],
             "image": "Assets/OM face.jpg",
             "alt": "Ondřej Martínek"
@@ -146,8 +187,8 @@
       {
             "s": "uvod",
             "k": "poll",
-            "n": "Proč finanční gramotnost",
-            "t": "Motivace studentů",
+            "n": "Motivace",
+            "t": "Motivace k účasti",
             "items": [
                   [
                         "Praktické finanční problémy a samostatnost",
@@ -177,7 +218,7 @@
             "n": "Rozcvička: 1",
             "t": "Rozcvička 1: Procenta - zisky a ztráty",
             "m": "Je sleva 25% to samé jako +33% zdarma?",
-            "q": "Mám portfolio o hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?",
+            "q": "Mám portfolio o startovní hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?",
             "a": "750 Kč; celková ztráta je 25 %.",
             "e": "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
       },
@@ -187,7 +228,7 @@
             "n": "Rozcvička: 2",
             "t": "Rozcvička 2: Výnos (zase procenta...)",
             "m": "Výnos může vydělávat další výnos.",
-            "q": "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má na konci hodnotu?",
+            "q": "Portfolio má startovní hodnotu 1 000 Kč. První rok vyroste o 10 %, druhý rok vyroste rovněž o 10%. Jaký je můj celkový výnos od začátku?",
             "a": "1 210 Kč; celkové zhodnocení je 21 %.",
             "e": "Druhý výnos už je na širší bázi portfolia z prvního roku."
       },
@@ -230,9 +271,9 @@
       {
             "s": "otazky",
             "k": "quadrants",
-            "n": "Čtyři kategorie",
-            "t": "Arbitráž, investice, spekulace, nebo černá díra?",
-            "m": "Nálepka není vše: důležité jsou riziko, náklady, horizont a očekávaný zdroj výnosu.",
+            "n": "Investice? Spekulace?",
+            "t": "Životní situace - 4 kategorie",
+            "m": "Nálepka není vše: 2 a 2 nejsou 4, diskutujme.",
             "items": [
                   [
                         "Arbitráž",
@@ -254,7 +295,7 @@
                   ],
                   [
                         "Černá díra na peníze",
-                        "Rozhodnutí s pravděpodobně zápornou očekávanou hodnotou.",
+                        "Rozhodnutí se zápornou očekávanou hodnotou.",
                         "Proč bych to měl dělat?",
                         "#C62828"
                   ]
@@ -263,10 +304,10 @@
       {
             "s": "otazky",
             "k": "classify",
-            "n": "Rychlá otázka: arbitráž",
+            "n": "Rychlá otázka: Stejné akcie, dvě ceny",
             "t": "Stejné akcie, dvě ceny",
             "m": "Zdánlivě jistý zisk často zmizí po započtení nákladů a omezení.",
-            "q": "Stejná akcie stojí na jedné burze 10 EUR a na jiné 100 Kč. Co udělám?",
+            "q": "Stejná akcie stojí na jedné burze 10 EUR a na jiné 100 Kč.",
             "a": "arbitráž",
             "e": "Jen tehdy, pokud lze obě transakce provést současně a rozdíl nepohltí kurz, poplatky, daně, likvidita nebo riziko vypořádání.",
             "color": "#1976D2"
@@ -274,21 +315,10 @@
       {
             "s": "otazky",
             "k": "classify",
-            "n": "Rychlá otázka: přeprodej",
-            "t": "Sleva v e-shopu, vyšší cena na Vinted",
-            "m": "Příležitost vzniká z rozdílu cen, ale není automaticky bez rizika.",
-            "q": "Koupím nový batoh za 1 000 Kč ve slevě; na Vinted se prodává za 2 000 Kč. Co to je?",
-            "a": "podmíněná arbitráž",
-            "e": "Je třeba ověřit, že jde o stejné zboží, existuje kupující a náklady, čas i riziko vrácení nepohltí marži.",
-            "color": "#1976D2"
-      },
-      {
-            "s": "otazky",
-            "k": "classify",
             "n": "Rychlá otázka: ETF",
-            "t": "Kupuji ETF na světové akcie",
-            "m": "Investice není garance zisku; stojí na rozumně vysvětleném zdroji budoucí hodnoty.",
-            "q": "Pravidelně kupuji levné ETF na široký akciový index s dlouhým horizontem.",
+            "t": "Pravidelný nákup ETF na světové akcie",
+            "m": "Zisk u investice není garantovaný, ale je (vysoce) pravděpodobný.",
+            "q": "Poslechnu si přednášku o finanční gramotnosti a chystám se nakoupit ETF na světové akcie.",
             "a": "investice",
             "e": "Investor vlastní podíly ve firmách, které produkují výrobky a služby; výnos ovšem není jistý ani rovnoměrný.",
             "color": "#2E7D32"
@@ -296,21 +326,10 @@
       {
             "s": "otazky",
             "k": "classify",
-            "n": "Rychlá otázka: vzdělání",
-            "t": "Kurz Pythonu za 1 000 Kč",
-            "m": "Jedna z nejvýnosnějších investic může být do vlastních schopností.",
-            "q": "Zaplatím kurz Pythonu, protože mi může otevřít lépe placenou práci.",
-            "a": "investice do lidského kapitálu",
-            "e": "Budoucí výnos není jistý, ale vzniká konkrétní dovednost, která může zvýšit možnosti a příjmy.",
-            "color": "#2E7D32"
-      },
-      {
-            "s": "otazky",
-            "k": "classify",
-            "n": "Rychlá otázka: spekulace",
-            "t": "Bitcoin už přece nemůže spadnout níž",
-            "m": "Spekulace nemusí být zakázaná, ale musí být pojmenovaná a omezená.",
-            "q": "Vsadím 1 000 Kč na růst bitcoinu během týdne, protože už nemůže spadnout níž.",
+            "n": "Rychlá otázka: bitcoin",
+            "t": "Bitcoin is so yesterday",
+            "m": "... ledaže by spadnul ...",
+            "q": "Vsadím 1 000 Kč na růst bitcoinu během týdne, protože \"už to nemůže přece spadnout níž\".",
             "a": "spekulace",
             "e": "Výsledek závisí hlavně na krátkodobém pohybu ceny, který nelze spolehlivě odvodit z věty 'už nemůže klesat'.",
             "color": "#EF6C00"
@@ -318,10 +337,43 @@
       {
             "s": "otazky",
             "k": "classify",
-            "n": "Rychlá otázka: horká akcie",
-            "t": "Koupím jednu akcii, protože AI mění svět",
+            "n": "Rychlá otázka: ruleta",
+            "t": "Kasino a ruleta",
+            "m": "Můžu to brát jako zábavu.",
+            "q": "Zaplatím vstup do kasina a hraji ruletu, abych vydělal peníze.",
+            "a": "černá díra na peníze",
+            "e": "Kasino má matematickou výhodu. Krátkodobě lze vyhrát, ale očekávaná hodnota ze hry je záporná.",
+            "color": "#C62828"
+      },
+      {
+            "s": "otazky",
+            "k": "classify",
+            "n": "Rychlá otázka: přeprodej",
+            "t": "Sleva v e-shopu, vyšší cena na Vinted",
+            "m": "Příležitost vzniká z rozdílu cen, ale není automaticky bez rizika.",
+            "q": "Koupím nový batoh za 1 000 Kč ve slevě; na Vinted se prodává za 2 000 Kč.",
+            "a": "podmíněná arbitráž",
+            "e": "Je třeba ověřit, že jde o stejné zboží, existuje kupující a náklady, čas i riziko vrácení nepohltí marži.",
+            "color": "#1976D2"
+      },
+      {
+            "s": "otazky",
+            "k": "classify",
+            "n": "Rychlá otázka: vzdělání",
+            "t": "Kurz Pythonu",
+            "m": "Jedna z nejvýnosnějších investic může být do vlastních schopností.",
+            "q": "Zaplatím si kurz Pythonu za 1 000 Kč, protože mi může otevřít dveře k lépe placené práci.",
+            "a": "investice do lidského kapitálu",
+            "e": "Budoucí výnos není jistý, ale vzniká konkrétní dovednost, která může zvýšit možnosti a příjmy.",
+            "color": "#2E7D32"
+      },
+      {
+            "s": "otazky",
+            "k": "classify",
+            "n": "Rychlá otázka: horká AI akcie",
+            "t": "Nákup akcie Nvidia",
             "m": "Dobrá technologie a dobrá investice nejsou automaticky totéž.",
-            "q": "Koupím jedinou akcii, protože kamarád říká, že AI všechno změní.",
+            "q": "Koupím akcii Nvidie, protože Youtuber XY říká, že AI změní svět.",
             "a": "spekulace",
             "e": "Může jít o skvělou firmu, ale jedna informace ani popularita tématu neřeší cenu akcie, diverzifikaci ani riziko omylu.",
             "color": "#EF6C00"
@@ -329,12 +381,11 @@
       {
             "s": "otazky",
             "k": "classify",
-            "n": "Rychlá otázka: ruleta",
-            "t": "Kasino a ruleta",
-            "m": "Zábava může stát peníze; není to investiční strategie.",
-            "q": "Zaplatím vstup do kasina a hraji ruletu, abych vydělal peníze.",
-            "a": "černá díra na peníze",
-            "e": "Kasino má matematickou výhodu. Krátkodobě lze vyhrát, ale dlouhodobé očekávání hráče je záporné.",
+            "n": "Rychlá otázka: 20 % měsíčně",
+            "t": "Garantovaný výnos 20 % měsíčně",
+            "q": "Zaplatím 1 000 Kč za investiční kurz, který slibuje, že mě naučí, jak dosahovat garantovaný výnos 20 % měsíčně.",
+            "a": "Scam!!!",
+            "e": "Zaplatit za „kurz“ s garantovaným výnosem 20 % měsíčně je učebnicová černá díra na peníze: garantovaný vysoký výnos neexistuje a kdo ho skutečně umí, neprodává ho za 1 000 Kč.",
             "color": "#C62828"
       },
       {
@@ -390,6 +441,52 @@
       },
       {
             "s": "investovani",
+            "k": "brands",
+            "n": "Magnificent 7",
+            "t": "Sedm vládcům trpaslíků, v síních z kamene...(Magnificent 7)",
+            "m": "Sedm technologických firem, které v posledních letech výrazně ovlivňovaly výnos amerického akciového indexu.",
+            "items": [
+                  [
+                        "Apple",
+                        "AAPL",
+                        "Assets/logos/apple.svg"
+                  ],
+                  [
+                        "Microsoft",
+                        "MSFT",
+                        "Assets/logos/microsoft.svg"
+                  ],
+                  [
+                        "Alphabet (Google)",
+                        "GOOGL",
+                        "Assets/logos/alphabet.svg"
+                  ],
+                  [
+                        "Amazon",
+                        "AMZN",
+                        "Assets/logos/amazon.svg"
+                  ],
+                  [
+                        "Nvidia",
+                        "NVDA",
+                        "Assets/logos/nvidia.svg"
+                  ],
+                  [
+                        "Meta",
+                        "META",
+                        "Assets/logos/meta.svg"
+                  ],
+                  [
+                        "Tesla",
+                        "TSLA",
+                        "Assets/logos/tesla.svg"
+                  ]
+            ],
+            "reveal": true,
+            "note": "Loga jsou ochranné známky příslušných společností a jsou použita pouze pro výukovou identifikaci."
+      },
+      {
+            "s": "investovani",
             "k": "story",
             "n": "Diverzifikace",
             "t": "Největší vítěz trhu může být firma, kterou jste nekoupili",
@@ -399,6 +496,46 @@
                   "Při výběru několika akcií je snadné takové firmy minout.",
                   "Široký index nevyloučí poklesy, ale snižuje riziko jednoho špatného výběru."
             ]
+      },
+      {
+            "s": "investovani",
+            "k": "embed",
+            "n": "Diverzifikace: Magnificent 7",
+            "t": "Co kdyby investor vynechal sedm největších firem?",
+            "m": "Investor mohl mít pravdu o růstu amerického trhu, a přesto výrazně zaostat — pokud vynechal největší vítěze.",
+            "src": "Assets/magnificent7_returns.html"
+      },
+      {
+            "s": "investovani",
+            "k": "stats",
+            "n": "Diverzifikace: proč průměr klame",
+            "t": "Argument proti stock-pickingu: Průměrný výnos generuje hrstka vítězů",
+            "m": "Diverzifikace není jen obrana proti ztrátě — je to způsob, jak mít šanci zachytit vítěze, které dnes neumíme vybrat.",
+            "items": [
+                  [
+                        "4 %",
+                        "nejúspěšnějších akcií vytvořilo celý čistý přírůstek bohatství amerického trhu nad výnos státních pokladničních poukázek"
+                  ],
+                  [
+                        "~58 %",
+                        "akcií mělo za svou životnost nižší výnos než krátkodobé státní poukázky"
+                  ],
+                  [
+                        "96 %",
+                        "simulací náhodného výběru jediné akcie zaostalo za tržně váženým indexem (1926–2016)"
+                  ],
+                  [
+                        "73 %",
+                        "z těchto simulací zaostalo dokonce i za státními poukázkami"
+                  ]
+            ],
+            "points": [
+                  "Dlouhodobé výnosy akcií jsou kladně zešikmené: ztráta je omezená na 100 % vkladu, zatímco výnos vítěze může být mnohonásobný.",
+                  "Mediánová výkonnost typické akcie proto může být slabá, i když index jako celek dlouhodobě roste — průměr táhnou extrémní vítězové.",
+                  "Tržně vážený index vítěze obsahuje, koncentrované portfolio jej naopak snadno mine.",
+                  "Nejde o to, že výběr akcií nemůže fungovat — jde o to, že spolehlivě překonat index je výrazně těžší, než se zdá."
+            ],
+            "note": "Zdroj: Bessembinder (2018), Do Stocks Outperform Treasury Bills?, Journal of Financial Economics. Uvedené statistiky mají odlišné definice a jmenovatele."
       },
       {
             "s": "investovani",
@@ -421,19 +558,6 @@
                   "Je dostatečně velký a likvidní?",
                   "V jaké měně se obchoduje a jaké měnové riziko skutečně podstupuji?",
                   "Nabízí ho můj regulovaný broker za rozumných podmínek?"
-            ]
-      },
-      {
-            "s": "prakticky",
-            "k": "checklist",
-            "n": "Prakticky: běžné finance",
-            "t": "Malé poplatky a návyky mají velký dopad",
-            "m": "Nejlepší finanční rozhodnutí bývají často nudná, levná a opakovatelná.",
-            "items": [
-                  "Porovnávat poplatky za účet, kartu a směnu měn.",
-                  "Nenechat se tlačit do úvěru na běžnou spotřebu.",
-                  "U plateb kartou rozumět rozdílu mezi debetní a kreditní kartou.",
-                  "Před podpisem smlouvy si spočítat celkovou cenu, nejen měsíční splátku."
             ]
       },
       {
@@ -470,6 +594,52 @@
       },
       {
             "s": "zaver",
+            "k": "resources",
+            "n": "Online zdroje",
+            "t": "Kam se dívat dál: moje online zdroje",
+            "m": "Sledujte zdroje, které vysvětlují — ne ty, které slibují rychlý zisk.",
+            "items": [
+                  [
+                        "Kapitalista",
+                        "YouTube",
+                        "Český kanál zaměřený na technologické akcie.",
+                        ""
+                  ],
+                  [
+                        "Ben Felix",
+                        "YouTube",
+                        "Kanadský investor vysvětlující investování podložené daty.",
+                        ""
+                  ],
+                  [
+                        "Jaroslav Brychta",
+                        "XTB",
+                        "Denní komentáře k dění na trzích.",
+                        ""
+                  ],
+                  [
+                        "Jan Bureš & Dominik Rusinko",
+                        "ČSOB",
+                        "Analýzy, komentáře a makroekonomické souvislosti.",
+                        ""
+                  ],
+                  [
+                        "Daniel Gladiš",
+                        "Vltava Fund",
+                        "Hodnotové investování do akcií; doporučuje i knihy o investování.",
+                        ""
+                  ],
+                  [
+                        "Jan Barta",
+                        "Pale Fire Capital",
+                        "Jeden z nejúspěšnějších českých investorů.",
+                        ""
+                  ]
+            ],
+            "note": "Moje osobní doporučení k dalšímu studiu; nejde o investiční doporučení."
+      },
+      {
+            "s": "zaver",
             "k": "sources",
             "n": "Zdroje a disclaimer",
             "t": "Zdroje a disclaimer",
@@ -488,21 +658,24 @@
     const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     function message(s) { return s.m ? `<p class="message">${esc(s.m)}</p>` : ''; }
     function cards(items) { return `<div class="cards">${items.map(item => `<div class="card">${esc(item)}</div>`).join('')}</div>`; }
-    function reveal(s, classified=false) { return `<p class="question">${esc(s.q)}</p><div class="reveal"><button class="reveal-button">Zobrazit odpověď</button><div class="answer hidden" ${classified ? `style="border-color:${s.color};background:${s.color}18"` : ''}><b>${esc(s.a)}</b><p>${esc(s.e)}</p></div></div>${message(s)}`; }
+    function reveal(s, classified=false) { return `<p class="question">${esc(s.q)}</p><div class="reveal"><button class="reveal-button">Zobrazit odpověď</button><div class="answer hidden" ${classified ? `style="border-color:${s.color};background:${s.color}18"` : ''}><b>${esc(s.a)}</b><p>${esc(s.e)}</p>${message(s)}</div></div>`; }
     function content(s) {
       const standard = `<p class="kicker">${esc(sections[s.s])}</p><h2>${esc(s.t)}</h2>`;
       if (s.k === 'hero') return `<div class="slide hero"><p class="kicker" style="color:#8edcff">Finanční a digitální gramotnost · 2026</p><h2>${esc(s.t)}</h2><p>${esc(s.sub)}</p>${message(s)}</div>`;
       if (s.k === 'image') return `<div class="slide">${standard}<figure class="figure-frame"><img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}"></figure>${s.caption ? `<p class="figure-caption">${esc(s.caption)}</p>` : ''}${message(s)}</div>`;
       if (s.k === 'image_only') return `<div class="slide image-only"><figure class="figure-frame"><img src="${esc(s.image)}" alt="${esc(s.alt || '')}"></figure></div>`;
-      if (s.k === 'profile') return `<div class="slide"><div class="image-row"><div>${standard}${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ''}<ul class="bullets">${s.cards.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${message(s)}</div>${s.image ? `<img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}">` : ''}</div></div>`;
+      if (s.k === 'profile') return `<div class="slide"><div class="image-row"><div>${standard}${s.sub ? `<p class="subtitle">${esc(s.sub)}</p>` : ''}<ul class="bullets">${s.cards.map(i => `<li>${esc(i[0])}${(i[1] && i[1].length) ? `<ul class="sub-bullets">${i[1].map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</li>`).join('')}</ul>${message(s)}</div>${s.image ? `<img src="${esc(s.image)}" alt="${esc(s.alt || s.t)}">` : ''}</div></div>`;
       if (s.k === 'poll') return `<div class="slide">${standard}<ol class="poll-options">${s.items.map(i => `<li><div><b>${esc(i[0])}</b>${i[1] ? `<span class="poll-quote">${esc(i[1])}</span>` : ''}</div></li>`).join('')}</ol>${message(s)}</div>`;
       if (s.k === 'question') return `<div class="slide">${standard}<p class="subtitle">${esc(s.sub)}</p>${cards(s.cards)}${message(s)}</div>`;
       if (s.k === 'reveal' || s.k === 'classify') return `<div class="slide">${standard}${reveal(s, s.k === 'classify')}</div>`;
       if (s.k === 'quote') return `<div class="slide"><div class="image-row"><div>${standard}<blockquote class="quote">${esc(s.quote)}</blockquote><p class="attribution">— ${esc(s.by)}</p>${message(s)}</div><img src="${esc(s.image)}" alt="Ilustrační fotografie"></div></div>`;
-      if (s.k === 'embed') return `<div class="slide embed"><iframe src="${esc(s.src)}?embedded=1" title="${esc(s.t)}"></iframe></div>`;
+      if (s.k === 'embed') return `<div class="slide embed">${s.doc ? `<iframe srcdoc="${esc(s.doc)}" title="${esc(s.t)}"></iframe>` : `<iframe src="${esc(s.src)}?embedded=1" title="${esc(s.t)}"></iframe>`}</div>`;
       if (s.k === 'quadrants') return `<div class="slide">${standard}<div class="quadrants">${s.items.map(i => `<div class="quadrant" style="background:${i[3]}"><h3>${esc(i[0])}</h3><p>${esc(i[1])}</p><em>${esc(i[2])}</em></div>`).join('')}</div>${message(s)}</div>`;
-      if (s.k === 'case') return `<div class="slide"><div class="image-row"><div>${standard}<p class="question">${esc(s.q)}</p></div><img src="${esc(s.image)}" alt="${esc(s.alt || '')}"></div><div class="reveal"><button class="reveal-button">Zobrazit možné důvody</button><div class="answer hidden">${cards(s.cards)}<p class="case-caveat">${esc(s.caveat)}</p></div></div>${message(s)}</div>`;
+      if (s.k === 'case') return `<div class="slide"><div class="image-row"><div>${standard}<p class="question">${esc(s.q)}</p></div><img src="${esc(s.image)}" alt="${esc(s.alt || '')}"></div><div class="reveal"><button class="reveal-button">Zobrazit možné důvody</button><div class="answer hidden">${cards(s.cards)}<p class="case-caveat">${esc(s.caveat)}</p>${message(s)}</div></div></div>`;
       if (s.k === 'story') return `<div class="slide">${standard}<div class="story">${s.items.map(i => `<div>${esc(i)}</div>`).join('')}</div>${message(s)}</div>`;
+      if (s.k === 'stats') return `<div class="slide">${standard}<div class="stats">${s.items.map(i => `<div class="stat"><div class="stat-value">${esc(i[0])}</div><div class="stat-label">${esc(i[1])}</div></div>`).join('')}</div>${s.points ? `<ul class="stats-points">${s.points.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}${s.note ? `<p class="source-note">${esc(s.note)}</p>` : ''}${message(s)}</div>`;
+      if (s.k === 'brands') { const covered = !!s.reveal; const brandCards = s.items.map(i => `<div class="brand-card${covered ? ' brand-hidden' : ''}">${i[2] ? `<img src="${esc(i[2])}" alt="${covered ? '' : esc(i[0])}">` : ''}<div class="brand-name">${esc(i[0])}</div>${i[1] ? `<div class="brand-ticker">${esc(i[1])}</div>` : ''}${covered ? '<span class="brand-q">?</span>' : ''}</div>`).join(''); return `<div class="slide">${standard}<div class="brands">${brandCards}</div>${covered ? '<button class="primary reveal-brands">Odkrýt všechny firmy</button>' : ''}${s.note ? `<p class="source-note">${esc(s.note)}</p>` : ''}${message(s)}</div>`; }
+      if (s.k === 'resources') return `<div class="slide">${standard}<div class="resources">${s.items.map(i => `<div class="resource">${i[3] ? `<a class="resource-name" href="${esc(i[3])}" target="_blank" rel="noopener">${esc(i[0])}</a>` : `<span class="resource-name">${esc(i[0])}</span>`}${i[1] ? `<span class="resource-tag">${esc(i[1])}</span>` : ''}<p class="resource-note">${esc(i[2])}</p></div>`).join('')}</div>${s.note ? `<p class="source-note">${esc(s.note)}</p>` : ''}${message(s)}</div>`;
       if (s.k === 'checklist') return `<div class="slide">${standard}<ul class="checklist">${s.items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${message(s)}</div>`;
       if (s.k === 'glossary') return `<div class="slide">${standard}<div class="index">${s.items.map(i => `<span class="pill">${esc(i)}</span>`).join('')}</div>${message(s)}</div>`;
       if (s.k === 'takeaways') return `<div class="slide">${standard}<ol class="takeaways">${s.items.map(i => `<li>${esc(i)}</li>`).join('')}</ol>${message(s)}</div>`;
@@ -522,6 +695,9 @@
       $('progress').style.width = `${((current + 1) / slides.length) * 100}%`;
       $('previous').disabled = current === 0; $('next').disabled = current === slides.length - 1;
       $('stage').querySelectorAll('.reveal-button').forEach(button => button.addEventListener('click', () => { button.nextElementSibling.classList.remove('hidden'); button.classList.add('hidden'); }));
+      $('stage').querySelectorAll('.brand-hidden').forEach(card => card.addEventListener('click', () => card.classList.remove('brand-hidden')));
+      const revealBrands = $('stage').querySelector('.reveal-brands');
+      if (revealBrands) revealBrands.addEventListener('click', () => { $('stage').querySelectorAll('.brand-hidden').forEach(card => card.classList.remove('brand-hidden')); revealBrands.classList.add('hidden'); });
       renderNav();
     }
     function move(direction) { const next = current + direction; if (next >= 0 && next < slides.length) { current = next; render(); } }

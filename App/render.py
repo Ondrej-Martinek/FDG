@@ -5,18 +5,27 @@ Použití:
     conda run -n fdg-renderer python App/render.py
     conda run -n fdg-renderer python App/render.py --validate
     conda run -n fdg-renderer python App/render.py cesta/k/prezentaci.yaml cesta/k/vystupu.html
+    conda run -n fdg-renderer python App/render.py --single
 
 Renderer záměrně nevytváří HTML pro každý slide na serveru. Převádí YAML do
 normalizovaných dat vložených do stávajícího klientského rendereru v index.html;
 ten zajišťuje navigaci, klávesové zkratky, odhalování odpovědí a iframe grafy.
+
+Volba --single vytvoří jeden samostatný HTML soubor, do kterého se vloží všechny
+obrázky (jako data URI) i interaktivní grafy (přes <iframe srcdoc>), takže
+prezentace funguje i přenesená na jiný počítač bez složky Assets.
 """
 
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +36,27 @@ APP_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = APP_DIR.parent
 DEFAULT_INPUT = APP_DIR / "Slides" / "fdg-2026.yaml"
 DEFAULT_OUTPUT = APP_DIR / "index.html"
+DEFAULT_SINGLE_OUTPUT = APP_DIR / "fdg-2026-single.html"
+
+VENDOR_CHARTJS = APP_DIR / "Assets" / "vendor" / "chart.umd.min.js"
+CHARTJS_SCRIPT = re.compile(
+    r'<script\s+src="https://cdn\.jsdelivr\.net/npm/chart\.js[^"]*"\s*></script>'
+)
+MIME_TYPES = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+}
+# Delší strana rastrových obrázků vkládaných do jednosouborové verze (v px).
+SINGLE_IMAGE_MAX_EDGE = 1600
+SINGLE_JPEG_QUALITY = 80
+
+# Přepíná se v render(); ovlivňuje, zda se assety vkládají jako data URI.
+SINGLE_FILE = False
+_DATA_URI_CACHE: dict[str, str] = {}
 
 SUPPORTED_TYPES = {
     "hero",
@@ -41,6 +71,9 @@ SUPPORTED_TYPES = {
     "four_quadrants",
     "classify_reveal",
     "case_study_reveal",
+    "stat_cards",
+    "brand_grid",
+    "resource_list",
     "narrative",
     "checklist",
     "practical_tips",
@@ -89,6 +122,83 @@ def public_path(value: str) -> str:
     return path.removeprefix("App/")
 
 
+def asset_url(value: str) -> str:
+    """Cesta k assetu; v jednosouborovém režimu vloží obsah jako data URI."""
+    path = public_path(value)
+    if not SINGLE_FILE:
+        return path
+    if path not in _DATA_URI_CACHE:
+        _DATA_URI_CACHE[path] = _data_uri(APP_DIR / path)
+    return _DATA_URI_CACHE[path]
+
+
+def _optimized_image(source: Path) -> tuple[bytes, str] | None:
+    """Vytvoří menší JPEG (omezená delší strana, nastavitelná kvalita).
+
+    Vhodné pro fotky i ilustrace na bílém pozadí. Průhlednost PNG se sloučí
+    s bílou, proto se výsledek použije jen tehdy, když je menší než originál.
+    """
+    sips = shutil.which("sips")
+    if not sips:
+        return None
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "image.jpg"
+            subprocess.run(
+                [
+                    sips,
+                    "-Z",
+                    str(SINGLE_IMAGE_MAX_EDGE),
+                    "-s",
+                    "format",
+                    "jpeg",
+                    "-s",
+                    "formatOptions",
+                    str(SINGLE_JPEG_QUALITY),
+                    str(source),
+                    "--out",
+                    str(target),
+                ],
+                check=True,
+                capture_output=True,
+            )
+            return target.read_bytes(), "image/jpeg"
+    except (OSError, subprocess.CalledProcessError):
+        return None
+
+
+def _data_uri(source: Path) -> str:
+    if not source.is_file():
+        raise RenderError(f"Asset pro vložení neexistuje: {source}")
+    suffix = source.suffix.lower()
+    mime = MIME_TYPES.get(suffix, "application/octet-stream")
+    payload = source.read_bytes()
+    if suffix in {".jpg", ".jpeg", ".png"}:
+        optimized = _optimized_image(source)
+        if optimized and len(optimized[0]) < len(payload):
+            payload, mime = optimized
+    return f"data:{mime};base64,{base64.b64encode(payload).decode('ascii')}"
+
+
+def embedded_document(source: Path) -> str:
+    """Načte interaktivní HTML pro vložení přes <iframe srcdoc> (jednosouborový režim)."""
+    if not source.is_file():
+        raise RenderError(f"Vkládané HTML neexistuje: {source}")
+    document = source.read_text(encoding="utf-8")
+    if CHARTJS_SCRIPT.search(document) and VENDOR_CHARTJS.is_file():
+        library = VENDOR_CHARTJS.read_text(encoding="utf-8").replace("</script", "<\\/script")
+        document = CHARTJS_SCRIPT.sub(lambda _: f"<script>{library}</script>", document, count=1)
+    # V jednosouborové verzi je dokument vždy vložený (nemá vlastní ?embedded=1).
+    marker = '<script>document.documentElement.classList.add("embedded");</script>'
+    if re.search(r"<head\b[^>]*>", document, re.IGNORECASE):
+        return re.sub(
+            r"(<head\b[^>]*>)", lambda m: m.group(1) + marker, document, count=1, flags=re.IGNORECASE
+        )
+    return re.sub(
+        r"(<html\b[^>]*>)", lambda m: m.group(1) + marker, document, count=1, flags=re.IGNORECASE
+    )
+
+
 def first_image_asset(slide: dict[str, Any]) -> dict[str, Any] | None:
     for asset in as_list(slide.get("assets")):
         if not isinstance(asset, dict) or asset.get("type") != "image":
@@ -101,7 +211,7 @@ def first_image_asset(slide: dict[str, Any]) -> dict[str, Any] | None:
 def first_image(slide: dict[str, Any]) -> str | None:
     asset = first_image_asset(slide)
     source = optional_text(asset.get("src")) if asset else None
-    return public_path(source) if source else None
+    return asset_url(source) if source else None
 
 
 def poll_option(value: Any, description: str) -> list[str]:
@@ -172,8 +282,11 @@ def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
         if not isinstance(slide.get("order"), int):
             raise RenderError(f"Slide {identifier}: order musí být celé číslo.")
         orders.append(slide["order"])
-        if not isinstance(slide.get("duration_minutes"), int) or slide["duration_minutes"] < 0:
-            raise RenderError(f"Slide {identifier}: duration_minutes musí být nezáporné celé číslo.")
+        duration = slide.get("duration_minutes")
+        if duration is not None and (not isinstance(duration, int) or duration < 0):
+            raise RenderError(
+                f"Slide {identifier}: duration_minutes, pokud je uveden, musí být nezáporné celé číslo."
+            )
         content = require_map(slide.get("content"), f"Slide {identifier}: content")
         content_type = require_text(content.get("type"), f"Slide {identifier}: content.type")
         if content_type not in SUPPORTED_TYPES:
@@ -224,7 +337,7 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
                 f"Slide {slide['id']}: content.type 'image' vyžaduje v assets obrázek typu image."
             )
         result = base_slide(slide, "image")
-        result["image"] = public_path(
+        result["image"] = asset_url(
             require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
         )
         alt = optional_text(asset.get("alt"))
@@ -242,7 +355,7 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
                 f"Slide {slide['id']}: content.type 'image_only' vyžaduje v assets obrázek typu image."
             )
         result = base_slide(slide, "image_only")
-        result["image"] = public_path(
+        result["image"] = asset_url(
             require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
         )
         alt = optional_text(asset.get("alt"))
@@ -256,12 +369,25 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
         if role:
             result["sub"] = role
         items = as_list(content.get("bullets") or content.get("options"))
-        result["cards"] = [
-            require_text(item, f"Slide {slide['id']}: položka profile") for item in items
-        ]
+        cards = []
+        for item in items:
+            if isinstance(item, dict):
+                text = require_text(
+                    item.get("label") or item.get("title") or item.get("text"),
+                    f"Slide {slide['id']}: položka profile",
+                )
+                subs = [
+                    str(sub)
+                    for sub in as_list(item.get("sub") or item.get("items") or item.get("children"))
+                    if str(sub).strip()
+                ]
+                cards.append([text, subs])
+            else:
+                cards.append([require_text(item, f"Slide {slide['id']}: položka profile"), []])
+        result["cards"] = cards
         asset = first_image_asset(slide)
         if asset:
-            result["image"] = public_path(
+            result["image"] = asset_url(
                 require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
             )
             alt = optional_text(asset.get("alt"))
@@ -306,7 +432,11 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
 
     if content_type == "embedded_interactive":
         result = base_slide(slide, "embed")
-        result["src"] = public_path(require_text(content.get("embed"), f"Slide {slide['id']}: content.embed"))
+        source = require_text(content.get("embed"), f"Slide {slide['id']}: content.embed")
+        if SINGLE_FILE:
+            result["doc"] = embedded_document(PROJECT_DIR / source)
+        else:
+            result["src"] = public_path(source)
         return result
 
     if content_type == "four_quadrants":
@@ -344,12 +474,68 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
         })
         asset = first_image_asset(slide)
         if asset:
-            result["image"] = public_path(
+            result["image"] = asset_url(
                 require_text(asset.get("src"), f"Slide {slide['id']}: assets[].src")
             )
             alt = optional_text(asset.get("alt"))
             if alt:
                 result["alt"] = alt
+        return result
+
+    if content_type == "stat_cards":
+        result = base_slide(slide, "stats")
+        result["items"] = [
+            [
+                require_text(item.get("value"), f"Slide {slide['id']}: stats[].value"),
+                require_text(item.get("label"), f"Slide {slide['id']}: stats[].label"),
+            ]
+            for item in as_list(content.get("stats"))
+        ]
+        points = [str(point) for point in as_list(content.get("points"))]
+        if points:
+            result["points"] = points
+        note = optional_text(content.get("note"))
+        if note:
+            result["note"] = note
+        return result
+
+    if content_type == "brand_grid":
+        result = base_slide(slide, "brands")
+        items = []
+        for item in as_list(content.get("items")):
+            brand = require_map(item, f"Slide {slide['id']}: položka brand_grid")
+            name = require_text(brand.get("name"), f"Slide {slide['id']}: brand.name")
+            ticker = optional_text(brand.get("ticker")) or ""
+            logo = ""
+            logo_source = optional_text(brand.get("logo"))
+            if logo_source:
+                if logo_source.startswith("App/") and not (PROJECT_DIR / logo_source).is_file():
+                    raise RenderError(f"Slide {slide['id']}: logo neexistuje: {logo_source}")
+                logo = asset_url(logo_source)
+            items.append([name, ticker, logo])
+        result["items"] = items
+        if content.get("reveal"):
+            result["reveal"] = True
+        note = optional_text(content.get("note"))
+        if note:
+            result["note"] = note
+        return result
+
+    if content_type == "resource_list":
+        result = base_slide(slide, "resources")
+        items = []
+        for item in as_list(content.get("items")):
+            resource = require_map(item, f"Slide {slide['id']}: položka resource_list")
+            items.append([
+                require_text(resource.get("name"), f"Slide {slide['id']}: resource.name"),
+                optional_text(resource.get("tag")) or "",
+                optional_text(resource.get("note")) or "",
+                optional_text(resource.get("url")) or "",
+            ])
+        result["items"] = items
+        note = optional_text(content.get("note"))
+        if note:
+            result["note"] = note
         return result
 
     if content_type == "narrative":
@@ -406,7 +592,7 @@ def replace_generated_data(template: str, sections: dict[str, str], slides: list
         f"    const sections = {sections_json};\n"
         f"    const slides = {slides_json};\n"
     )
-    output, replacements = DATA_BLOCK.subn(replacement, template, count=1)
+    output, replacements = DATA_BLOCK.subn(lambda _match: replacement, template, count=1)
     if replacements != 1:
         raise RenderError(
             "V index.html jsem nenašel blok `const sections` + `const slides`. "
@@ -415,17 +601,28 @@ def replace_generated_data(template: str, sections: dict[str, str], slides: list
     return output
 
 
-def render(input_path: Path, output_path: Path) -> tuple[int, int]:
+def render(
+    input_path: Path,
+    output_path: Path,
+    single: bool = False,
+    image_max_edge: int = SINGLE_IMAGE_MAX_EDGE,
+    image_quality: int = SINGLE_JPEG_QUALITY,
+) -> tuple[int, int]:
+    global SINGLE_FILE, SINGLE_IMAGE_MAX_EDGE, SINGLE_JPEG_QUALITY
+    SINGLE_FILE = single
+    SINGLE_IMAGE_MAX_EDGE = image_max_edge
+    SINGLE_JPEG_QUALITY = image_quality
+    _DATA_URI_CACHE.clear()
+
     presentation, yaml_slides = load_presentation(input_path)
     sections = {section["id"]: section["label"] for section in presentation["sections"]}
     slides = [normalized_slide(slide) for slide in yaml_slides]
 
     try:
-        template = output_path.read_text(encoding="utf-8")
+        template = DEFAULT_OUTPUT.read_text(encoding="utf-8")
     except FileNotFoundError as error:
         raise RenderError(
-            f"Výstupní HTML/šablona neexistuje: {output_path}. "
-            "Zachovejte App/index.html jako šablonu rendereru."
+            f"Šablona {DEFAULT_OUTPUT} neexistuje. Zachovejte App/index.html jako šablonu rendereru."
         ) from error
 
     output = replace_generated_data(template, sections, slides)
@@ -436,8 +633,25 @@ def render(input_path: Path, output_path: Path) -> tuple[int, int]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Vygeneruje FDG HTML z YAML specifikace.")
     parser.add_argument("input", nargs="?", type=Path, default=DEFAULT_INPUT, help="vstupní YAML")
-    parser.add_argument("output", nargs="?", type=Path, default=DEFAULT_OUTPUT, help="výstupní HTML")
+    parser.add_argument("output", nargs="?", type=Path, default=None, help="výstupní HTML")
     parser.add_argument("--validate", action="store_true", help="pouze ověří YAML, bez zápisu HTML")
+    parser.add_argument(
+        "--single",
+        action="store_true",
+        help="vytvoří jeden samostatný HTML se vloženými obrázky i interaktivními grafy",
+    )
+    parser.add_argument(
+        "--image-max-edge",
+        type=int,
+        default=SINGLE_IMAGE_MAX_EDGE,
+        help=f"delší strana vkládaných obrázků v px (výchozí {SINGLE_IMAGE_MAX_EDGE})",
+    )
+    parser.add_argument(
+        "--image-quality",
+        type=int,
+        default=SINGLE_JPEG_QUALITY,
+        help=f"kvalita JPEG vkládaných obrázků 0-100 (výchozí {SINGLE_JPEG_QUALITY})",
+    )
     return parser.parse_args()
 
 
@@ -448,8 +662,18 @@ def main() -> int:
             presentation, slides = load_presentation(args.input)
             print(f"YAML je validní: {len(slides)} slidů, {presentation['duration_minutes']} minut.")
         else:
-            count, duration = render(args.input, args.output)
-            print(f"Vygenerováno: {args.output} ({count} slidů, {duration} minut).")
+            output = args.output
+            if output is None:
+                output = DEFAULT_SINGLE_OUTPUT if args.single else DEFAULT_OUTPUT
+            count, duration = render(
+                args.input,
+                output,
+                single=args.single,
+                image_max_edge=args.image_max_edge,
+                image_quality=args.image_quality,
+            )
+            label = " (jeden soubor)" if args.single else ""
+            print(f"Vygenerováno: {output}{label} ({count} slidů, {duration} minut).")
     except RenderError as error:
         print(f"Chyba rendereru: {error}", file=sys.stderr)
         return 1

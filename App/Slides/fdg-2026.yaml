@@ -71,10 +71,14 @@ presentation:
       source_refs: [medailonek.md]
       content:
         type: profile
-        role: "Datový analytik finančních trhů ČSOB"
+        role: "Datový analytik finančních trhů ČSOB · 39 let"
         bullets:
-          - "Zkušenost z investování a analýzy akcií"
-          - "VŠE: finanční inženýrství; EDHEC Business School"
+          - "dříve akciový a investiční analytik (Sanning Capital, Patria Finance)"
+          - label: "Vzdělání:"
+            sub:
+              - "VŠE – Finanční inženýrství"
+              - "EDHEC Business School"
+          - "kontakt: martinek.ondrej@gmail.com"
       assets:
         - type: image
           src: App/Assets/OM face.jpg
@@ -85,8 +89,8 @@ presentation:
     - id: why-money-matters
       order: 30
       section: uvod
-      name: "Proč finanční gramotnost"
-      title: "Motivace studentů"
+      name: "Motivace"
+      title: "Motivace k účasti"
       goal: "Na začátku přednášky vydefinovat její cíle a povahu vzhledem k zájmům studentů."
       duration_minutes: 3
       source_refs: [Content/motivace studentů.md]
@@ -118,7 +122,7 @@ presentation:
       source_refs: [Content/Questions/questions.md]
       content:
         type: reveal_question
-        question: "Mám portfolio o hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?"
+        question: "Mám portfolio o startovní hodnotě 1 000 Kč. První rok vydělá 50 %, další rok ztratí 50 %. Kolik činí můj celkový výnos? Jsem v zisku nebo ve ztrátě?"
         reveal:
           answer: "750 Kč; celková ztráta je 25 %."
           explanation: "Druhé procento se počítá z vyšší částky 1 500 Kč, nikoli z původní tisícovky."
@@ -138,7 +142,7 @@ presentation:
       source_refs: [Content/Questions/questions.md]
       content:
         type: reveal_question
-        question: "Portfolio má hodnotu 1 000 Kč. Dva roky po sobě vydělá 10 %. Jakou má na konci hodnotu?"
+        question: "Portfolio má startovní hodnotu 1 000 Kč. První rok vyroste o 10 %, druhý rok vyroste rovněž o 10%. Jaký je můj celkový výnos od začátku?"
         reveal:
           answer: "1 210 Kč; celkové zhodnocení je 21 %."
           explanation: "Druhý výnos už je na širší bázi portfolia z prvního roku."
@@ -232,8 +236,8 @@ presentation:
     - id: decision-categories
       order: 110
       section: otazky
-      name: "Čtyři kategorie"
-      title: "Arbitráž, investice, spekulace, nebo černá díra?"
+      name: "Investice? Spekulace?"
+      title: "Životní situace - 4 kategorie"
       goal: "Dát studentům jednoduchý rámec pro hodnocení finančních rozhodnutí."
       duration_minutes: 5
       source_refs: [Content/Questions/questions.md]
@@ -254,22 +258,22 @@ presentation:
             prompt: "Na co přesně sázím?"
           - label: "Černá díra na peníze"
             color: "#C62828"
-            definition: "Rozhodnutí s pravděpodobně zápornou očekávanou hodnotou."
+            definition: "Rozhodnutí se zápornou očekávanou hodnotou."
             prompt: "Proč bych to měl dělat?"
-        key_message: "Nálepka není vše: důležité jsou riziko, náklady, horizont a očekávaný zdroj výnosu."
+        key_message: "Nálepka není vše: 2 a 2 nejsou 4, diskutujme."
       interactions: []
 
     - id: classify-arbitrage
       order: 120
       section: otazky
-      name: "Rychlá otázka: arbitráž"
+      name: "Rychlá otázka: Stejné akcie, dvě ceny"
       title: "Stejné akcie, dvě ceny"
       goal: "Ukázat podstatu arbitráže a její praktická omezení."
       duration_minutes: 2
       source_refs: [Content/Questions/questions.md]
       content:
         type: classify_reveal
-        scenario: "Stejná akcie stojí na jedné burze 10 EUR a na jiné 100 Kč. Co udělám?"
+        scenario: "Stejná akcie stojí na jedné burze 10 EUR a na jiné 100 Kč."
         reveal:
           category: arbitráž
           color: "#1976D2"
@@ -279,108 +283,48 @@ presentation:
         - type: manual_reveal
           id: classify_arbitrage_answer
 
-    - id: classify-resale
-      order: 130
-      section: otazky
-      name: "Rychlá otázka: přeprodej"
-      title: "Sleva v e-shopu, vyšší cena na Vinted"
-      goal: "Přenést princip cenového rozdílu do běžného života."
-      duration_minutes: 2
-      source_refs: [Content/Questions/questions.md]
-      content:
-        type: classify_reveal
-        scenario: "Koupím nový batoh za 1 000 Kč ve slevě; na Vinted se prodává za 2 000 Kč. Co to je?"
-        reveal:
-          category: "podmíněná arbitráž"
-          color: "#1976D2"
-          explanation: "Je třeba ověřit, že jde o stejné zboží, existuje kupující a náklady, čas i riziko vrácení nepohltí marži."
-        key_message: "Příležitost vzniká z rozdílu cen, ale není automaticky bez rizika."
-      interactions:
-        - type: manual_reveal
-          id: classify_resale_answer
-
     - id: classify-etf
-      order: 140
+      order: 125
       section: otazky
       name: "Rychlá otázka: ETF"
-      title: "Kupuji ETF na světové akcie"
+      title: "Pravidelný nákup ETF na světové akcie"
       goal: "Popsat, proč může diverzifikované akciové ETF dávat ekonomický smysl."
       duration_minutes: 2
       source_refs: [Content/Questions/questions.md, Content/Prakticky/ETF.md]
       content:
         type: classify_reveal
-        scenario: "Pravidelně kupuji levné ETF na široký akciový index s dlouhým horizontem."
+        scenario: "Poslechnu si přednášku o finanční gramotnosti a chystám se nakoupit ETF na světové akcie."
         reveal:
           category: investice
           color: "#2E7D32"
           explanation: "Investor vlastní podíly ve firmách, které produkují výrobky a služby; výnos ovšem není jistý ani rovnoměrný."
-        key_message: "Investice není garance zisku; stojí na rozumně vysvětleném zdroji budoucí hodnoty."
+        key_message: "Zisk u investice není garantovaný, ale je (vysoce) pravděpodobný."
       interactions:
         - type: manual_reveal
           id: classify_etf_answer
 
-    - id: classify-human-capital
-      order: 150
-      section: otazky
-      name: "Rychlá otázka: vzdělání"
-      title: "Kurz Pythonu za 1 000 Kč"
-      goal: "Rozšířit pojem investice i mimo finanční trhy."
-      duration_minutes: 2
-      source_refs: [Content/Questions/questions.md]
-      content:
-        type: classify_reveal
-        scenario: "Zaplatím kurz Pythonu, protože mi může otevřít lépe placenou práci."
-        reveal:
-          category: "investice do lidského kapitálu"
-          color: "#2E7D32"
-          explanation: "Budoucí výnos není jistý, ale vzniká konkrétní dovednost, která může zvýšit možnosti a příjmy."
-        key_message: "Jedna z nejvýnosnějších investic může být do vlastních schopností."
-      interactions:
-        - type: manual_reveal
-          id: classify_human_capital_answer
-
     - id: classify-bitcoin
-      order: 160
+      order: 130
       section: otazky
-      name: "Rychlá otázka: spekulace"
-      title: "Bitcoin už přece nemůže spadnout níž"
+      name: "Rychlá otázka: bitcoin"
+      title: "Bitcoin is so yesterday"
       goal: "Rozlišit přesvědčení o budoucí ceně od zdroje hodnoty."
       duration_minutes: 2
       source_refs: [Content/Questions/questions.md]
       content:
         type: classify_reveal
-        scenario: "Vsadím 1 000 Kč na růst bitcoinu během týdne, protože už nemůže spadnout níž."
+        scenario: 'Vsadím 1 000 Kč na růst bitcoinu během týdne, protože "už to nemůže přece spadnout níž".'
         reveal:
           category: spekulace
           color: "#EF6C00"
           explanation: "Výsledek závisí hlavně na krátkodobém pohybu ceny, který nelze spolehlivě odvodit z věty 'už nemůže klesat'."
-        key_message: "Spekulace nemusí být zakázaná, ale musí být pojmenovaná a omezená."
+        key_message: "... ledaže by spadnul ..."
       interactions:
         - type: manual_reveal
           id: classify_bitcoin_answer
 
-    - id: classify-nvidia
-      order: 170
-      section: otazky
-      name: "Rychlá otázka: horká akcie"
-      title: "Koupím jednu akcii, protože AI mění svět"
-      goal: "Ukázat koncentraci a příběhové riziko jednotlivé akcie."
-      duration_minutes: 2
-      source_refs: [Content/Questions/questions.md]
-      content:
-        type: classify_reveal
-        scenario: "Koupím jedinou akcii, protože kamarád říká, že AI všechno změní."
-        reveal:
-          category: spekulace
-          color: "#EF6C00"
-          explanation: "Může jít o skvělou firmu, ale jedna informace ani popularita tématu neřeší cenu akcie, diverzifikaci ani riziko omylu."
-        key_message: "Dobrá technologie a dobrá investice nejsou automaticky totéž."
-      interactions:
-        - type: manual_reveal
-          id: classify_single_stock_answer
-
     - id: classify-roulette
-      order: 180
+      order: 135
       section: otazky
       name: "Rychlá otázka: ruleta"
       title: "Kasino a ruleta"
@@ -393,11 +337,90 @@ presentation:
         reveal:
           category: "černá díra na peníze"
           color: "#C62828"
-          explanation: "Kasino má matematickou výhodu. Krátkodobě lze vyhrát, ale dlouhodobé očekávání hráče je záporné."
-        key_message: "Zábava může stát peníze; není to investiční strategie."
+          explanation: "Kasino má matematickou výhodu. Krátkodobě lze vyhrát, ale očekávaná hodnota ze hry je záporná."
+        key_message: "Můžu to brát jako zábavu."
       interactions:
         - type: manual_reveal
           id: classify_roulette_answer
+
+    - id: classify-resale
+      order: 140
+      section: otazky
+      name: "Rychlá otázka: přeprodej"
+      title: "Sleva v e-shopu, vyšší cena na Vinted"
+      goal: "Přenést princip cenového rozdílu do běžného života."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Koupím nový batoh za 1 000 Kč ve slevě; na Vinted se prodává za 2 000 Kč."
+        reveal:
+          category: "podmíněná arbitráž"
+          color: "#1976D2"
+          explanation: "Je třeba ověřit, že jde o stejné zboží, existuje kupující a náklady, čas i riziko vrácení nepohltí marži."
+        key_message: "Příležitost vzniká z rozdílu cen, ale není automaticky bez rizika."
+      interactions:
+        - type: manual_reveal
+          id: classify_resale_answer
+
+    - id: classify-human-capital
+      order: 145
+      section: otazky
+      name: "Rychlá otázka: vzdělání"
+      title: "Kurz Pythonu"
+      goal: "Rozšířit pojem investice i mimo finanční trhy."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Zaplatím si kurz Pythonu za 1 000 Kč, protože mi může otevřít dveře k lépe placené práci."
+        reveal:
+          category: "investice do lidského kapitálu"
+          color: "#2E7D32"
+          explanation: "Budoucí výnos není jistý, ale vzniká konkrétní dovednost, která může zvýšit možnosti a příjmy."
+        key_message: "Jedna z nejvýnosnějších investic může být do vlastních schopností."
+      interactions:
+        - type: manual_reveal
+          id: classify_human_capital_answer
+
+    - id: classify-nvidia
+      order: 150
+      section: otazky
+      name: "Rychlá otázka: horká AI akcie"
+      title: "Nákup akcie Nvidia"
+      goal: "Ukázat koncentraci a příběhové riziko jednotlivé akcie."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Koupím akcii Nvidie, protože Youtuber XY říká, že AI změní svět."
+        reveal:
+          category: spekulace
+          color: "#EF6C00"
+          explanation: "Může jít o skvělou firmu, ale jedna informace ani popularita tématu neřeší cenu akcie, diverzifikaci ani riziko omylu."
+        key_message: "Dobrá technologie a dobrá investice nejsou automaticky totéž."
+      interactions:
+        - type: manual_reveal
+          id: classify_single_stock_answer
+
+    - id: classify-scam
+      order: 155
+      section: otazky
+      name: "Rychlá otázka: 20 % měsíčně"
+      title: "Garantovaný výnos 20 % měsíčně"
+      goal: "Pojmenovat typický investiční podvod."
+      duration_minutes: 2
+      source_refs: [Content/Questions/questions.md]
+      content:
+        type: classify_reveal
+        scenario: "Zaplatím 1 000 Kč za investiční kurz, který slibuje, že mě naučí, jak dosahovat garantovaný výnos 20 % měsíčně."
+        reveal:
+          category: "Scam!!!"
+          color: "#C62828"
+          explanation: "Zaplatit za „kurz“ s garantovaným výnosem 20 % měsíčně je učebnicová černá díra na peníze: garantovaný vysoký výnos neexistuje a kdo ho skutečně umí, neprodává ho za 1 000 Kč."
+      interactions:
+        - type: manual_reveal
+          id: classify_scam_answer
 
     - id: zuckerberg-intro
       order: 181
@@ -505,13 +528,52 @@ presentation:
           role: illustration
       interactions: []
 
+    - id: magnificent-seven
+      order: 210
+      section: investovani
+      name: "Magnificent 7"
+      title: "Sedm vládcům trpaslíků, v síních z kamene...(Magnificent 7)"
+      goal: "Ukázat, které firmy tvoří Magnificent 7, než představíme jejich vliv na výnos indexu."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Diversification.md]
+      content:
+        type: brand_grid
+        reveal: true
+        items:
+          - name: "Apple"
+            ticker: "AAPL"
+            logo: "App/Assets/logos/apple.svg"
+          - name: "Microsoft"
+            ticker: "MSFT"
+            logo: "App/Assets/logos/microsoft.svg"
+          - name: "Alphabet (Google)"
+            ticker: "GOOGL"
+            logo: "App/Assets/logos/alphabet.svg"
+          - name: "Amazon"
+            ticker: "AMZN"
+            logo: "App/Assets/logos/amazon.svg"
+          - name: "Nvidia"
+            ticker: "NVDA"
+            logo: "App/Assets/logos/nvidia.svg"
+          - name: "Meta"
+            ticker: "META"
+            logo: "App/Assets/logos/meta.svg"
+          - name: "Tesla"
+            ticker: "TSLA"
+            logo: "App/Assets/logos/tesla.svg"
+        note: "Loga jsou ochranné známky příslušných společností a jsou použita pouze pro výukovou identifikaci."
+        key_message: "Sedm technologických firem, které v posledních letech výrazně ovlivňovaly výnos amerického akciového indexu."
+      interactions: []
+      requires_fact_check:
+        - "Složení Magnificent 7 a aktuálnost tickerů"
+
     - id: diversification
       order: 220
       section: investovani
       name: "Diverzifikace"
       title: "Největší vítěz trhu může být firma, kterou jste nekoupili"
       goal: "Vysvětlit diverzifikaci jako ochranu před vynecháním mimořádných vítězů i před ztrátou."
-      duration_minutes: 7
+      duration_minutes: 3
       source_refs: [Content/Topics/Diversification.md]
       content:
         type: narrative
@@ -533,13 +595,66 @@ presentation:
       requires_fact_check:
         - "Výpočet indexu bez sektorů / polovodičů a použitá metodika"
 
+    
+
+    - id: diversification-magnificent7
+      order: 223
+      section: investovani
+      name: "Diverzifikace: Magnificent 7"
+      title: "Co kdyby investor vynechal sedm největších firem?"
+      goal: "Ukázat na reálných datech, jak úzká skupina firem ovlivnila výnos celého indexu."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Diversification.md]
+      content:
+        type: embedded_interactive
+        embed: App/Assets/magnificent7_returns.html
+        key_message: "Investor mohl mít pravdu o růstu amerického trhu, a přesto výrazně zaostat — pokud vynechal největší vítěze."
+      interactions:
+        - type: guided_experiment
+          steps:
+            - "Přepnout mezi ročním a kumulativním výnosem."
+            - "Porovnat S&P 500 s kontrafaktuálním výnosem bez Magnificent 7."
+            - "Diskutovat, co to znamená pro výběr jednotlivých akcií."
+      requires_fact_check:
+        - "Zdroj a metodika kontrafaktuálního výnosu bez Magnificent 7"
+
+    - id: diversification-skew
+      order: 226
+      section: investovani
+      name: "Diverzifikace: proč průměr klame"
+      title: "Argument proti stock-pickingu: Průměrný výnos generuje hrstka vítězů"
+      goal: "Vysvětlit kladnou šikmost dlouhodobých výnosů a proč ani správný odhad trhu nestačí."
+      duration_minutes: 2
+      source_refs: [Content/Topics/Diversification.md]
+      content:
+        type: stat_cards
+        stats:
+          - value: "4 %"
+            label: "nejúspěšnějších akcií vytvořilo celý čistý přírůstek bohatství amerického trhu nad výnos státních pokladničních poukázek"
+          - value: "~58 %"
+            label: "akcií mělo za svou životnost nižší výnos než krátkodobé státní poukázky"
+          - value: "96 %"
+            label: "simulací náhodného výběru jediné akcie zaostalo za tržně váženým indexem (1926–2016)"
+          - value: "73 %"
+            label: "z těchto simulací zaostalo dokonce i za státními poukázkami"
+        points:
+          - "Dlouhodobé výnosy akcií jsou kladně zešikmené: ztráta je omezená na 100 % vkladu, zatímco výnos vítěze může být mnohonásobný."
+          - "Mediánová výkonnost typické akcie proto může být slabá, i když index jako celek dlouhodobě roste — průměr táhnou extrémní vítězové."
+          - "Tržně vážený index vítěze obsahuje, koncentrované portfolio jej naopak snadno mine."
+          - "Nejde o to, že výběr akcií nemůže fungovat — jde o to, že spolehlivě překonat index je výrazně těžší, než se zdá."
+        note: "Zdroj: Bessembinder (2018), Do Stocks Outperform Treasury Bills?, Journal of Financial Economics. Uvedené statistiky mají odlišné definice a jmenovatele."
+        key_message: "Diverzifikace není jen obrana proti ztrátě — je to způsob, jak mít šanci zachytit vítěze, které dnes neumíme vybrat."
+      interactions: []
+      requires_fact_check:
+        - "Přesné znění a jmenovatele statistik ze studie Bessembinder (2018)"
+
     - id: performance-assets
       order: 230
       section: investovani
       name: "Výkonnost tříd aktiv"
       title: "Co udělá 10 000 dolarů za 30 let?"
       goal: "Porovnat dlouhodobý dopad různých tříd aktiv nominálně i po inflaci."
-      duration_minutes: 8
+      duration_minutes: 6
       source_refs: [Content/Topics/Performance.md]
       content:
         type: embedded_interactive
@@ -575,23 +690,6 @@ presentation:
         key_message: "Past returns do not guarantee future results."
       interactions: []
 
-    - id: everyday-finance
-      order: 250
-      section: prakticky
-      name: "Prakticky: běžné finance"
-      title: "Malé poplatky a návyky mají velký dopad"
-      goal: "Spojit koncepty s bezprostředně použitelnými rozhodnutími."
-      duration_minutes: 3
-      source_refs: [Content/Prakticky/ETF.md, Content/Prakticky/Dětský účet.md]
-      content:
-        type: practical_tips
-        items:
-          - "Porovnávat poplatky za účet, kartu a směnu měn."
-          - "Nenechat se tlačit do úvěru na běžnou spotřebu."
-          - "U plateb kartou rozumět rozdílu mezi debetní a kreditní kartou."
-          - "Před podpisem smlouvy si spočítat celkovou cenu, nejen měsíční splátku."
-        key_message: "Nejlepší finanční rozhodnutí bývají často nudná, levná a opakovatelná."
-      interactions: []
 
     - id: glossary
       order: 260
@@ -635,6 +733,41 @@ presentation:
           - "Kupujte věci z druhé ruky (Vinted, Marketplace, Sbazar, Ebay)"
           - "Nevěřte analytikům v médiích"
           - "Chovejte se tak, abyste se nemuseli za své chování ve stáří stydět :-)"
+
+    - id: online-resources
+      order: 275
+      section: zaver
+      name: "Online zdroje"
+      title: "Kam se dívat dál: moje online zdroje"
+      goal: "Doporučit studentům zdroje, které jim pomohou porozumět trhům i vlastním rozhodnutím."
+      duration_minutes: 2
+      source_refs: [Notes/Pojmy, grafy, otázky.md]
+      content:
+        type: resource_list
+        items:
+          - name: "Kapitalista"
+            tag: "YouTube"
+            note: "Český kanál zaměřený na technologické akcie."
+          - name: "Ben Felix"
+            tag: "YouTube"
+            note: "Kanadský investor vysvětlující investování podložené daty."
+          - name: "Jaroslav Brychta"
+            tag: "XTB"
+            note: "Denní komentáře k dění na trzích."
+          - name: "Jan Bureš & Dominik Rusinko"
+            tag: "ČSOB"
+            note: "Analýzy, komentáře a makroekonomické souvislosti."
+          - name: "Daniel Gladiš"
+            tag: "Vltava Fund"
+            note: "Hodnotové investování do akcií; doporučuje i knihy o investování."
+          - name: "Jan Barta"
+            tag: "Pale Fire Capital"
+            note: "Jeden z nejúspěšnějších českých investorů."
+        note: "Moje osobní doporučení k dalšímu studiu; nejde o investiční doporučení."
+        key_message: "Sledujte zdroje, které vysvětlují — ne ty, které slibují rychlý zisk."
+      interactions: []
+      requires_fact_check:
+        - "Aktuální názvy kanálů a odkazů doporučených zdrojů"
 
     - id: sources
       order: 280
