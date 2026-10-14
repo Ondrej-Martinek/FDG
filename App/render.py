@@ -253,6 +253,31 @@ def validate_asset_paths(slides: list[dict[str, Any]]) -> None:
         raise RenderError("Nalezeny neexistující assety:\n- " + "\n- ".join(missing))
 
 
+def validate_source_refs(presentation: dict[str, Any], slides: list[dict[str, Any]]) -> None:
+    """Ověří, že odkazy na podklady (source_refs / source_material) existují.
+
+    Cesty jsou relativní ke kořeni projektu. Kontrolují se jen položky, které
+    vypadají jako cesta (obsahují "/" nebo končí .md/.markdown), aby nekolidovaly
+    případné volné poznámky.
+    """
+    missing: list[str] = []
+
+    def check(value: Any, where: str) -> None:
+        reference = str(value).strip()
+        looks_like_path = "/" in reference or reference.lower().endswith((".md", ".markdown"))
+        if looks_like_path and not (PROJECT_DIR / reference).exists():
+            missing.append(f"{where}: {reference}")
+
+    for reference in as_list(presentation.get("source_material")):
+        check(reference, "presentation.source_material")
+    for slide in slides:
+        for reference in as_list(slide.get("source_refs")):
+            check(reference, f"slide {slide['id']}.source_refs")
+
+    if missing:
+        raise RenderError("Nalezeny neexistující zdroje:\n- " + "\n- ".join(missing))
+
+
 def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
     require_text(presentation.get("id"), "presentation.id")
     require_text(presentation.get("title"), "presentation.title")
@@ -304,6 +329,7 @@ def validate(presentation: dict[str, Any]) -> list[dict[str, Any]]:
         raise RenderError("Hodnoty order se nesmí opakovat.")
 
     validate_asset_paths(slides)
+    validate_source_refs(presentation, slides)
     return slides
 
 
@@ -385,6 +411,19 @@ def normalized_slide(slide: dict[str, Any]) -> dict[str, Any]:
             else:
                 cards.append([require_text(item, f"Slide {slide['id']}: položka profile"), []])
         result["cards"] = cards
+        links = []
+        for item in as_list(content.get("links")):
+            if isinstance(item, dict):
+                url = require_text(
+                    item.get("url") or item.get("href"),
+                    f"Slide {slide['id']}: link.url",
+                )
+                label = optional_text(item.get("label")) or url
+            else:
+                url = label = require_text(item, f"Slide {slide['id']}: link")
+            links.append([label, url])
+        if links:
+            result["links"] = links
         asset = first_image_asset(slide)
         if asset:
             result["image"] = asset_url(

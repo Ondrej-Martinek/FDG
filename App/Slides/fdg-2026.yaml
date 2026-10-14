@@ -13,7 +13,7 @@ presentation:
     description: "Studenti sexty a septimy gymnázií a středních škol"
   duration_minutes: 100
   source_material:
-    - medailonek.md
+    - Content/medailonek.md
     - Content/motivace studentů.md
     - Content/Questions/questions.md
     - Content/Topics/
@@ -68,17 +68,19 @@ presentation:
       title: "Ondřej Martínek"
       goal: "Říci něco o sobě bez dojmu náborové prezentace."
       duration_minutes: 2
-      source_refs: [medailonek.md]
+      source_refs: [Content/medailonek.md]
       content:
         type: profile
         role: "Datový analytik finančních trhů ČSOB · 39 let"
         bullets:
-          - "dříve akciový a investiční analytik (Sanning Capital, Patria Finance)"
+          - "Dříve akciový a investiční analytik (Sanning Capital, Patria Finance)"
           - label: "Vzdělání:"
             sub:
               - "VŠE – Finanční inženýrství"
               - "EDHEC Business School"
-          - "kontakt: martinek.ondrej@gmail.com"
+        links:
+          - label: "martinek.ondrej@gmail.com"
+            url: "mailto:martinek.ondrej@gmail.com"
       assets:
         - type: image
           src: App/Assets/OM face.jpg
@@ -197,7 +199,7 @@ presentation:
       title: "Inflace"
       goal: "Oddělit změnu cenové hladiny od individuálního zdražení."
       duration_minutes: 3
-      source_refs: [Content/Topics/Inflation.md, Notes/Pojmy, grafy, otázky.md]
+      source_refs: [Content/Topics/Inflation.md, "Notes/Pojmy, grafy, otázky.md"]
       content:
         type: reveal_question
         question: "Co je inflace a proč nízkou inflaci centrální banky tolerují?"
@@ -698,7 +700,7 @@ presentation:
       title: "Pojmy, ke kterým se vracet"
       goal: "Ukázat budoucí levý navigační panel a propojení témat s pojmy."
       duration_minutes: 3
-      source_refs: [Notes/Pojmy, grafy, otázky.md, Content/Pojmy/Dluh.md]
+      source_refs: ["Notes/Pojmy, grafy, otázky.md", Content/Pojmy/Dluh.md]
       content:
         type: glossary_index
         terms:
@@ -723,7 +725,7 @@ presentation:
       title: "Závěrečná doporučení"
       goal: "Uzavřít přednášku do konkrétních a zapamatovatelných principů."
       duration_minutes: 5
-      source_refs: [Notes/Pojmy, grafy, otázky.md]
+      source_refs: ["Notes/Pojmy, grafy, otázky.md"]
       content:
         type: numbered_takeaways
         items:
@@ -738,10 +740,10 @@ presentation:
       order: 275
       section: zaver
       name: "Online zdroje"
-      title: "Kam se dívat dál: moje online zdroje"
+      title: "Koho dále sledovat"
       goal: "Doporučit studentům zdroje, které jim pomohou porozumět trhům i vlastním rozhodnutím."
       duration_minutes: 2
-      source_refs: [Notes/Pojmy, grafy, otázky.md]
+      source_refs: ["Notes/Pojmy, grafy, otázky.md"]
       content:
         type: resource_list
         items:

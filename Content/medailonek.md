@@ -11,6 +11,6 @@ VŠE – Finanční inženýrství
 EDHEC Business School
 
 ## Kontakt
-martinek.ondrej@gmail.com
+[martinek.ondrej@gmail.com](mailto:martinek.ondrej@gmail.com)
 
 ## Finanční trhy ČSOB

@@ -1,5 +1,7 @@
 # FDG - Storyboard
 
+Toto je fáze 2 v architektuře tvorby prezentace.
+
 Cíl: Interaktivní prezentace ve webovém formátu (HTML+CSS+JavaScript) bankovního profesionála o finanční gramotnosti pro žáky gymnázií a středních škol.
 
 **Třída**: sexta, septima
